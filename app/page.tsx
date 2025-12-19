@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Categories from "../components/Categories";
@@ -9,15 +10,25 @@ export default function Home() {
     <div>
       {/* Header Component */}
       <Header />
-      {/* Hero Section */}
-      <Hero />
-      {/* Categories Section */}
-      <Categories />
-      {/* Featured Products Section */}
-      <FeaturedProducts />
-      {/* Testimonials Section */}
-      <Testimonials />
+      
+      <main>
+        {/* Hero Section - Static content, no Suspense needed */}
+        <Hero />
 
+        {/* Wrap components that use client-side hooks (useSearchParams) 
+          or dynamic data fetching in Suspense to fix the Vercel build error.
+        */}
+        <Suspense fallback={<div className="p-10 text-center">Loading Content...</div>}>
+          {/* Categories Section */}
+          <Categories />
+          
+          {/* Featured Products Section */}
+          <FeaturedProducts />
+          
+          {/* Testimonials Section */}
+          <Testimonials />
+        </Suspense>
+      </main>
     </div>
   );
 }
