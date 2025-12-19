@@ -54,7 +54,7 @@ const HeaderContent = () => {
         {/* Logo */}
         <div className="merican-logo">
           <Link href="/" style={{ display: 'inline-block' }}>
-            <img src="/images/mericanlogo.webp" alt="Merican Limited Logo" />
+            <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/mericanlogo.webp" alt="Merican Limited Logo" />
           </Link>
         </div>
 

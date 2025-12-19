@@ -7,28 +7,28 @@ const FEATURED_DATA = [
   {
     title: "Commercial Kitchen Projects",
     images: [
-      "/images/commercial-kitchen-projects1.jpg",
-      "/images/commercial-kitchen-projects2.jpg",
-      "/images/commercial-kitchen-projects3.jpg",
-      "/images/commercial-kitchen-projects4.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects1.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects2.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects3.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects4.jpg",
     ]
   },
   {
     title: "Commercial Kitchen Service & Maintenance",
     images: [
-      "/images/commercial-kitchen-service-maintenance1.jpg",
-      "/images/commercial-kitchen-service-maintenance2.jpg",
-      "/images/commercial-kitchen-service-maintenance3.jpg",
-      "/images/commercial-kitchen-service-maintenance4.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance1.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance2.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance3.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance4.jpg",
     ]
   },
   {
     title: "Stainless Steel Fabrication",
     images: [
-      "/images/stainless-steel-fabrication1.jpg",
-      "/images/stainless-steel-fabrication2.jpg",
-      "/images/stainless-steel-fabrication3.jpg",
-      "/images/stainless-steel-fabrication4.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication1.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication2.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication3.jpg",
+      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication4.jpg",
     ]
   }
 ];

@@ -147,7 +147,7 @@ export default function Hero() {
         {/* Slides here */}
         {/* Clone of slide 3 */}
         <div className="merican-carousel-slide clone">
-          <img src="/images/hero3.webp" alt="Chef working with professional-grade cooking appliances" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero3.webp" alt="Chef working with professional-grade cooking appliances" />
           <div className="merican-carousel-caption">
             <h1><strong>Built for Durability & Performance</strong></h1>
             <p>Equipment that stands up to the demands of a high-volume professional environment.</p>
@@ -157,7 +157,7 @@ export default function Hero() {
 
         {/* Slide 1 */}
         <div className="merican-carousel-slide">
-          <img src="/images/hero1.webp" alt="Modern kitchen equipment layout" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero1.webp" alt="Modern kitchen equipment layout" />
           <div className="merican-carousel-caption">
             <h1><strong>Innovating Commercial Kitchens</strong></h1>
             <p>High-quality, durable equipment for every stage of your culinary process.</p>
@@ -167,7 +167,7 @@ export default function Hero() {
 
         {/* Slide 2 */}
         <div className="merican-carousel-slide">
-          <img src="/images/hero2.webp" alt="A sleek stainless steel food prep area" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero2.webp" alt="A sleek stainless steel food prep area" />
           <div className="merican-carousel-caption">
             <h1><strong>Design, Supply, & Installation</strong></h1>
             <p>From concept to completion, we handle your entire kitchen project.</p>
@@ -177,7 +177,7 @@ export default function Hero() {
 
         {/* Slide 3 */}
         <div className="merican-carousel-slide">
-          <img src="/images/hero3.webp" alt="Chef working with professional-grade cooking appliances" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero3.webp" alt="Chef working with professional-grade cooking appliances" />
           <div className="merican-carousel-caption">
             <h1><strong>Built for Durability & Performance</strong></h1>
             <p>Equipment that stands up to the demands of a high-volume professional environment.</p>
@@ -187,7 +187,7 @@ export default function Hero() {
 
         {/* Clone of slide 1 */}
         <div className="merican-carousel-slide clone">
-          <img src="/images/hero1.webp" alt="Modern kitchen equipment layout" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero1.webp" alt="Modern kitchen equipment layout" />
           <div className="merican-carousel-caption">
             <h1><strong>Innovating Commercial Kitchens</strong></h1>
             <p>High-quality, durable equipment for every stage of your culinary process.</p>

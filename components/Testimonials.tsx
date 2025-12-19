@@ -17,7 +17,7 @@ const Testimonials = () => {
   const [loading, setLoading] = useState(true);
 
   // The base path for your images (ensure these exist in public/images/testimonials/)
-  const imageBasePath = '/images/testimonials/';
+  const imageBasePath = 'https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/testimonials/';
 
   useEffect(() => {
     const getTestimonials = async () => {

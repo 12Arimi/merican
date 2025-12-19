@@ -4,6 +4,8 @@ import Hero from "../components/Hero";
 import Categories from "../components/Categories";
 import FeaturedProducts from "../components/FeaturedProducts";
 import Testimonials from "../components/Testimonials";
+import CeoMessage from "../components/CeoMessage";
+import About from "../components/About";
 
 export default function Home() {
   return (
@@ -27,6 +29,12 @@ export default function Home() {
           
           {/* Testimonials Section */}
           <Testimonials />
+
+          {/* CEO Message Section */}
+          <CeoMessage />
+
+          {/* About Section */}
+          <About />
         </Suspense>
       </main>
     </div>

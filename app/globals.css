@@ -464,7 +464,7 @@ body {
   width: 100%;
   height: 20vh; /* reduced height */
   min-height: 180px;
-  background-image: url('/public/images/hero4.webp');
+  background-image: url('https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero4.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
