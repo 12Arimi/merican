@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 const Header = () => {
   const router = useRouter();
@@ -13,47 +13,38 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
-  const [language, setLanguage] = useState('en');
-  const [searchValue, setSearchValue] = useState(searchParams.get('q')?.replace(/-/g, ' ') || '');
+  const [language, setLanguage] = useState("en");
+  const [searchValue, setSearchValue] = useState("");
 
   // Sync search input with URL params
   useEffect(() => {
-    setSearchValue(searchParams.get('q')?.replace(/-/g, ' ') || '');
+    const q = searchParams.get("q");
+    setSearchValue(q ? q.replace(/-/g, " ") : "");
   }, [searchParams]);
-
-  // Language Persistence
-  useEffect(() => {
-    const cachedLang = localStorage.getItem('lang') || 'en';
-    setLanguage(cachedLang);
-  }, []);
-
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newLang = e.target.value;
-    setLanguage(newLang);
-    localStorage.setItem('lang', newLang);
-    document.cookie = `lang=${newLang}; path=/; SameSite=Lax; Secure`;
-    // In Next.js, you might use an i18n library here instead of a reload
-    window.location.reload(); 
-  };
 
   const handleSearchSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (searchValue.trim()) {
-      const slugQuery = searchValue.trim().replace(/\s+/g, '-');
-      setIsSearchModalOpen(false);
-      router.push(`/search/${slugQuery}`);
-    }
+
+    if (!searchValue.trim()) return;
+
+    const slugQuery = searchValue.trim().replace(/\s+/g, "-");
+    setIsSearchModalOpen(false);
+    router.push(`/search/${slugQuery}`);
   };
 
-  const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/');
+  const isActive = (path: string) =>
+    pathname === path || pathname.startsWith(path + "/");
 
   return (
     <>
       <header className="merican-header">
         {/* Logo */}
         <div className="merican-logo">
-          <Link href="/" style={{ display: 'inline-block' }}>
-            <img src="/images/mericanlogo.webp" alt="Merican Limited Logo" />
+          <Link href="/">
+            <img
+              src="/images/mericanlogo.webp"
+              alt="Merican Limited Logo"
+            />
           </Link>
         </div>
 
@@ -64,21 +55,24 @@ const Header = () => {
             placeholder="Search products, articles, or ideas..."
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
+            onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
           />
         </div>
 
-        {/* Icons Section */}
+        {/* Icons */}
         <div className="merican-nav-icons">
-          <i 
-            className="fa-solid fa-magnifying-glass merican-search-icon-mobile" 
+          <i
+            className="fa-solid fa-magnifying-glass merican-search-icon-mobile"
             onClick={() => setIsSearchModalOpen(true)}
           />
 
-          {/* Language Selector */}
+          {/* Language Selector (visual only) */}
           <div className="language-selector">
             <i className="fa-solid fa-globe lang-icon"></i>
-            <select id="languageSelect" value={language} onChange={handleLanguageChange}>
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+            >
               <option value="en">English</option>
               <option value="sw">Swahili</option>
               <option value="fr">French</option>
@@ -89,78 +83,114 @@ const Header = () => {
           </div>
 
           {/* Cart */}
-          <Link href="/request-for-quote" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <Link href="/request-for-quote">
             <div className="merican-cart-icon-wrapper">
               <i className="fa-solid fa-cart-shopping"></i>
-              <span className="merican-cart-badge" id="cartBadge">0</span>
+              <span className="merican-cart-badge">0</span>
             </div>
           </Link>
 
           {/* Hamburger */}
-          <i className="fa-solid fa-bars" onClick={() => setIsMenuOpen(true)} />
+          <i
+            className="fa-solid fa-bars"
+            onClick={() => setIsMenuOpen(true)}
+          />
         </div>
       </header>
 
       {/* Search Modal */}
-      <div className={`merican-search-modal ${isSearchModalOpen ? 'active' : ''}`}>
+      <div
+        className={`merican-search-modal ${
+          isSearchModalOpen ? "active" : ""
+        }`}
+      >
         <div className="merican-search-modal-content">
-          <i className="fa-solid fa-xmark merican-modal-close" onClick={() => setIsSearchModalOpen(false)} />
-          <form className="search-form" onSubmit={handleSearchSubmit}>
-            <input 
-              type="text" 
-              placeholder="Search products..." 
+          <i
+            className="fa-solid fa-xmark merican-modal-close"
+            onClick={() => setIsSearchModalOpen(false)}
+          />
+          <form onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              placeholder="Search products..."
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
-              autoFocus={isSearchModalOpen}
+              autoFocus
             />
-            <button type="submit" style={{ display: 'none' }}>Search</button>
           </form>
         </div>
       </div>
 
       {/* Side Menu */}
-      <div className={`merican-menu ${isMenuOpen ? 'active' : ''}`}>
+      <div className={`merican-menu ${isMenuOpen ? "active" : ""}`}>
         <div className="merican-menu-header">
           <span className="merican-menu-title">Menu</span>
-          <i className="fa-solid fa-xmark merican-menu-close" onClick={() => setIsMenuOpen(false)} />
+          <i
+            className="fa-solid fa-xmark"
+            onClick={() => setIsMenuOpen(false)}
+          />
         </div>
+
         <ul>
           <li>
-            <Link href="/" className={pathname === '/' ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Home</Link>
+            <Link href="/" onClick={() => setIsMenuOpen(false)}>
+              Home
+            </Link>
           </li>
-          <li className={`merican-dropdown ${isProductDropdownOpen || isActive('/products') || isActive('/category') ? 'open active' : ''}`}>
-            <a 
-              href="#" 
-              className="merican-dropdown-toggle"
-              onClick={(e) => { e.preventDefault(); setIsProductDropdownOpen(!isProductDropdownOpen); }}
+
+          <li
+            className={`merican-dropdown ${
+              isProductDropdownOpen ||
+              isActive("/products") ||
+              isActive("/category")
+                ? "open active"
+                : ""
+            }`}
+          >
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsProductDropdownOpen(!isProductDropdownOpen);
+              }}
             >
-              Products <i className="fa-solid fa-chevron-right merican-dropdown-arrow"></i>
+              Products
+              <i className="fa-solid fa-chevron-right"></i>
             </a>
+
             <div className="merican-submenu">
-              <Link href="/products" onClick={() => setIsMenuOpen(false)}>All Products</Link>
-              <Link href="/category/receiving" onClick={() => setIsMenuOpen(false)}>Receiving</Link>
-              <Link href="/category/storage" onClick={() => setIsMenuOpen(false)}>Storage</Link>
-              <Link href="/category/preparation" onClick={() => setIsMenuOpen(false)}>Preparation</Link>
-              <Link href="/category/production" onClick={() => setIsMenuOpen(false)}>Production</Link>
-              <Link href="/category/dispatch-servery" onClick={() => setIsMenuOpen(false)}>Dispatch / Servery</Link>
-              <Link href="/category/bar-area" onClick={() => setIsMenuOpen(false)}>Bar Area</Link>
-              <Link href="/category/wash-up-area" onClick={() => setIsMenuOpen(false)}>Wash-up Area</Link>
-              <Link href="/category/kitchen-support" onClick={() => setIsMenuOpen(false)}>Kitchen Support</Link>
-              <Link href="/category/stainless-steel-fabrication" onClick={() => setIsMenuOpen(false)}>Stainless Steel Fabrication</Link>
-              <Link href="/category/gas-section" onClick={() => setIsMenuOpen(false)}>Gas Section</Link>
+              <Link href="/products">All Products</Link>
+              <Link href="/category/receiving">Receiving</Link>
+              <Link href="/category/storage">Storage</Link>
+              <Link href="/category/preparation">Preparation</Link>
+              <Link href="/category/production">Production</Link>
+              <Link href="/category/dispatch-servery">Dispatch / Servery</Link>
+              <Link href="/category/bar-area">Bar Area</Link>
+              <Link href="/category/wash-up-area">Wash-up Area</Link>
+              <Link href="/category/kitchen-support">Kitchen Support</Link>
+              <Link href="/category/stainless-steel-fabrication">
+                Stainless Steel Fabrication
+              </Link>
+              <Link href="/category/gas-section">Gas Section</Link>
             </div>
           </li>
-          <li><Link href="/services-projects" className={isActive('/services-projects') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Services & Projects</Link></li>
-          <li><Link href="/partners-clients" className={isActive('/partners-clients') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Partners & Clients</Link></li>
-          <li><Link href="/blog" className={isActive('/blog') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Blog</Link></li>
-          <li><Link href="/contact" className={isActive('/contact') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Contact</Link></li>
+
+          <li><Link href="/services-projects">Services & Projects</Link></li>
+          <li><Link href="/partners-clients">Partners & Clients</Link></li>
+          <li><Link href="/blog">Blog</Link></li>
+          <li><Link href="/contact">Contact</Link></li>
         </ul>
       </div>
 
       {/* Overlay */}
-      <div 
-        className={`merican-overlay ${(isMenuOpen || isSearchModalOpen) ? 'active' : ''}`} 
-        onClick={() => { setIsMenuOpen(false); setIsSearchModalOpen(false); }}
+      <div
+        className={`merican-overlay ${
+          isMenuOpen || isSearchModalOpen ? "active" : ""
+        }`}
+        onClick={() => {
+          setIsMenuOpen(false);
+          setIsSearchModalOpen(false);
+        }}
       />
     </>
   );
