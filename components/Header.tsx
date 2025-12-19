@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react'; // 1. Import Suspense
 
-const Header = () => {
+// 2. Move all your logic into this internal component
+const HeaderContent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -32,7 +34,6 @@ const Header = () => {
     setLanguage(newLang);
     localStorage.setItem('lang', newLang);
     document.cookie = `lang=${newLang}; path=/; SameSite=Lax; Secure`;
-    // In Next.js, you might use an i18n library here instead of a reload
     window.location.reload(); 
   };
 
@@ -75,7 +76,6 @@ const Header = () => {
             onClick={() => setIsSearchModalOpen(true)}
           />
 
-          {/* Language Selector */}
           <div className="language-selector">
             <i className="fa-solid fa-globe lang-icon"></i>
             <select id="languageSelect" value={language} onChange={handleLanguageChange}>
@@ -88,7 +88,6 @@ const Header = () => {
             </select>
           </div>
 
-          {/* Cart */}
           <Link href="/request-for-quote" style={{ color: 'inherit', textDecoration: 'none' }}>
             <div className="merican-cart-icon-wrapper">
               <i className="fa-solid fa-cart-shopping"></i>
@@ -96,7 +95,6 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Hamburger */}
           <i className="fa-solid fa-bars" onClick={() => setIsMenuOpen(true)} />
         </div>
       </header>
@@ -157,12 +155,20 @@ const Header = () => {
         </ul>
       </div>
 
-      {/* Overlay */}
       <div 
         className={`merican-overlay ${(isMenuOpen || isSearchModalOpen) ? 'active' : ''}`} 
         onClick={() => { setIsMenuOpen(false); setIsSearchModalOpen(false); }}
       />
     </>
+  );
+};
+
+// 3. Export the main component wrapped in Suspense
+const Header = () => {
+  return (
+    <Suspense fallback={<div className="merican-header-placeholder" style={{ height: '80px' }} />}>
+      <HeaderContent />
+    </Suspense>
   );
 };
 
