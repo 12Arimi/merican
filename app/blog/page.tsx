@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import Header from "@/components/Header";
-import Blogs from "@/components/Blogs";
+import Header from "../../components/Header";
+import Blogs from "../../components/Blogs";
 
 export const metadata = {
   title: "Blog | Merican Limited",

@@ -1,6 +1,6 @@
-import Header from "@/components/Header";
-import BlogDetails from "@/components/BlogDetails";
-import { supabase } from "@/lib/supabase";
+import Header from "../../../components/Header";
+import BlogDetails from "../../../components/BlogDetails";
+import { supabase } from "../../../lib/supabase";
 import { notFound } from "next/navigation";
 
 // Define the interface here to ensure it matches the component
