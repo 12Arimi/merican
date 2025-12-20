@@ -6,34 +6,28 @@ import FeaturedProducts from "../components/FeaturedProducts";
 import Testimonials from "../components/Testimonials";
 import CeoMessage from "../components/CeoMessage";
 import About from "../components/About";
+import { supabase } from "@/lib/supabase";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch testimonials directly on the server
+  const { data: initialTestimonials } = await supabase
+    .from('testimonials')
+    .select('id, client_name, client_company, client_avatar, testimonial_message, testimonial_image')
+    .order('created_at', { ascending: false });
+
   return (
     <div>
-      {/* Header Component */}
       <Header />
-      
       <main>
-        {/* Hero Section - Static content, no Suspense needed */}
         <Hero />
-
-        {/* Wrap components that use client-side hooks (useSearchParams) 
-          or dynamic data fetching in Suspense to fix the Vercel build error.
-        */}
         <Suspense fallback={<div className="p-10 text-center">Loading Content...</div>}>
-          {/* Categories Section */}
           <Categories />
-          
-          {/* Featured Products Section */}
           <FeaturedProducts />
           
-          {/* Testimonials Section */}
-          <Testimonials />
+          {/* Pass the server-fetched data here */}
+          <Testimonials initialData={initialTestimonials || []} />
 
-          {/* CEO Message Section */}
           <CeoMessage />
-
-          {/* About Section */}
           <About />
         </Suspense>
       </main>

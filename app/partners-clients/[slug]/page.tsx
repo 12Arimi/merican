@@ -1,22 +1,30 @@
 import Header from "../../../components/Header";
 import ClientDetail from "../../../components/ClientDetail";
-import { Suspense } from "react";
+import { supabase } from "@/lib/supabase";
+import { notFound } from "next/navigation";
 
-// 1. Make the Page function 'async'
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
-  
-  // 2. Await the params to "unwrap" the slug
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
+
+  // Fetch data here so the page "waits" on the server
+  const { data: client, error } = await supabase
+    .from('clients')
+    .select('name, logo, gallery')
+    .eq('slug', slug)
+    .single();
+
+  // If no client exists, show the 404 page immediately
+  if (error || !client) {
+    return notFound();
+  }
 
   return (
     <div>
       <Header />
       <main>
-        <Suspense fallback={<div className="p-10 text-center">Loading Client Details...</div>}>
-          {/* 3. Pass the unwrapped slug */}
-          <ClientDetail slug={slug} />
-        </Suspense>
+        {/* Pass the data directly as a prop */}
+        <ClientDetail client={client} />
       </main>
     </div>
   );

@@ -1,26 +1,18 @@
-import { createClient } from '@supabase/supabase-js';
+import React from 'react';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+interface ClientProps {
+  client: {
+    name: string;
+    logo: string;
+    gallery: string | null;
+  };
+}
 
-export default async function ClientDetail({ slug }: { slug: string }) {
-  // Fetch data
-  const { data: client, error } = await supabase
-    .from('clients')
-    .select('name, logo, gallery')
-    .eq('slug', slug)
-    .single();
-
-  if (error || !client) {
-    return <p className="text-center mt-20">Client not found.</p>;
-  }
-
+export default function ClientDetail({ client }: ClientProps) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const imageBasePath = `${supabaseUrl}/storage/v1/object/public/images/clients/`;
   
-  // Ensure galleryImages is typed as a string array
+  // Logic to handle gallery images string
   const galleryImages: string[] = client.gallery ? client.gallery.split(',') : [];
 
   return (
@@ -45,7 +37,6 @@ export default async function ClientDetail({ slug }: { slug: string }) {
           <div className="client-gallery-container">
             {galleryImages.length > 0 ? (
               <div className="client-gallery">
-                {/* Fixed the 'any' error by adding types to img and index */}
                 {galleryImages.map((img: string, index: number) => (
                   <img 
                     key={index}

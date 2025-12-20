@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-// Define the shape of our testimonial data
 interface Testimonial {
   id: number;
   client_name: string;
@@ -12,31 +11,8 @@ interface Testimonial {
   testimonial_image: string;
 }
 
-const Testimonials = () => {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  // The base path for your images (ensure these exist in public/images/testimonials/)
+const Testimonials = ({ initialData }: { initialData: Testimonial[] }) => {
   const imageBasePath = 'https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/testimonials/';
-
-  useEffect(() => {
-    const getTestimonials = async () => {
-      try {
-        const response = await fetch('/api/testimonials');
-        if (!response.ok) throw new Error('Failed to fetch');
-        const data = await response.json();
-        setTestimonials(data);
-      } catch (error) {
-        console.error("Error loading testimonials:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getTestimonials();
-  }, []);
-
-  if (loading) return <div className="text-center py-10">Loading testimonials...</div>;
 
   return (
     <section className="merican-testimonials">
@@ -44,11 +20,10 @@ const Testimonials = () => {
         <h2 className="merican-testimonials-title">Client Testimonials</h2>
 
         <div className="merican-testimonials-grid">
-          {testimonials.length > 0 ? (
-            testimonials.map((testimonial) => (
+          {initialData.length > 0 ? (
+            initialData.map((testimonial) => (
               <div key={testimonial.id} className="merican-testimonial-card">
                 
-                {/* Main Testimonial Image */}
                 {testimonial.testimonial_image && (
                   <div className="merican-testimonial-image">
                     <img
@@ -64,7 +39,6 @@ const Testimonials = () => {
                   </p>
 
                   <div className="merican-testimonial-client">
-                    {/* Client Avatar */}
                     {testimonial.client_avatar && (
                       <img
                         src={`${imageBasePath}${testimonial.client_avatar}`}
@@ -85,7 +59,7 @@ const Testimonials = () => {
               </div>
             ))
           ) : (
-            <p>No client testimonials available at the moment.</p>
+            <p className="text-center w-full">No client testimonials available at the moment.</p>
           )}
         </div>
       </div>
