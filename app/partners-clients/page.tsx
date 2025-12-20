@@ -1,14 +1,25 @@
-import { Suspense } from "react";
+import { createClient } from '@supabase/supabase-js';
 import Header from "../../components/Header";
 import Clients from "../../components/Clients";
 import Partners from "../../components/Partners";
 
-export default function PartnersPage() {
+// Initialize Supabase
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+export default async function PartnersPage() {
+  // 1. Fetch data on the server before anything is sent to the user
+  const { data: clients } = await supabase
+    .from('clients')
+    .select('id, name, slug, logo')
+    .order('id', { ascending: false });
+
   return (
     <div>
       <Header />
       
-      {/* 🏙️ PAGE BANNER (Placed here so it only appears once at the top) */}
       <section className="merican-page-banner">
         <div className="merican-banner-overlay">
           <h1 className="merican-banner-title">Partners and Clients</h1>
@@ -16,15 +27,10 @@ export default function PartnersPage() {
       </section>
 
       <main>
-        {/* 1. Clients Section (Top) */}
-        <Suspense fallback={<div className="p-10 text-center">Loading Clients...</div>}>
-          <Clients />
-        </Suspense>
-
-        {/* 2. Partners Section (Bottom) */}
-        <Suspense fallback={<div className="p-10 text-center">Loading Partners...</div>}>
-          <Partners />
-        </Suspense>
+        {/* 2. Pass the pre-fetched data to the Clients component */}
+        <Clients initialClients={clients || []} />
+        
+        <Partners />
       </main>
     </div>
   );
