@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Categories from "../components/Categories";
 import FeaturedProducts from "../components/FeaturedProducts";
@@ -17,20 +16,14 @@ export default async function Home() {
 
   return (
     <div>
-      <Header />
-      <main>
         <Hero />
         <Suspense fallback={<div className="p-10 text-center">Loading Content...</div>}>
           <Categories />
           <FeaturedProducts />
-          
-          {/* Pass the server-fetched data here */}
           <Testimonials initialData={initialTestimonials || []} />
-
           <CeoMessage />
           <About />
         </Suspense>
-      </main>
     </div>
   );
 }

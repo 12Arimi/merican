@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-// Ensure the path below matches where you put your CSS file
-// If it's in public/assets/css/style.css, import it here:
-// import "../public/assets/css/style.css"; 
+import Header from "@/components/Header"; // Import here
+import Footer from "@/components/Footer"; // Import here
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,23 +27,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Font Awesome for Icons */}
         <link 
           rel="stylesheet" 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
           crossOrigin="anonymous" 
-          referrerPolicy="no-referrer" 
         />
-        {/* Google Fonts */}
         <link 
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" 
           rel="stylesheet" 
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Header /> 
+        <main>{children}</main> 
+        <Footer />
       </body>
     </html>
   );

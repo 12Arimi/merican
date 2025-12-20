@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import Header from "../../components/Header";
 import ServicesIcons from "../../components/ServicesIcons";
 import ProjectsAndServices from "../../components/ProjectsAndServices";
 
@@ -27,25 +26,17 @@ export default async function ServicesProjectsPage() {
 
   return (
     <div>
-      <Header />
-      
       {/* 🏙️ PAGE BANNER */}
       <section className="merican-page-banner">
         <div className="merican-banner-overlay">
           <h1 className="merican-banner-title">Merican Services</h1>
         </div>
       </section>
-
-      <main>
-        {/* 🛠️ STATIC SERVICES ICONS SECTION */}
         <ServicesIcons />
-
-        {/* 🍳 DYNAMIC PROJECTS & MAINTENANCE SECTION */}
         <ProjectsAndServices
           projects={projectsRes.data || []} 
           services={servicesRes.data || []} 
         />
-      </main>
     </div>
   );
 }

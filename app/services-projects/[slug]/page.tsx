@@ -1,6 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
 import { notFound } from 'next/navigation';
-import Header from "@/components/Header";
 import Link from 'next/link';
 
 const supabase = createClient(
@@ -64,9 +63,6 @@ export default async function ProjectDetailPage({
 
   return (
     <div className="merican-detail-wrapper">
-      <Header />
-      
-      {/* Banner Section */}
       <section className="merican-page-banner">
         <div className="merican-banner-overlay">
           <h1 className="merican-banner-title">

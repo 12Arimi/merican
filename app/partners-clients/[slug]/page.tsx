@@ -1,4 +1,3 @@
-import Header from "../../../components/Header";
 import ClientDetail from "../../../components/ClientDetail";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
@@ -21,11 +20,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   return (
     <div>
-      <Header />
-      <main>
-        {/* Pass the data directly as a prop */}
         <ClientDetail client={client} />
-      </main>
     </div>
   );
 }

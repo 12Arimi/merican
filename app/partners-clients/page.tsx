@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import Header from "../../components/Header";
 import Clients from "../../components/Clients";
 import Partners from "../../components/Partners";
 
@@ -18,20 +17,14 @@ export default async function PartnersPage() {
 
   return (
     <div>
-      <Header />
       
       <section className="merican-page-banner">
         <div className="merican-banner-overlay">
           <h1 className="merican-banner-title">Partners and Clients</h1>
         </div>
       </section>
-
-      <main>
-        {/* 2. Pass the pre-fetched data to the Clients component */}
-        <Clients initialClients={clients || []} />
-        
+        <Clients initialClients={clients || []} />        
         <Partners />
-      </main>
     </div>
   );
 }

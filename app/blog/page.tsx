@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Header from "@/components/Header";
 import Blogs from "@/components/Blogs";
 import { supabase } from "@/lib/supabase";
 
@@ -20,13 +19,10 @@ export default async function BlogPage() {
 
   return (
     <div>
-      <Header />
-      <main>
         <Suspense fallback={<div className="p-10 text-center">Loading Blog Posts...</div>}>
           {/* Pass the data directly to the client component */}
           <Blogs initialData={initialBlogs || []} />
         </Suspense>
-      </main>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import Header from "../../../components/Header";
 import BlogDetails from "../../../components/BlogDetails";
 import { supabase } from "../../../lib/supabase";
 import { notFound } from "next/navigation";
@@ -42,14 +41,10 @@ export default async function SingleBlogPage({
 
   return (
     <div>
-      <Header />
-      <main>
-        {/* We cast the data to Blog and Blog[] to stop the TypeScript errors */}
         <BlogDetails 
           initialBlog={blog as Blog} 
           initialPopular={(popularBlogs as Blog[]) || []} 
         />
-      </main>
     </div>
   );
 }
