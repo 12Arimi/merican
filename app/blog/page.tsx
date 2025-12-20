@@ -1,6 +1,7 @@
 import { Suspense } from "react";
-import Header from "../../components/Header";
-import Blogs from "../../components/Blogs";
+import Header from "@/components/Header";
+import Blogs from "@/components/Blogs";
+import { supabase } from "@/lib/supabase";
 
 export const metadata = {
   title: "Blog | Merican Limited",
@@ -8,17 +9,21 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-  // Fetch data on the server relative to your host
-  // In production, use an absolute URL or fetch directly from Supabase here
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blogs`, { cache: 'no-store' });
-  const initialBlogs = await res.json();
+  const { data: initialBlogs, error } = await supabase
+    .from('blog')
+    .select('id, cover_image, title, slug, content, created_at')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error("Supabase error:", error);
+  }
 
   return (
     <div>
       <Header />
       <main>
         <Suspense fallback={<div className="p-10 text-center">Loading Blog Posts...</div>}>
-          {/* Pass the data to the client component */}
+          {/* Pass the data directly to the client component */}
           <Blogs initialData={initialBlogs || []} />
         </Suspense>
       </main>
