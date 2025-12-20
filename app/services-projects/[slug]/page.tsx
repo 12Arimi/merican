@@ -15,6 +15,7 @@ export default async function ProjectDetailPage({
 }) {
   const { slug } = await params;
 
+  // Fetch the main project/service details
   const { data: item, error } = await supabase
     .from('projects_services')
     .select('*')
@@ -25,6 +26,7 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
+  // Fetch related items for the sidebar
   const { data: otherItems } = await supabase
     .from('projects_services')
     .select('slug, title, cover_image')
@@ -35,10 +37,14 @@ export default async function ProjectDetailPage({
 
   const imageBasePath = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/projects-services/`;
 
+  /**
+   * Converts a standard YouTube URL into an embeddable format.
+   * Fixed the 'implicit any' error by typing the match variable.
+   */
   const getEmbedUrl = (url: string) => {
     if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
-    const match = url.match(regExp);
+    const match: RegExpMatchArray | null = url.match(regExp);
     return (match && match[2].length === 11) 
       ? `https://www.youtube.com/embed/${match[2]}` 
       : url;
@@ -47,17 +53,20 @@ export default async function ProjectDetailPage({
   // --- IMPROVED CONTENT PROCESSING ---
   let processedContent = item.content || "";
   
-  // This regex is now more robust against spaces, newlines, or tabs between images
-  // It groups 2 or more <img> tags into a gallery div
+  /**
+   * Regex Fix: We explicitly type 'match' as a string to satisfy TypeScript.
+   * This wraps 2 or more consecutive <img> tags into a gallery div for grid styling.
+   */
   processedContent = processedContent.replace(
     /(<img[^>]+>[\s\r\n]*){2,}/gi,
-    (match) => `<div class="image-gallery">${match}</div>`
+    (match: string) => `<div class="image-gallery">${match}</div>`
   );
 
   return (
     <div className="merican-detail-wrapper">
       <Header />
       
+      {/* Banner Section */}
       <section className="merican-page-banner">
         <div className="merican-banner-overlay">
           <h1 className="merican-banner-title">
@@ -72,6 +81,7 @@ export default async function ProjectDetailPage({
           <div className="project-main">
             <h1 className="project-title">{item.title}</h1>
 
+            {/* Main Cover Image */}
             {item.cover_image && (
               <img
                 src={`${imageBasePath}${item.cover_image}`}
@@ -80,6 +90,7 @@ export default async function ProjectDetailPage({
               />
             )}
 
+            {/* Video Player */}
             {item.video_url && (
               <div className="project-video-container">
                 <iframe
@@ -91,13 +102,16 @@ export default async function ProjectDetailPage({
               </div>
             )}
 
-            {/* 🛠️ RENDERED HTML CONTENT */}
+            {/* 🛠️ RENDERED HTML CONTENT 
+                Now contains the processed <div class="image-gallery"> wrappers.
+            */}
             <div 
               className="rendered-html-content" 
               dangerouslySetInnerHTML={{ __html: processedContent }} 
             />
           </div>
 
+          {/* Sidebar Section */}
           <aside className="project-sidebar">
             <h2 className="sidebar-title">
               {item.item_type === 'project' ? 'Other Projects' : 'Other Services'}
