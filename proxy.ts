@@ -1,4 +1,4 @@
-// middleware.ts
+// proxy.ts (place in project root)
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import Negotiator from 'negotiator';
@@ -30,7 +30,7 @@ function getLocale(request: NextRequest): string {
   return defaultLanguage;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   // Skip if already has a locale prefix
