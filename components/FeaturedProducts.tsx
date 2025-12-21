@@ -50,9 +50,9 @@ const ProductCard = ({ title, images }: { title: string; images: string[] }) => 
 };
 
 const FeaturedProducts = () => {
-  const { t, isLoading } = useTranslation();
+  // isLoading is removed as it's no longer part of the hook return
+  const { t } = useTranslation();
 
-  // Data structure moved inside to utilize the 't' function
   const FEATURED_DATA = [
     {
       title: t("featured.projects"),
@@ -82,11 +82,6 @@ const FeaturedProducts = () => {
       ]
     }
   ];
-
-  // Prevent flashing raw keys by hiding section until translations are ready
-  if (isLoading) {
-    return <section className="merican-featured-products" style={{ opacity: 0, minHeight: '400px' }}></section>;
-  }
 
   return (
     <section className="merican-featured-products">

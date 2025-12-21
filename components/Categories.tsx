@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useTranslation } from "../lib/useTranslation";
 
 const Categories = () => {
-  const { t, isLoading } = useTranslation();
+  // Removed isLoading as it is no longer returned by the hook
+  const { t, lang } = useTranslation();
 
   // Define the structure once to keep the JSX clean
   const CATEGORIES_LIST = [
@@ -21,26 +22,27 @@ const Categories = () => {
     { href: "/category/kitchen-support", img: "commercial-kitchen-support.jpg", key: "kitchenSupport" },
   ];
 
-  if (isLoading) {
-    return <section className="merican-categories" style={{ opacity: 0 }}></section>;
-  }
+  // Helper to ensure links include the language prefix (SEO requirement)
+  const langLink = (path: string) => `/${lang}${path}`;
 
   return (
     <section className="merican-categories">
       <div className="merican-categories-container">
-        {/* We use a new key for the section title */}
         <h2 className="merican-categories-title">{t("categories.title")}</h2>
 
         <div className="merican-categories-grid">
           {CATEGORIES_LIST.map((item) => (
-            <Link key={item.key} href={item.href} className="merican-category-card">
+            <Link 
+              key={item.key} 
+              href={langLink(item.href)} 
+              className="merican-category-card"
+            >
               <div className="merican-category-image">
                 <img 
                   src={`https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/${item.img}`} 
                   alt={t(`header.nav.${item.key}`)} 
                 />
               </div>
-              {/* This pulls the exact same translation as your Nav Menu */}
               <p className="merican-category-text">{t(`header.nav.${item.key}`)}</p>
             </Link>
           ))}

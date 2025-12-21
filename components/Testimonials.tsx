@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "../lib/useTranslation";
 
 // Ensure this interface matches your DB column names
@@ -23,13 +23,17 @@ interface TestimonialsProps {
 }
 
 const Testimonials = ({ initialData }: TestimonialsProps) => {
-  const { t, lang, isLoading } = useTranslation();
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(initialData || []);
+  // Removed isLoading
+  const { t, lang } = useTranslation();
+  
+  // We initialize state with initialData; 
+  // since this is a server-side route now, initialData should always be present
+  const [testimonials] = useState<Testimonial[]>(initialData || []);
 
   const imageBasePath =
     "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/testimonials/";
 
-  // Optional: if your data is small, we can simply update display dynamically without re-fetching
+  // Logic to select the correct translation from the database object
   const getTranslatedMessage = (testimonial: Testimonial) => {
     if (lang === "en") return testimonial.testimonial_message;
 
@@ -40,10 +44,6 @@ const Testimonials = ({ initialData }: TestimonialsProps) => {
       ? String(translated)
       : testimonial.testimonial_message;
   };
-
-  if (isLoading) {
-    return <section className="merican-testimonials" style={{ opacity: 0, minHeight: "400px" }} />;
-  }
 
   return (
     <section className="merican-testimonials">
