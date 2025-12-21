@@ -9,14 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@formatjs/intl-localematcher": "^0.7.2",
     "@heroicons/react": "^2.2.0",
     "@supabase/supabase-js": "^2.89.0",
+    "negotiator": "^1.0.0",
     "next": "16.1.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/negotiator": "^0.6.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

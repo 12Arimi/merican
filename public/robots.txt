@@ -1,11 +1,5 @@
 User-agent: *
-Allow: /en/
-Allow: /sw/
-Allow: /fr/
-Allow: /es/
-Allow: /de/
-Allow: /it/
+Allow: /
 Disallow: /api/
 Disallow: /_next/
-
 Sitemap: https://mericanltd.vercel.app/sitemap.xml
