@@ -3,19 +3,18 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { useTranslation } from "../lib/useTranslation"; // Import translation hook
+import { useTranslation } from "../lib/useTranslation";
 
 const HeaderContent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
 
   // UI State
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
-  const [language, setLanguage] = useState('en');
   const [searchValue, setSearchValue] = useState(searchParams.get('q')?.replace(/-/g, ' ') || '');
 
   // Sync search input with URL params
@@ -23,37 +22,42 @@ const HeaderContent = () => {
     setSearchValue(searchParams.get('q')?.replace(/-/g, ' ') || '');
   }, [searchParams]);
 
-  // Language Persistence
-  useEffect(() => {
-    const cachedLang = localStorage.getItem('lang') || 'en';
-    setLanguage(cachedLang);
-  }, []);
-
+  // Language Change Logic: Switch URL path (e.g., /en/contact -> /sw/contact)
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLang = e.target.value;
-    setLanguage(newLang);
-    localStorage.setItem('lang', newLang);
+    const segments = pathname.split('/');
+    segments[1] = newLang; 
+    const newPath = segments.join('/');
+    
+    // Set cookie for middleware to remember preference
     document.cookie = `lang=${newLang}; path=/; SameSite=Lax; Secure`;
-    window.location.reload(); 
+    router.push(newPath);
   };
+
+  // SEO Helper: Ensures every link is prefixed with the current language
+  const langLink = (path: string) => `/${lang}${path === '/' ? '' : path}`;
 
   const handleSearchSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
     if (searchValue.trim()) {
       const slugQuery = searchValue.trim().replace(/\s+/g, '-');
       setIsSearchModalOpen(false);
-      router.push(`/search/${slugQuery}`);
+      router.push(`/${lang}/search/${slugQuery}`);
     }
   };
 
-  const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/');
+  // Active link logic updated for locale paths
+  const isActive = (path: string) => {
+    const fullPath = `/${lang}${path === '/' ? '' : path}`;
+    return pathname === fullPath || (path !== '/' && pathname.startsWith(fullPath + '/'));
+  };
 
   return (
     <>
       <header className="merican-header">
         {/* Logo */}
         <div className="merican-logo">
-          <Link href="/" style={{ display: 'inline-block' }}>
+          <Link href={langLink("/")} style={{ display: 'inline-block' }}>
             <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/mericanlogo.webp" alt="Merican Limited Logo" />
           </Link>
         </div>
@@ -78,7 +82,7 @@ const HeaderContent = () => {
 
           <div className="language-selector">
             <i className="fa-solid fa-globe lang-icon"></i>
-            <select id="languageSelect" value={language} onChange={handleLanguageChange}>
+            <select id="languageSelect" value={lang} onChange={handleLanguageChange}>
               <option value="en">{t("header.language.english")}</option>
               <option value="sw">{t("header.language.swahili")}</option>
               <option value="fr">{t("header.language.french")}</option>
@@ -88,7 +92,7 @@ const HeaderContent = () => {
             </select>
           </div>
 
-          <Link href="/request-for-quote" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <Link href={langLink("/request-for-quote")} style={{ color: 'inherit', textDecoration: 'none' }}>
             <div className="merican-cart-icon-wrapper">
               <i className="fa-solid fa-cart-shopping"></i>
               <span className="merican-cart-badge" id="cartBadge">0</span>
@@ -116,7 +120,7 @@ const HeaderContent = () => {
         </div>
       </div>
 
-      {/* Side Menu */}
+      {/* Side Menu - Fully Restored */}
       <div className={`merican-menu ${isMenuOpen ? 'active' : ''}`}>
         <div className="merican-menu-header">
           <span className="merican-menu-title">{t("header.menuTitle")}</span>
@@ -124,7 +128,7 @@ const HeaderContent = () => {
         </div>
         <ul>
           <li>
-            <Link href="/" className={isActive('/') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>
+            <Link href={langLink("/")} className={isActive('/') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>
               {t("header.nav.home")}
             </Link>
           </li>
@@ -137,23 +141,23 @@ const HeaderContent = () => {
               {t("header.nav.products")} <i className="fa-solid fa-chevron-right merican-dropdown-arrow"></i>
             </a>
             <div className="merican-submenu">
-              <Link href="/products" onClick={() => setIsMenuOpen(false)}>{t("header.nav.allProducts")}</Link>
-              <Link href="/category/receiving" onClick={() => setIsMenuOpen(false)}>{t("header.nav.receiving")}</Link>
-              <Link href="/category/storage" onClick={() => setIsMenuOpen(false)}>{t("header.nav.storage")}</Link>
-              <Link href="/category/preparation" onClick={() => setIsMenuOpen(false)}>{t("header.nav.preparation")}</Link>
-              <Link href="/category/production" onClick={() => setIsMenuOpen(false)}>{t("header.nav.production")}</Link>
-              <Link href="/category/dispatch-servery" onClick={() => setIsMenuOpen(false)}>{t("header.nav.dispatchServery")}</Link>
-              <Link href="/category/bar-area" onClick={() => setIsMenuOpen(false)}>{t("header.nav.barArea")}</Link>
-              <Link href="/category/wash-up-area" onClick={() => setIsMenuOpen(false)}>{t("header.nav.washUpArea")}</Link>
-              <Link href="/category/kitchen-support" onClick={() => setIsMenuOpen(false)}>{t("header.nav.kitchenSupport")}</Link>
-              <Link href="/category/stainless-steel-fabrication" onClick={() => setIsMenuOpen(false)}>{t("header.nav.stainlessSteelFabrication")}</Link>
-              <Link href="/category/gas-section" onClick={() => setIsMenuOpen(false)}>{t("header.nav.gasSection")}</Link>
+              <Link href={langLink("/products")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.allProducts")}</Link>
+              <Link href={langLink("/category/receiving")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.receiving")}</Link>
+              <Link href={langLink("/category/storage")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.storage")}</Link>
+              <Link href={langLink("/category/preparation")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.preparation")}</Link>
+              <Link href={langLink("/category/production")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.production")}</Link>
+              <Link href={langLink("/category/dispatch-servery")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.dispatchServery")}</Link>
+              <Link href={langLink("/category/bar-area")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.barArea")}</Link>
+              <Link href={langLink("/category/wash-up-area")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.washUpArea")}</Link>
+              <Link href={langLink("/category/kitchen-support")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.kitchenSupport")}</Link>
+              <Link href={langLink("/category/stainless-steel-fabrication")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.stainlessSteelFabrication")}</Link>
+              <Link href={langLink("/category/gas-section")} onClick={() => setIsMenuOpen(false)}>{t("header.nav.gasSection")}</Link>
             </div>
           </li>
-          <li><Link href="/services-projects" className={isActive('/services-projects') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.servicesProjects")}</Link></li>
-          <li><Link href="/partners-clients" className={isActive('/partners-clients') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.partnersClients")}</Link></li>
-          <li><Link href="/blog" className={isActive('/blog') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.blog")}</Link></li>
-          <li><Link href="/contact" className={isActive('/contact') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.contact")}</Link></li>
+          <li><Link href={langLink("/services-projects")} className={isActive('/services-projects') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.servicesProjects")}</Link></li>
+          <li><Link href={langLink("/partners-clients")} className={isActive('/partners-clients') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.partnersClients")}</Link></li>
+          <li><Link href={langLink("/blog")} className={isActive('/blog') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.blog")}</Link></li>
+          <li><Link href={langLink("/contact")} className={isActive('/contact') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.contact")}</Link></li>
         </ul>
       </div>
 
@@ -165,7 +169,6 @@ const HeaderContent = () => {
   );
 };
 
-// Export main component wrapped in Suspense
 const Header = () => (
   <Suspense fallback={<div className="merican-header-placeholder" style={{ height: '80px' }} />}>
     <HeaderContent />

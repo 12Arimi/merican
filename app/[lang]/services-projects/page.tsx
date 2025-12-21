@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import ServicesIcons from "../../components/ServicesIcons";
-import ProjectsAndServices from "../../components/ProjectsAndServices";
+import ServicesIcons from "@/components/ServicesIcons";
+import ProjectsAndServices from "@/components/ProjectsAndServices";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import Hero from "../components/Hero";
-import Categories from "../components/Categories";
-import FeaturedProducts from "../components/FeaturedProducts";
-import Testimonials from "../components/Testimonials";
-import CeoMessage from "../components/CeoMessage";
-import About from "../components/About";
+import Hero from "@/components/Hero";
+import Categories from "@/components/Categories";
+import FeaturedProducts from "@/components/FeaturedProducts";
+import Testimonials from "@/components/Testimonials";
+import CeoMessage from "@/components/CeoMessage";
+import About from "@/components/About";
 import { supabase } from "@/lib/supabase";
 
 export default async function Home() {

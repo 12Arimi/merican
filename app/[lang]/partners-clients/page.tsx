@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import Clients from "../../components/Clients";
-import Partners from "../../components/Partners";
+import Clients from "@/components/Clients";
+import Partners from "@/components/Partners";
 
 // Initialize Supabase
 const supabase = createClient(

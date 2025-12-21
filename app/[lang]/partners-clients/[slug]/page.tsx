@@ -1,4 +1,4 @@
-import ClientDetail from "../../../components/ClientDetail";
+import ClientDetail from "@/components/ClientDetail";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 
