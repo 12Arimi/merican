@@ -1,0 +1,70 @@
+{
+  "header": {
+    "searchPlaceholder": "Tafuta bidhaa, makala, au mawazo...",
+    "searchModalPlaceholder": "Tafuta bidhaa...",
+    "menuTitle": "Menyu",
+    "nav": {
+      "home": "Nyumbani",
+      "products": "Bidhaa",
+      "allProducts": "Bidhaa Zote",
+      "receiving": "Kupokea",
+      "storage": "Uhifadhi",
+      "preparation": "Maandalizi",
+      "production": "Uzalishaji",
+      "dispatchServery": "Usambazaji / Seva",
+      "barArea": "Eneo la Baa",
+      "washUpArea": "Eneo la Kuoshea",
+      "kitchenSupport": "Usaidizi wa Jikoni",
+      "stainlessSteelFabrication": "Uundaji wa Chuma Kisicho na Madoa",
+      "gasSection": "Sehemu ya Gesi",
+      "servicesProjects": "Huduma & Miradi",
+      "partnersClients": "Washirika & Wateja",
+      "blog": "Blogu",
+      "contact": "Wasiliana",
+      "requestQuote": "Omba Nukuu"
+    },
+    "language": {
+      "english": "Kiingereza",
+      "swahili": "Kiswahili",
+      "french": "Kifaransa",
+      "spanish": "Kihispania",
+      "german": "Kijerumani",
+      "italian": "Kiitaliano"
+    },
+    "cart": {
+      "label": "Gari la Ununuzi"
+    }
+  },
+  "hero": {
+    "slides": {
+        "slide1": {
+        "title": "Ubunifu katika Jiko za Kibiashara",
+        "description": "Vifaa vya ubora wa juu na vinavyodumu kwa kila hatua ya mapishi yako.",
+        "button": "Angalia Bidhaa"
+        },
+        "slide2": {
+        "title": "Ubunifu, Ugavi, na Ufungaji",
+        "description": "Kuanzia mwanzo hadi kukamilika, tunashughulikia mradi wako wote wa jiko.",
+        "button": "Gundua Miradi"
+        },
+        "slide3": {
+        "title": "Imeundwa kwa Udumavu na Utendaji",
+        "description": "Vifaa vinavyohimili mahitaji ya mazingira ya kitaalamu yenye kazi nyingi.",
+        "button": "Wasiliana Nasi"
+        }
+    }
+  },
+  "categories": {
+    "title": "Vipengele Vyetu"
+  },
+  "featured": {
+    "sectionTitle": "Bidhaa Zetu Zilizoangaziwa",
+    "projects": "Miradi ya Jiko la Kibiashara",
+    "maintenance": "Huduma na Matengenezo ya Jiko la Kibiashara",
+    "fabrication": "Uundaji wa Chuma cha Pua"
+  },
+  "testimonials": {
+  "sectionTitle": "Ushuhuda wa Wateja",
+  "noData": "Hakuna ushuhuda wa wateja unaopatikana kwa sasa."
+}
+}

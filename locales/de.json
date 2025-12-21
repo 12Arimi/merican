@@ -1,0 +1,70 @@
+{
+  "header": {
+    "searchPlaceholder": "Produkte, Artikel oder Ideen suchen...",
+    "searchModalPlaceholder": "Produkte suchen...",
+    "menuTitle": "Menü",
+    "nav": {
+      "home": "Startseite",
+      "products": "Produkte",
+      "allProducts": "Alle Produkte",
+      "receiving": "Empfang",
+      "storage": "Lagerung",
+      "preparation": "Vorbereitung",
+      "production": "Produktion",
+      "dispatchServery": "Versand / Ausgabe",
+      "barArea": "Barbereich",
+      "washUpArea": "Reinigungsbereich",
+      "kitchenSupport": "Küchenunterstützung",
+      "stainlessSteelFabrication": "Edelstahlfertigung",
+      "gasSection": "Gasbereich",
+      "servicesProjects": "Dienstleistungen & Projekte",
+      "partnersClients": "Partner & Kunden",
+      "blog": "Blog",
+      "contact": "Kontakt",
+      "requestQuote": "Angebot anfordern"
+    },
+    "language": {
+      "english": "Englisch",
+      "swahili": "Swahili",
+      "french": "Französisch",
+      "spanish": "Spanisch",
+      "german": "Deutsch",
+      "italian": "Italienisch"
+    },
+    "cart": {
+      "label": "Warenkorb"
+    }
+  },
+  "hero": {
+    "slides": {
+        "slide1": {
+        "title": "Innovation für Gewerbeküchen",
+        "description": "Hochwertige, langlebige Ausstattung für jede Phase Ihres kulinarischen Prozesses.",
+        "button": "Produkte ansehen"
+        },
+        "slide2": {
+        "title": "Planung, Lieferung & Installation",
+        "description": "Vom Konzept bis zur Fertigstellung – wir kümmern uns um Ihr gesamtes Küchenprojekt.",
+        "button": "Projekte entdecken"
+        },
+        "slide3": {
+        "title": "Gebaut für Langlebigkeit & Leistung",
+        "description": "Geräte, die den Anforderungen einer hochfrequentierten Profiküche standhalten.",
+        "button": "Kontakt aufnehmen"
+        }
+    }
+    },
+    "categories": {
+    "title": "Unsere Kategorien"
+  },
+  "featured": {
+    "sectionTitle": "Unsere vorgestellten Produkte",
+    "projects": "Gewerbliche Küchenprojekte",
+    "maintenance": "Wartung und Service für gewerbliche Küchen",
+    "fabrication": "Edelstahlfertigung"
+  },
+"testimonials": {
+  "sectionTitle": "Kundenstimmen",
+  "noData": "Momentan sind keine Kundenbewertungen verfügbar."
+}
+}

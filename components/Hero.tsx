@@ -1,8 +1,11 @@
 'use client';
 import React, { useEffect } from 'react';
 import Link from 'next/link';
+import { useTranslation } from "../lib/useTranslation"; // Import your hook
 
 export default function Hero() {
+  const { t } = useTranslation();
+
   useEffect(() => {
     const mericanCarousel = document.getElementById('mericanHeroCarousel')!;
     const mericanDots = document.querySelectorAll('.merican-carousel-dots .dot');
@@ -38,6 +41,7 @@ export default function Hero() {
 
     const startFillAndTimer = () => {
       const activeFill = mericanDots[slideIndex - 1].querySelector('.progress-fill') as HTMLElement;
+      if (!activeFill) return;
       activeFill.style.transition = 'none';
       activeFill.style.width = '0%';
       void activeFill.offsetWidth;
@@ -117,81 +121,83 @@ export default function Hero() {
       handleTransitionEnd(startFillAndTimer);
     };
 
-    // Swipe gestures
     let startX = 0;
-    mericanCarousel.addEventListener('touchstart', e => (startX = e.touches[0].clientX));
-    mericanCarousel.addEventListener('touchend', e => {
+    const touchStart = (e: TouchEvent) => (startX = e.touches[0].clientX);
+    const touchEnd = (e: TouchEvent) => {
       const endX = e.changedTouches[0].clientX;
       if (startX - endX > 50) nextSlide();
       else if (endX - startX > 50) prevSlide();
-    });
-
-    // Dot click handler
-    (window as any).currentSlide = (n: number) => {
-      showSlides(n);
     };
 
-    // Initialize
+    mericanCarousel.addEventListener('touchstart', touchStart as any);
+    mericanCarousel.addEventListener('touchend', touchEnd as any);
+
+    (window as any).currentSlide = (n: number) => showSlides(n);
+
     updateSlidePosition(1, false);
     mericanDots.forEach(dot => dot.classList.remove('active'));
     mericanDots[0].classList.add('active');
     setFills(1);
     setTimeout(startFillAndTimer, 100);
 
-    return () => clearTimeout(timer); // cleanup on unmount
+    return () => {
+      clearTimeout(timer);
+      mericanCarousel.removeEventListener('touchstart', touchStart as any);
+      mericanCarousel.removeEventListener('touchend', touchEnd as any);
+    };
   }, []);
 
   return (
     <section className="merican-hero-carousel-container">
       <div className="merican-hero-carousel" id="mericanHeroCarousel">
-        {/* Slides here */}
+        
         {/* Clone of slide 3 */}
         <div className="merican-carousel-slide clone">
-          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero3.webp" alt="Chef working with professional-grade cooking appliances" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero3.webp" alt="Kitchen Appliances" />
           <div className="merican-carousel-caption">
-            <h1><strong>Built for Durability & Performance</strong></h1>
-            <p>Equipment that stands up to the demands of a high-volume professional environment.</p>
-            <Link href="#" className="merican-carousel-btn">Get in Touch</Link>
+            <h1><strong>{t("hero.slides.slide3.title")}</strong></h1>
+            <p>{t("hero.slides.slide3.description")}</p>
+            <Link href="#" className="merican-carousel-btn">{t("hero.slides.slide3.button")}</Link>
           </div>
         </div>
 
         {/* Slide 1 */}
         <div className="merican-carousel-slide">
-          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero1.webp" alt="Modern kitchen equipment layout" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero1.webp" alt="Kitchen Layout" />
           <div className="merican-carousel-caption">
-            <h1><strong>Innovating Commercial Kitchens</strong></h1>
-            <p>High-quality, durable equipment for every stage of your culinary process.</p>
-            <Link href="/products" className="merican-carousel-btn">View Products</Link>
+            <h1><strong>{t("hero.slides.slide1.title")}</strong></h1>
+            <p>{t("hero.slides.slide1.description")}</p>
+            <Link href="/products" className="merican-carousel-btn">{t("hero.slides.slide1.button")}</Link>
           </div>
         </div>
 
         {/* Slide 2 */}
         <div className="merican-carousel-slide">
-          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero2.webp" alt="A sleek stainless steel food prep area" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero2.webp" alt="Stainless Steel Prep" />
           <div className="merican-carousel-caption">
-            <h1><strong>Design, Supply, & Installation</strong></h1>
-            <p>From concept to completion, we handle your entire kitchen project.</p>
-            <Link href="#" className="merican-carousel-btn merican-btn-secondary">Explore Projects</Link>
+            <h1><strong>{t("hero.slides.slide2.title")}</strong></h1>
+            <p>{t("hero.slides.slide2.description")}</p>
+            <Link href="#" className="merican-carousel-btn merican-btn-secondary">{t("hero.slides.slide2.button")}</Link>
           </div>
         </div>
 
         {/* Slide 3 */}
         <div className="merican-carousel-slide">
-          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero3.webp" alt="Chef working with professional-grade cooking appliances" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero3.webp" alt="Kitchen Appliances" />
           <div className="merican-carousel-caption">
-            <h1><strong>Built for Durability & Performance</strong></h1>
-            <p>Equipment that stands up to the demands of a high-volume professional environment.</p>
-            <Link href="#" className="merican-carousel-btn">Get in Touch</Link>
+            <h1><strong>{t("hero.slides.slide3.title")}</strong></h1>
+            <p>{t("hero.slides.slide3.description")}</p>
+            <Link href="#" className="merican-carousel-btn">{t("hero.slides.slide3.button")}</Link>
           </div>
         </div>
 
         {/* Clone of slide 1 */}
         <div className="merican-carousel-slide clone">
-          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero1.webp" alt="Modern kitchen equipment layout" />
+          <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/hero1.webp" alt="Kitchen Layout" />
           <div className="merican-carousel-caption">
-            <h1><strong>Innovating Commercial Kitchens</strong></h1>
-            <p>High-quality, durable equipment for every stage of your culinary process.</p>
-            <Link href="/products" className="merican-carousel-btn">View Products</Link>
+            <h1><strong>{t("hero.slides.slide1.title")}</strong></h1>
+            <p>{t("hero.slides.slide1.description")}</p>
+            <Link href="/products" className="merican-carousel-btn">{t("hero.slides.slide1.button")}</Link>
           </div>
         </div>
       </div>

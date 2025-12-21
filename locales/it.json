@@ -1,0 +1,70 @@
+{
+  "header": {
+    "searchPlaceholder": "Cerca prodotti, articoli o idee...",
+    "searchModalPlaceholder": "Cerca prodotti...",
+    "menuTitle": "Menu",
+    "nav": {
+      "home": "Home",
+      "products": "Prodotti",
+      "allProducts": "Tutti i Prodotti",
+      "receiving": "Ricezione",
+      "storage": "Stoccaggio",
+      "preparation": "Preparazione",
+      "production": "Produzione",
+      "dispatchServery": "Spedizione / Servizio",
+      "barArea": "Area Bar",
+      "washUpArea": "Area Lavaggio",
+      "kitchenSupport": "Supporto Cucina",
+      "stainlessSteelFabrication": "Fabbricazione Acciaio Inox",
+      "gasSection": "Sezione Gas",
+      "servicesProjects": "Servizi & Progetti",
+      "partnersClients": "Partner & Clienti",
+      "blog": "Blog",
+      "contact": "Contatto",
+      "requestQuote": "Richiedi Preventivo"
+    },
+    "language": {
+      "english": "Inglese",
+      "swahili": "Swahili",
+      "french": "Francese",
+      "spanish": "Spagnolo",
+      "german": "Tedesco",
+      "italian": "Italiano"
+    },
+    "cart": {
+      "label": "Carrello"
+    }
+  },
+    "hero": {
+    "slides": {
+        "slide1": {
+        "title": "Innovazione per Cucine Commerciali",
+        "description": "Attrezzature durevoli e di alta qualità per ogni fase del vostro processo culinario.",
+        "button": "Visualizza Prodotti"
+        },
+        "slide2": {
+        "title": "Progettazione, Fornitura e Installazione",
+        "description": "Dal concetto al completamento, gestiamo l'intero progetto della vostra cucina.",
+        "button": "Esplora i Progetti"
+        },
+        "slide3": {
+        "title": "Costruito per Durata e Prestazioni",
+        "description": "Attrezzature che resistono alle esigenze di un ambiente professionale ad alto volume.",
+        "button": "Mettiti in Contatto"
+        }
+    }
+    },
+    "categories": {
+    "title": "Le Nostre Categorie"
+  },
+  "featured": {
+    "sectionTitle": "I Nostri Prodotti in Primo Piano",
+    "projects": "Progetti di Cucine Commerciali",
+    "maintenance": "Servizio e Manutenzione Cucine Commerciali",
+    "fabrication": "Lavorazione Acciaio Inossidabile"
+  },
+  "testimonials": {
+  "sectionTitle": "Testimonianze dei Clienti",
+  "noData": "Al momento non sono disponibili testimonianze dei clienti."
+}
+}

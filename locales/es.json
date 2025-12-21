@@ -1,0 +1,70 @@
+{
+  "header": {
+    "searchPlaceholder": "Buscar productos, artículos o ideas...",
+    "searchModalPlaceholder": "Buscar productos...",
+    "menuTitle": "Menú",
+    "nav": {
+      "home": "Inicio",
+      "products": "Productos",
+      "allProducts": "Todos los Productos",
+      "receiving": "Recepción",
+      "storage": "Almacenamiento",
+      "preparation": "Preparación",
+      "production": "Producción",
+      "dispatchServery": "Despacho / Servido",
+      "barArea": "Área de Bar",
+      "washUpArea": "Área de Lavado",
+      "kitchenSupport": "Soporte de Cocina",
+      "stainlessSteelFabrication": "Fabricación de Acero Inoxidable",
+      "gasSection": "Sección de Gas",
+      "servicesProjects": "Servicios y Proyectos",
+      "partnersClients": "Socios y Clientes",
+      "blog": "Blog",
+      "contact": "Contacto",
+      "requestQuote": "Solicitar Cotización"
+    },
+    "language": {
+      "english": "Inglés",
+      "swahili": "Swahili",
+      "french": "Francés",
+      "spanish": "Español",
+      "german": "Alemán",
+      "italian": "Italiano"
+    },
+    "cart": {
+      "label": "Carrito"
+    }
+  },
+    "hero": {
+    "slides": {
+        "slide1": {
+        "title": "Innovación en Cocinas Comerciales",
+        "description": "Equipos duraderos y de alta calidad para cada etapa de su proceso culinario.",
+        "button": "Ver Productos"
+        },
+        "slide2": {
+        "title": "Diseño, Suministro e Instalación",
+        "description": "Desde el concepto hasta la finalización, nos encargamos de todo su proyecto de cocina.",
+        "button": "Explorar Proyectos"
+        },
+        "slide3": {
+        "title": "Creado para Durabilidad y Rendimiento",
+        "description": "Equipos que resisten las exigencias de un entorno profesional de alto volumen.",
+        "button": "Ponerse en Contacto"
+        }
+    }
+    },
+    "categories": {
+    "title": "Nuestras Categorías"
+  },
+  "featured": {
+    "sectionTitle": "Nuestros Productos Destacados",
+    "projects": "Proyectos de Cocinas Comerciales",
+    "maintenance": "Servicio y Mantenimiento de Cocinas Comerciales",
+    "fabrication": "Fabricación de Acero Inoxidable"
+  },
+  "testimonials": {
+  "sectionTitle": "Testimonios de Clientes",
+  "noData": "No hay testimonios de clientes disponibles en este momento."
+}
+}

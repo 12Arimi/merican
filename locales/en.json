@@ -1,0 +1,69 @@
+{
+  "header": {
+    "searchPlaceholder": "Search products, articles, or ideas...",
+    "searchModalPlaceholder": "Search products...",
+    "menuTitle": "Menu",
+    "nav": {
+      "home": "Home",
+      "products": "Products",
+      "allProducts": "All Products",
+      "receiving": "Receiving",
+      "storage": "Storage",
+      "preparation": "Preparation",
+      "production": "Production",
+      "dispatchServery": "Dispatch / Servery",
+      "barArea": "Bar Area",
+      "washUpArea": "Wash-up Area",
+      "kitchenSupport": "Kitchen Support",
+      "stainlessSteelFabrication": "Stainless Steel Fabrication",
+      "gasSection": "Gas Section",
+      "servicesProjects": "Services & Projects",
+      "partnersClients": "Partners & Clients",
+      "blog": "Blog",
+      "contact": "Contact",
+      "requestQuote": "Request for Quote"
+    },
+    "language": {
+      "english": "English",
+      "swahili": "Swahili",
+      "french": "French",
+      "spanish": "Spanish",
+      "german": "German",
+      "italian": "Italian"
+    },
+    "cart": {
+      "label": "Cart"
+    }
+  },
+  "hero": {
+    "slides": {
+      "slide1": {
+        "title": "Innovating Commercial Kitchens",
+        "description": "High-quality, durable equipment for every stage of your culinary process.",
+        "button": "View Products"
+      },
+      "slide2": {
+        "title": "Design, Supply, & Installation",
+        "description": "From concept to completion, we handle your entire kitchen project.",
+        "button": "Explore Projects"
+      },
+      "slide3": {
+        "title": "Built for Durability & Performance",
+        "description": "Equipment that stands up to the demands of a high-volume professional environment.",
+        "button": "Get in Touch"
+      }
+    }
+  },"categories": {
+    "title": "Our Categories"
+  },
+  "featured": {
+    "sectionTitle": "Our Featured Products",
+    "projects": "Commercial Kitchen Projects",
+    "maintenance": "Commercial Kitchen Service & Maintenance",
+    "fabrication": "Stainless Steel Fabrication"
+  },
+  "testimonials": {
+    "sectionTitle": "Client Testimonials",
+    "noData": "No client testimonials available at the moment."
+  }
+}

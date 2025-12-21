@@ -1,38 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from "../lib/useTranslation";
 
-// Data structure for your featured items
-const FEATURED_DATA = [
-  {
-    title: "Commercial Kitchen Projects",
-    images: [
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects1.jpg",
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects2.jpg",
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects3.jpg",
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects4.jpg",
-    ]
-  },
-  {
-    title: "Commercial Kitchen Service & Maintenance",
-    images: [
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance1.jpg",
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance2.jpg",
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance3.jpg",
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance4.jpg",
-    ]
-  },
-  {
-    title: "Stainless Steel Fabrication",
-    images: [
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication1.jpg",
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication2.jpg",
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication3.jpg",
-      "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication4.jpg",
-    ]
-  }
-];
-
+// Helper component for individual cards
 const ProductCard = ({ title, images }: { title: string; images: string[] }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -79,10 +50,48 @@ const ProductCard = ({ title, images }: { title: string; images: string[] }) => 
 };
 
 const FeaturedProducts = () => {
+  const { t, isLoading } = useTranslation();
+
+  // Data structure moved inside to utilize the 't' function
+  const FEATURED_DATA = [
+    {
+      title: t("featured.projects"),
+      images: [
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects1.jpg",
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects2.jpg",
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects3.jpg",
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-projects4.jpg",
+      ]
+    },
+    {
+      title: t("featured.maintenance"),
+      images: [
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance1.jpg",
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance2.jpg",
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance3.jpg",
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/commercial-kitchen-service-maintenance4.jpg",
+      ]
+    },
+    {
+      title: t("featured.fabrication"),
+      images: [
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication1.jpg",
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication2.jpg",
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication3.jpg",
+        "https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/stainless-steel-fabrication4.jpg",
+      ]
+    }
+  ];
+
+  // Prevent flashing raw keys by hiding section until translations are ready
+  if (isLoading) {
+    return <section className="merican-featured-products" style={{ opacity: 0, minHeight: '400px' }}></section>;
+  }
+
   return (
     <section className="merican-featured-products">
       <div className="merican-featured-container">
-        <h2 className="merican-featured-title">Our Featured Products</h2>
+        <h2 className="merican-featured-title">{t("featured.sectionTitle")}</h2>
         <div className="merican-featured-grid">
           {FEATURED_DATA.map((item, index) => (
             <ProductCard 

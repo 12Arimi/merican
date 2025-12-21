@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react'; // 1. Import Suspense
+import { useTranslation } from "../lib/useTranslation"; // Import translation hook
 
-// 2. Move all your logic into this internal component
 const HeaderContent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   // UI State
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,7 +62,7 @@ const HeaderContent = () => {
         <div className="merican-search-container">
           <input
             type="text"
-            placeholder="Search products, articles, or ideas..."
+            placeholder={t("header.searchPlaceholder")}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
@@ -79,12 +79,12 @@ const HeaderContent = () => {
           <div className="language-selector">
             <i className="fa-solid fa-globe lang-icon"></i>
             <select id="languageSelect" value={language} onChange={handleLanguageChange}>
-              <option value="en">English</option>
-              <option value="sw">Swahili</option>
-              <option value="fr">French</option>
-              <option value="ar">Arabic</option>
-              <option value="de">German</option>
-              <option value="it">Italian</option>
+              <option value="en">{t("header.language.english")}</option>
+              <option value="sw">{t("header.language.swahili")}</option>
+              <option value="fr">{t("header.language.french")}</option>
+              <option value="es">{t("header.language.spanish")}</option>
+              <option value="de">{t("header.language.german")}</option>
+              <option value="it">{t("header.language.italian")}</option>
             </select>
           </div>
 
@@ -106,7 +106,7 @@ const HeaderContent = () => {
           <form className="search-form" onSubmit={handleSearchSubmit}>
             <input 
               type="text" 
-              placeholder="Search products..." 
+              placeholder={t("header.searchModalPlaceholder")} 
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               autoFocus={isSearchModalOpen}
@@ -119,12 +119,14 @@ const HeaderContent = () => {
       {/* Side Menu */}
       <div className={`merican-menu ${isMenuOpen ? 'active' : ''}`}>
         <div className="merican-menu-header">
-          <span className="merican-menu-title">Menu</span>
+          <span className="merican-menu-title">{t("header.menuTitle")}</span>
           <i className="fa-solid fa-xmark merican-menu-close" onClick={() => setIsMenuOpen(false)} />
         </div>
         <ul>
           <li>
-            <Link href="/" className={pathname === '/' ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Home</Link>
+            <Link href="/" className={isActive('/') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>
+              {t("header.nav.home")}
+            </Link>
           </li>
           <li className={`merican-dropdown ${isProductDropdownOpen || isActive('/products') || isActive('/category') ? 'open active' : ''}`}>
             <a 
@@ -132,26 +134,26 @@ const HeaderContent = () => {
               className="merican-dropdown-toggle"
               onClick={(e) => { e.preventDefault(); setIsProductDropdownOpen(!isProductDropdownOpen); }}
             >
-              Products <i className="fa-solid fa-chevron-right merican-dropdown-arrow"></i>
+              {t("header.nav.products")} <i className="fa-solid fa-chevron-right merican-dropdown-arrow"></i>
             </a>
             <div className="merican-submenu">
-              <Link href="/products" onClick={() => setIsMenuOpen(false)}>All Products</Link>
-              <Link href="/category/receiving" onClick={() => setIsMenuOpen(false)}>Receiving</Link>
-              <Link href="/category/storage" onClick={() => setIsMenuOpen(false)}>Storage</Link>
-              <Link href="/category/preparation" onClick={() => setIsMenuOpen(false)}>Preparation</Link>
-              <Link href="/category/production" onClick={() => setIsMenuOpen(false)}>Production</Link>
-              <Link href="/category/dispatch-servery" onClick={() => setIsMenuOpen(false)}>Dispatch / Servery</Link>
-              <Link href="/category/bar-area" onClick={() => setIsMenuOpen(false)}>Bar Area</Link>
-              <Link href="/category/wash-up-area" onClick={() => setIsMenuOpen(false)}>Wash-up Area</Link>
-              <Link href="/category/kitchen-support" onClick={() => setIsMenuOpen(false)}>Kitchen Support</Link>
-              <Link href="/category/stainless-steel-fabrication" onClick={() => setIsMenuOpen(false)}>Stainless Steel Fabrication</Link>
-              <Link href="/category/gas-section" onClick={() => setIsMenuOpen(false)}>Gas Section</Link>
+              <Link href="/products" onClick={() => setIsMenuOpen(false)}>{t("header.nav.allProducts")}</Link>
+              <Link href="/category/receiving" onClick={() => setIsMenuOpen(false)}>{t("header.nav.receiving")}</Link>
+              <Link href="/category/storage" onClick={() => setIsMenuOpen(false)}>{t("header.nav.storage")}</Link>
+              <Link href="/category/preparation" onClick={() => setIsMenuOpen(false)}>{t("header.nav.preparation")}</Link>
+              <Link href="/category/production" onClick={() => setIsMenuOpen(false)}>{t("header.nav.production")}</Link>
+              <Link href="/category/dispatch-servery" onClick={() => setIsMenuOpen(false)}>{t("header.nav.dispatchServery")}</Link>
+              <Link href="/category/bar-area" onClick={() => setIsMenuOpen(false)}>{t("header.nav.barArea")}</Link>
+              <Link href="/category/wash-up-area" onClick={() => setIsMenuOpen(false)}>{t("header.nav.washUpArea")}</Link>
+              <Link href="/category/kitchen-support" onClick={() => setIsMenuOpen(false)}>{t("header.nav.kitchenSupport")}</Link>
+              <Link href="/category/stainless-steel-fabrication" onClick={() => setIsMenuOpen(false)}>{t("header.nav.stainlessSteelFabrication")}</Link>
+              <Link href="/category/gas-section" onClick={() => setIsMenuOpen(false)}>{t("header.nav.gasSection")}</Link>
             </div>
           </li>
-          <li><Link href="/services-projects" className={isActive('/services-projects') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Services & Projects</Link></li>
-          <li><Link href="/partners-clients" className={isActive('/partners-clients') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Partners & Clients</Link></li>
-          <li><Link href="/blog" className={isActive('/blog') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Blog</Link></li>
-          <li><Link href="/contact" className={isActive('/contact') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>Contact</Link></li>
+          <li><Link href="/services-projects" className={isActive('/services-projects') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.servicesProjects")}</Link></li>
+          <li><Link href="/partners-clients" className={isActive('/partners-clients') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.partnersClients")}</Link></li>
+          <li><Link href="/blog" className={isActive('/blog') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.blog")}</Link></li>
+          <li><Link href="/contact" className={isActive('/contact') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.contact")}</Link></li>
         </ul>
       </div>
 
@@ -163,13 +165,11 @@ const HeaderContent = () => {
   );
 };
 
-// 3. Export the main component wrapped in Suspense
-const Header = () => {
-  return (
-    <Suspense fallback={<div className="merican-header-placeholder" style={{ height: '80px' }} />}>
-      <HeaderContent />
-    </Suspense>
-  );
-};
+// Export main component wrapped in Suspense
+const Header = () => (
+  <Suspense fallback={<div className="merican-header-placeholder" style={{ height: '80px' }} />}>
+    <HeaderContent />
+  </Suspense>
+);
 
 export default Header;
