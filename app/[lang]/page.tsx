@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+// app/[lang]/page.tsx
 import Hero from "@/components/Hero";
 import Categories from "@/components/Categories";
 import FeaturedProducts from "@/components/FeaturedProducts";
@@ -7,23 +7,41 @@ import CeoMessage from "@/components/CeoMessage";
 import About from "@/components/About";
 import { supabase } from "@/lib/supabase";
 
-export default async function Home() {
-  // Fetch testimonials directly on the server
+type PageProps = {
+  params: Promise<{ lang: string }>;
+};
+
+export default async function Home({ params }: PageProps) {
+  // 1. Await params first
+  const { lang } = await params;
+
+  // 2. Fetch testimonials (The page will wait here until this is done)
   const { data: initialTestimonials } = await supabase
     .from('testimonials')
-    .select('id, client_name, client_company, client_avatar, testimonial_message, testimonial_image')
+    .select(`
+      id, 
+      client_name, 
+      client_company, 
+      client_avatar, 
+      testimonial_message, 
+      testimonial_image, 
+      testimonial_message_sw, 
+      testimonial_message_fr, 
+      testimonial_message_de, 
+      testimonial_message_it, 
+      testimonial_message_es
+    `)
     .order('created_at', { ascending: false });
 
+  // 3. Render everything together
   return (
     <div>
         <Hero />
-        <Suspense fallback={<div className="p-10 text-center">Loading Content...</div>}>
-          <Categories />
-          <FeaturedProducts />
-          <Testimonials initialData={initialTestimonials || []} />
-          <CeoMessage />
-          <About />
-        </Suspense>
+        <Categories />
+        <FeaturedProducts />
+        <Testimonials initialData={initialTestimonials || []} />
+        <CeoMessage />
+        <About />
     </div>
   );
 }
