@@ -1,4 +1,4 @@
-// proxy.ts (place in project root)
+// proxy.ts (root of project)
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import Negotiator from 'negotiator';
@@ -8,53 +8,45 @@ const languages = ['en', 'sw', 'fr', 'es', 'de', 'it'];
 const defaultLanguage = 'en';
 
 function getLocale(request: NextRequest): string {
-  // 1. Check cookie first (user's explicit choice)
+  // Cookie override
   const cookieLang = request.cookies.get('lang')?.value;
-  if (cookieLang && languages.includes(cookieLang)) {
-    return cookieLang;
-  }
+  if (cookieLang && languages.includes(cookieLang)) return cookieLang;
 
-  // 2. Detect from Accept-Language header
+  // Accept-Language (browsers send this; most crawlers don't → fallback to default)
   const acceptLanguage = request.headers.get('accept-language');
   if (acceptLanguage) {
     const headers = { 'accept-language': acceptLanguage };
     const browserLanguages = new Negotiator({ headers }).languages();
     try {
       return match(browserLanguages, languages, defaultLanguage);
-    } catch {
-      // Fallback if matching fails
-    }
+    } catch {}
   }
 
-  // 3. Default to English (most crawlers don't send Accept-Language)
   return defaultLanguage;
 }
 
 export function proxy(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
+  const pathname = request.nextUrl.pathname;
 
-  // Skip if already has a locale prefix
-  const pathnameHasLocale = languages.some(
+  // Explicitly check if path has locale (including root equivalents like /en)
+  const hasLocale = languages.some(
     (lang) => pathname === `/${lang}` || pathname.startsWith(`/${lang}/`)
   );
 
-  if (pathnameHasLocale) {
-    return NextResponse.next();
+  // If no locale prefix → redirect (this includes root '/')
+  if (!hasLocale) {
+    const locale = getLocale(request);
+    const redirectUrl = new URL(`/${locale}${pathname}${request.nextUrl.search}`, request.url);
+    return NextResponse.redirect(redirectUrl, 308);
   }
 
-  // Determine the best locale
-  const locale = getLocale(request);
-
-  // Build redirect URL preserving query params
-  const redirectUrl = new URL(`/${locale}${pathname}${search}`, request.url);
-
-  // Use 308 Permanent Redirect (safe for SEO, preserves method & body)
-  return NextResponse.redirect(redirectUrl, 308);
+  // Otherwise proceed normally
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    // Apply to all routes except static files, API, _next internals, etc.
-    '/((?!api|_next/static|_next/image|favicon.ico|images|robots.txt|sitemap.xml|.*\\..*).*)',
+    // Broader matcher to catch everything, including root
+    '/((?!_next|api|static|images|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)',
   ],
 };
