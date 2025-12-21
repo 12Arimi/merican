@@ -1,26 +1,27 @@
-// File Name: proxy.ts
+// middleware.ts (or proxy.ts, filename doesn't matter)
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const languages = ['en', 'sw', 'fr', 'es', 'de', 'it'];
 const defaultLanguage = 'en';
 
-// RENAME THIS FROM 'middleware' TO 'proxy'
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const pathnameHasLocale = languages.some(
-    (lang) => pathname.startsWith(`/${lang}/`) || pathname === `/${lang}`
+    (lang) => pathname === `/${lang}` || pathname.startsWith(`/${lang}/`)
   );
 
-  if (pathnameHasLocale) return;
+  if (pathnameHasLocale) {
+    return NextResponse.next();
+  }
 
   const cookieLang = request.cookies.get('lang')?.value;
-  const locale = languages.includes(cookieLang || '') ? cookieLang : defaultLanguage;
+  const locale =
+    languages.includes(cookieLang || '') ? cookieLang! : defaultLanguage;
 
   const redirectUrl = new URL(`/${locale}${pathname}`, request.url);
-  
-  // 308 redirect is the gold standard for SEO and AI discovery
+
   return NextResponse.redirect(redirectUrl, 308);
 }
 
