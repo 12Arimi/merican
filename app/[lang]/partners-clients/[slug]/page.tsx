@@ -1,5 +1,8 @@
 import ClientDetail from "@/components/ClientDetail";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
+
+const supabase = getSupabaseClient();
+
 import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
