@@ -1,8 +1,7 @@
 import BlogDetails from "@/components/BlogDetails";
-import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
 
-// Define the interface here to ensure it matches the component
 interface Blog {
   id: number;
   title: string;
@@ -12,39 +11,44 @@ interface Blog {
   created_at: string;
 }
 
-export default async function SingleBlogPage({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
+export default async function SingleBlogPage({
+  params,
+}: {
+  params: { slug: string };
 }) {
-  const resolvedParams = await params;
-  const slug = resolvedParams.slug;
+  const { slug } = params;
 
-  // 1. Fetch current blog details
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error("Supabase environment variables are missing");
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // 1. Fetch current blog
   const { data: blog } = await supabase
-    .from('blog')
-    .select('id, cover_image, title, slug, content, created_at')
-    .eq('slug', slug)
+    .from("blog")
+    .select("id, cover_image, title, slug, content, created_at")
+    .eq("slug", slug)
     .single();
 
   if (!blog) {
     return notFound();
   }
 
-  // 2. Fetch popular blogs for the sidebar
-  // FIXED: Added 'content' to the select even if not used, to match the Blog interface
+  // 2. Fetch popular blogs
   const { data: popularBlogs } = await supabase
-    .from('blog')
-    .select('id, cover_image, title, slug, content, created_at')
-    .neq('slug', slug)
+    .from("blog")
+    .select("id, cover_image, title, slug, content, created_at")
+    .neq("slug", slug)
     .limit(4);
 
   return (
-    <div>
-        <BlogDetails 
-          initialBlog={blog as Blog} 
-          initialPopular={(popularBlogs as Blog[]) || []} 
-        />
-    </div>
+    <BlogDetails
+      initialBlog={blog as Blog}
+      initialPopular={(popularBlogs as Blog[]) || []}
+    />
   );
 }
