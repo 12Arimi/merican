@@ -16,25 +16,46 @@ const HeaderContent = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
   const [searchValue, setSearchValue] = useState(searchParams.get('q')?.replace(/-/g, ' ') || '');
+  
+  // --- Cart Badge Logic ---
+  const [cartCount, setCartCount] = useState(0);
 
-  // Sync search input with URL params
+  const updateBadge = () => {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      const cart = JSON.parse(savedCart);
+      // We count the number of products (array length), not total quantity
+      setCartCount(cart.length);
+    } else {
+      setCartCount(0);
+    }
+  };
+
+  useEffect(() => {
+    // Initial load
+    updateBadge();
+
+    // Listen for changes from ProductActions
+    window.addEventListener('cartUpdated', updateBadge);
+    
+    // Cleanup listener on unmount
+    return () => window.removeEventListener('cartUpdated', updateBadge);
+  }, []);
+  // -------------------------
+
   useEffect(() => {
     setSearchValue(searchParams.get('q')?.replace(/-/g, ' ') || '');
   }, [searchParams]);
 
-  // Language Change Logic: Switch URL path (e.g., /en/contact -> /sw/contact)
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLang = e.target.value;
     const segments = pathname.split('/');
     segments[1] = newLang; 
     const newPath = segments.join('/');
-    
-    // Set cookie for middleware to remember preference
     document.cookie = `lang=${newLang}; path=/; SameSite=Lax; Secure`;
     router.push(newPath);
   };
 
-  // SEO Helper: Ensures every link is prefixed with the current language
   const langLink = (path: string) => `/${lang}${path === '/' ? '' : path}`;
 
   const handleSearchSubmit = (e?: React.FormEvent) => {
@@ -46,7 +67,6 @@ const HeaderContent = () => {
     }
   };
 
-  // Active link logic updated for locale paths
   const isActive = (path: string) => {
     const fullPath = `/${lang}${path === '/' ? '' : path}`;
     return pathname === fullPath || (path !== '/' && pathname.startsWith(fullPath + '/'));
@@ -55,14 +75,12 @@ const HeaderContent = () => {
   return (
     <>
       <header className="merican-header">
-        {/* Logo */}
         <div className="merican-logo">
           <Link href={langLink("/")} style={{ display: 'inline-block' }}>
             <img src="https://lxvghczvmslyiiyrpzaw.supabase.co/storage/v1/object/public/images/mericanlogo.webp" alt="Merican Limited Logo" />
           </Link>
         </div>
 
-        {/* Desktop Search */}
         <div className="merican-search-container">
           <input
             type="text"
@@ -73,7 +91,6 @@ const HeaderContent = () => {
           />
         </div>
 
-        {/* Icons Section */}
         <div className="merican-nav-icons">
           <i 
             className="fa-solid fa-magnifying-glass merican-search-icon-mobile" 
@@ -95,7 +112,10 @@ const HeaderContent = () => {
           <Link href={langLink("/request-for-quote")} style={{ color: 'inherit', textDecoration: 'none' }}>
             <div className="merican-cart-icon-wrapper">
               <i className="fa-solid fa-cart-shopping"></i>
-              <span className="merican-cart-badge" id="cartBadge">0</span>
+              {/* Only show badge if count > 0 */}
+              {cartCount > 0 && (
+                <span className="merican-cart-badge" id="cartBadge">{cartCount}</span>
+              )}
             </div>
           </Link>
 
@@ -103,7 +123,7 @@ const HeaderContent = () => {
         </div>
       </header>
 
-      {/* Search Modal */}
+      {/* ... Rest of your Search Modal, Side Menu, and Overlay remain exactly the same ... */}
       <div className={`merican-search-modal ${isSearchModalOpen ? 'active' : ''}`}>
         <div className="merican-search-modal-content">
           <i className="fa-solid fa-xmark merican-modal-close" onClick={() => setIsSearchModalOpen(false)} />
@@ -115,29 +135,19 @@ const HeaderContent = () => {
               onChange={(e) => setSearchValue(e.target.value)}
               autoFocus={isSearchModalOpen}
             />
-            <button type="submit" style={{ display: 'none' }}>Search</button>
           </form>
         </div>
       </div>
 
-      {/* Side Menu - Fully Restored */}
       <div className={`merican-menu ${isMenuOpen ? 'active' : ''}`}>
         <div className="merican-menu-header">
           <span className="merican-menu-title">{t("header.menuTitle")}</span>
           <i className="fa-solid fa-xmark merican-menu-close" onClick={() => setIsMenuOpen(false)} />
         </div>
         <ul>
-          <li>
-            <Link href={langLink("/")} className={isActive('/') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>
-              {t("header.nav.home")}
-            </Link>
-          </li>
+          <li><Link href={langLink("/")} className={isActive('/') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.home")}</Link></li>
           <li className={`merican-dropdown ${isProductDropdownOpen || isActive('/products') || isActive('/category') ? 'open active' : ''}`}>
-            <a 
-              href="#" 
-              className="merican-dropdown-toggle"
-              onClick={(e) => { e.preventDefault(); setIsProductDropdownOpen(!isProductDropdownOpen); }}
-            >
+            <a href="#" className="merican-dropdown-toggle" onClick={(e) => { e.preventDefault(); setIsProductDropdownOpen(!isProductDropdownOpen); }}>
               {t("header.nav.products")} <i className="fa-solid fa-chevron-right merican-dropdown-arrow"></i>
             </a>
             <div className="merican-submenu">

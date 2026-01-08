@@ -34,8 +34,7 @@ export default async function LangLayout({ children, params }: Props) {
   const { lang } = await params;
 
   return (
-    <html lang={lang}>  {/* Fixed: was <div lang={lang}>, now correct on <html> */}
-      <head />
+    <html lang={lang}>
       <body>
         <Header />
         <main>{children}</main>
