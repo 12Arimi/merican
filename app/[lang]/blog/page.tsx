@@ -1,9 +1,6 @@
 import { Suspense } from "react";
 import Blogs from "@/components/Blogs";
-import { getSupabaseClient } from "@/lib/supabase";
-
-const supabase = getSupabaseClient();
-
+import { supabase } from "@/lib/supabase";
 
 export const metadata = {
   title: "Blog | Merican Limited",

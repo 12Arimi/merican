@@ -1,7 +1,4 @@
-import { getSupabaseClient } from "@/lib/supabase";
-
-const supabase = getSupabaseClient();
-
+import { supabase } from "@/lib/supabase";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import { notFound } from "next/navigation";
