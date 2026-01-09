@@ -3348,6 +3348,7 @@ body {
     margin-left: 15px;
     padding-bottom: 10px;
 }
+
 /* Responsive Design for Floating Buttons */
 @media (max-width: 768px) {
     .merican-floating-buttons {
