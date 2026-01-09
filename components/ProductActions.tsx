@@ -22,11 +22,21 @@ export default function ProductActions({ product, lang }: { product: any, lang: 
 
     if (newQty > 0) {
       const existingIndex = cart.findIndex((item: any) => item.slug === product.slug);
+      
+      // Store the full product translations instead of just one name
       const productData = {
         slug: product.slug,
-        name: product[`name_${lang}`] || product.name,
         img: product.img,
-        quantity: newQty
+        quantity: newQty,
+        // Save all translation variants so RequestQuoteForm can pick the right one
+        names: {
+          en: product.name_en || product.name,
+          sw: product.name_sw || product.name,
+          fr: product.name_fr || product.name,
+          es: product.name_es || product.name,
+          de: product.name_de || product.name,
+          it: product.name_it || product.name,
+        }
       };
 
       if (existingIndex > -1) {
@@ -57,32 +67,14 @@ export default function ProductActions({ product, lang }: { product: any, lang: 
   return (
     <div className="product-actions">
       {quantity === 0 ? (
-        <button 
-          className="add-to-cart-btn" 
-          onClick={() => handleSetQuantity(1)}
-        >
+        <button className="add-to-cart-btn" onClick={() => handleSetQuantity(1)}>
           {labels.add[lang] || labels.add.en}
         </button>
       ) : (
         <div className="quantity-control">
-          <button 
-            onClick={() => handleSetQuantity(quantity - 1)}
-            aria-label={labels.minus[lang] || labels.minus.en}
-          >
-            -
-          </button>
-          <input 
-            type="number" 
-            value={quantity} 
-            readOnly 
-            className="quantity-input"
-          />
-          <button 
-            onClick={() => handleSetQuantity(quantity + 1)}
-            aria-label={labels.plus[lang] || labels.plus.en}
-          >
-            +
-          </button>
+          <button onClick={() => handleSetQuantity(quantity - 1)} aria-label={labels.minus[lang] || labels.minus.en}>-</button>
+          <input type="number" value={quantity} readOnly className="quantity-input" />
+          <button onClick={() => handleSetQuantity(quantity + 1)} aria-label={labels.plus[lang] || labels.plus.en}>+</button>
         </div>
       )}
     </div>

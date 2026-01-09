@@ -1,39 +1,36 @@
+// app/category/[slug]/page.tsx
 import { supabase } from "@/lib/supabase";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 
-export default async function ProductsPage({
+export default async function CategoryPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ lang: string }>;
-  searchParams: Promise<{ q?: string; cat?: string; page?: string }>;
+  params: Promise<{ lang: string; slug: string }>;
+  searchParams: Promise<{ q?: string; page?: string }>;
 }) {
-  const { lang } = await params;
-  const { q: searchTerm, cat: categorySlug, page } = await searchParams;
+  const { lang, slug } = await params;
+  const { q: searchTerm, page } = await searchParams;
 
   const productsPerPage = 15;
   const currentPage = Math.max(1, parseInt(page || "1"));
   const offset = (currentPage - 1) * productsPerPage;
 
+  // 1. Fetch Category
   let categoryData = null;
-  let title = lang === 'sw' ? 'Bidhaa' : 'Products'; // Default base title
+  let title = lang === 'sw' ? 'Bidhaa' : 'Products'; // fallback title
 
-  // 1. Handle Category Filter Logic with Fallback
-  if (categorySlug) {
-    const { data: cat } = await supabase
-      .from("categories")
-      .select("id, name, name_sw, name_fr, name_es, name_de, name_it")
-      .eq("slug", categorySlug)
-      .single();
-    
-    if (cat) {
-      categoryData = cat;
-      const langKey = lang === 'en' ? 'name' : `name_${lang}`;
-      
-      // Use "keyof typeof cat" to tell TypeScript the string is a valid key
-      title = cat[langKey as keyof typeof cat] || cat.name;
-    }
+  const { data: cat } = await supabase
+    .from("categories")
+    .select("id, name, name_sw, name_fr, name_es, name_de, name_it")
+    .eq("slug", slug)
+    .single();
+
+  if (cat) {
+    categoryData = cat;
+    const langKey = lang === 'en' ? 'name' : `name_${lang}`;
+    title = cat[langKey as keyof typeof cat] || cat.name;
   }
 
   // 2. Build Product Query
@@ -46,7 +43,6 @@ export default async function ProductsPage({
   }
 
   if (searchTerm) {
-    // Search against English name as base
     query = query.ilike("name", `%${searchTerm}%`);
     title = `"${searchTerm}"`;
   }
@@ -57,7 +53,7 @@ export default async function ProductsPage({
 
   const totalPages = count ? Math.ceil(count / productsPerPage) : 0;
 
-  // Translation Helper for Static UI Elements
+  // Translation Helper
   const t = {
     noResults: {
       en: "No products found.",
@@ -98,7 +94,7 @@ export default async function ProductsPage({
             <div className="pagination">
               {currentPage > 1 ? (
                 <Link 
-                  href={`/${lang}/products?page=${currentPage - 1}${searchTerm ? `&q=${searchTerm}` : ''}${categorySlug ? `&cat=${categorySlug}` : ''}`} 
+                  href={`/${lang}/category/${slug}?page=${currentPage - 1}${searchTerm ? `&q=${searchTerm}` : ''}`} 
                   className="pagination-link"
                 >
                   &laquo; {t.prev}
@@ -110,7 +106,7 @@ export default async function ProductsPage({
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                 <Link
                   key={p}
-                  href={`/${lang}/products?page=${p}${searchTerm ? `&q=${searchTerm}` : ''}${categorySlug ? `&cat=${categorySlug}` : ''}`}
+                  href={`/${lang}/category/${slug}?page=${p}${searchTerm ? `&q=${searchTerm}` : ''}`}
                   className={`pagination-link ${p === currentPage ? "active" : ""}`}
                 >
                   {p}
@@ -119,7 +115,7 @@ export default async function ProductsPage({
 
               {currentPage < totalPages ? (
                 <Link 
-                  href={`/${lang}/products?page=${currentPage + 1}${searchTerm ? `&q=${searchTerm}` : ''}${categorySlug ? `&cat=${categorySlug}` : ''}`} 
+                  href={`/${lang}/category/${slug}?page=${currentPage + 1}${searchTerm ? `&q=${searchTerm}` : ''}`} 
                   className="pagination-link"
                 >
                   {t.next} &raquo;

@@ -1,60 +1,133 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useTranslation } from "../lib/useTranslation";
+import ReactMarkdown from 'react-markdown';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 const Footer = () => {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
   const [showCookiePopup, setShowCookiePopup] = useState(false);
-  
-  // Initialize chat with translated welcome message
-  const [chatMessages, setChatMessages] = useState([
-    { role: 'bot', text: t("footer.ai.welcome") }
-  ]);
   const [userInput, setUserInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [chatId, setChatId] = useState<string | null>(null);
+  const chatBodyRef = useRef<HTMLDivElement>(null);
+
+  const [chatMessages, setChatMessages] = useState([
+    { role: 'ai', text: t("footer.ai.welcome") }
+  ]);
 
   const currentYear = new Date().getFullYear();
 
+  // Initialize Chat Session
   useEffect(() => {
-    const consent = localStorage.getItem("cookieConsent");
-    if (!consent) {
-      const timer = setTimeout(() => setShowCookiePopup(true), 2000);
-      return () => clearTimeout(timer);
+    const initChat = async () => {
+      let existingId = localStorage.getItem("merican_chat_id");
+      
+      if (!existingId) {
+        const { data } = await supabase
+          .from('chats')
+          .insert([{ lang: lang, status: 'active', owner: 'ai' }])
+          .select().single();
+        
+        if (data) {
+          existingId = data.id;
+          localStorage.setItem("merican_chat_id", existingId!);
+        }
+      }
+      
+      setChatId(existingId);
+
+      if (existingId) {
+        const { data: history } = await supabase
+          .from('messages')
+          .select('content, sender_role')
+          .eq('chat_id', existingId)
+          .order('created_at', { ascending: true });
+
+        if (history && history.length > 0) {
+          const formattedHistory = history.map(m => ({
+            role: m.sender_role === 'user' ? 'user' : 'ai',
+            text: m.content
+          }));
+          setChatMessages([{ role: 'ai', text: t("footer.ai.welcome") }, ...formattedHistory]);
+        }
+      }
+    };
+    initChat();
+  }, [lang, t]);
+
+  // FIX: Smarter Scroll Logic
+  // Only auto-scroll when the number of messages increases or typing starts
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      const { scrollHeight, clientHeight } = chatBodyRef.current;
+      chatBodyRef.current.scrollTo({
+        top: scrollHeight - clientHeight,
+        behavior: 'smooth'
+      });
     }
-  }, []);
+  }, [chatMessages.length, isTyping]); 
+
+  const handleSendMessage = async () => {
+    if (!userInput.trim() || isTyping || !chatId) return;
+
+    const userMsg = { role: 'user', text: userInput };
+    setChatMessages(prev => [...prev, userMsg]);
+    setUserInput("");
+    setIsTyping(true);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lang: lang,
+          chatId: chatId,
+          messages: chatMessages
+            .filter(msg => msg.text !== t("footer.ai.welcome"))
+            .map(msg => ({
+              role: msg.role === 'ai' ? 'assistant' : 'user',
+              content: msg.text
+            })).concat({ role: 'user', content: userInput })
+        }),
+      });
+
+      const data = await response.json();
+      if (data.text) {
+        setChatMessages(prev => [...prev, { role: 'ai', text: data.text }]);
+      }
+    } catch (err) {
+      setChatMessages(prev => [...prev, { 
+        role: 'ai', 
+        text: lang === 'sw' ? "Hitilafu imetokea." : "An error occurred." 
+      }]);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  const toggleAIChat = () => {
+    setIsAIChatOpen(!isAIChatOpen);
+    document.body.classList.toggle('merican-no-scroll', !isAIChatOpen);
+  };
 
   const handleCookieChoice = (choice: 'accepted' | 'rejected') => {
     localStorage.setItem("cookieConsent", choice);
     setShowCookiePopup(false);
   };
 
-  const toggleAIChat = () => {
-    setIsAIChatOpen(!isAIChatOpen);
-    document.body.style.overflow = !isAIChatOpen ? 'hidden' : 'auto';
-  };
-
-  const handleSendMessage = () => {
-    if (!userInput.trim()) return;
-    
-    const newMessages = [...chatMessages, { role: 'user', text: userInput }];
-    setChatMessages(newMessages);
-    setUserInput("");
-
-    setTimeout(() => {
-      setChatMessages(prev => [...prev, { 
-        role: 'bot', 
-        text: t("footer.ai.preview") 
-      }]);
-    }, 600);
-  };
-
   return (
     <>
       <footer className="merican-footer">
         <div className="merican-footer-container">
-          {/* Newsletter Section */}
           <div className="merican-footer-newsletter">
             <h3>{t("footer.newsletter.title")}</h3>
             <p>{t("footer.newsletter.text")}</p>
@@ -66,7 +139,6 @@ const Footer = () => {
             </form>
           </div>
 
-          {/* Top Section */}
           <div className="merican-footer-top">
             <div className="merican-footer-col merican-col-company">
               <h3>{t("footer.about.title")}</h3>
@@ -83,12 +155,12 @@ const Footer = () => {
             <div className="merican-footer-col merican-col-nav">
               <h3>{t("footer.nav.title")}</h3>
               <ul>
-                <li><Link href="/">{t("footer.nav.home")}</Link></li>
-                <li><Link href="/products">{t("footer.nav.products")}</Link></li>
-                <li><Link href="/services-projects">{t("footer.nav.services")}</Link></li>
-                <li><Link href="/partners-clients">{t("footer.nav.partners")}</Link></li>
-                <li><Link href="/blog">{t("footer.nav.blog")}</Link></li>
-                <li><Link href="/contact-us">{t("footer.nav.contact")}</Link></li>
+                <li><Link href={`/${lang}`}>{t("footer.nav.home")}</Link></li>
+                <li><Link href={`/${lang}/products`}>{t("footer.nav.products")}</Link></li>
+                <li><Link href={`/${lang}/services-projects`}>{t("footer.nav.services")}</Link></li>
+                <li><Link href={`/${lang}/partners-clients`}>{t("footer.nav.partners")}</Link></li>
+                <li><Link href={`/${lang}/blog`}>{t("footer.nav.blog")}</Link></li>
+                <li><Link href={`/${lang}/contact-us`}>{t("footer.nav.contact")}</Link></li>
               </ul>
             </div>
 
@@ -113,31 +185,46 @@ const Footer = () => {
         </div>
       </footer>
 
-      {/* Floating Buttons */}
       <div className="merican-floating-buttons">
-        <button className="merican-floating-btn merican-ai-chat-btn" onClick={toggleAIChat}>
-          AI
-        </button>
+        <button className="merican-floating-btn merican-ai-chat-btn" onClick={toggleAIChat}>AI</button>
         <a href="https://wa.me/254740174448" className="merican-floating-btn merican-whatsapp-btn" target="_blank">
           <i className="fab fa-whatsapp"></i>
         </a>
       </div>
 
-      {/* AI Chat Modal */}
       {isAIChatOpen && (
-        <div className="merican-ai-modal" style={{ display: 'flex' }} onClick={toggleAIChat}>
+        <div className="merican-ai-modal" onClick={toggleAIChat}>
           <div className="merican-ai-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="merican-ai-header">
               <h3>{t("footer.ai.title")}</h3>
               <button className="merican-ai-close" onClick={toggleAIChat}>&times;</button>
             </div>
-            <div className="merican-ai-chat-body">
-              {chatMessages.map((msg, idx) => (
-                <div key={idx} className={`merican-ai-message ${msg.role}`}>
-                  <p>{msg.text}</p>
-                </div>
-              ))}
+            
+            <div className="merican-ai-chat-body" ref={chatBodyRef}>
+              <div className="merican-chat-inner"> {/* Wrapper for Flexbox control */}
+                {chatMessages.map((msg, idx) => (
+                  <div key={idx} className={`merican-ai-message ${msg.role}`}>
+                    <div className="markdown-content">
+                      <ReactMarkdown
+                        components={{
+                          a: ({ node, ...props }) => (
+                            <a {...props} target="_blank" rel="noopener noreferrer" />
+                          ),
+                        }}
+                      >
+                        {msg.text}
+                      </ReactMarkdown>
+                    </div>
+                  </div>
+                ))}
+                {isTyping && (
+                  <div className="merican-ai-message ai">
+                    <p><i>{lang === 'sw' ? 'Msaidizi anaandika...' : 'Assistant is typing...'}</i></p>
+                  </div>
+                )}
+              </div>
             </div>
+
             <div className="merican-ai-input-area">
               <input 
                 type="text" 
@@ -145,14 +232,16 @@ const Footer = () => {
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                disabled={isTyping}
               />
-              <button onClick={handleSendMessage}>{t("footer.ai.send")}</button>
+              <button onClick={handleSendMessage} disabled={isTyping}>
+                {isTyping ? "..." : t("footer.ai.send")}
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Cookie Popup */}
       <div className={`cookie-popup ${showCookiePopup ? 'show' : ''}`}>
         <h3 className="cookie-header">{t("footer.cookies.title")}</h3>
         <p className="cookie-text">{t("footer.cookies.text")}</p>

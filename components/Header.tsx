@@ -58,14 +58,25 @@ const HeaderContent = () => {
 
   const langLink = (path: string) => `/${lang}${path === '/' ? '' : path}`;
 
-  const handleSearchSubmit = (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (searchValue.trim()) {
-      const slugQuery = searchValue.trim().replace(/\s+/g, '-');
-      setIsSearchModalOpen(false);
-      router.push(`/${lang}/search/${slugQuery}`);
-    }
-  };
+const handleSearchSubmit = (e?: React.FormEvent) => {
+  if (e) e.preventDefault();
+
+  if (searchValue.trim()) {
+    setIsSearchModalOpen(false);
+    
+    // 1. Clean the term: remove extra spaces and replace internal spaces with '-'
+    // Example: "cold  room" becomes "cold-room"
+    const formattedTerm = searchValue
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-');
+    
+    // 2. Navigate to the dash-separated URL
+    router.push(`/${lang}/search/${formattedTerm}`);
+    
+    setSearchValue(""); 
+  }
+};
 
   const isActive = (path: string) => {
     const fullPath = `/${lang}${path === '/' ? '' : path}`;
@@ -127,15 +138,17 @@ const HeaderContent = () => {
       <div className={`merican-search-modal ${isSearchModalOpen ? 'active' : ''}`}>
         <div className="merican-search-modal-content">
           <i className="fa-solid fa-xmark merican-modal-close" onClick={() => setIsSearchModalOpen(false)} />
-          <form className="search-form" onSubmit={handleSearchSubmit}>
-            <input 
-              type="text" 
-              placeholder={t("header.searchModalPlaceholder")} 
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              autoFocus={isSearchModalOpen}
-            />
-          </form>
+<form className="search-form" onSubmit={handleSearchSubmit}>
+  <input 
+    type="text" 
+    placeholder={t("header.searchModalPlaceholder")} 
+    value={searchValue}
+    onChange={(e) => setSearchValue(e.target.value)}
+    autoFocus={isSearchModalOpen}
+  />
+  {/* If you have a search icon button, make sure it is type="submit" */}
+  <button type="submit" style={{ display: 'none' }}>Search</button>
+</form>
         </div>
       </div>
 
