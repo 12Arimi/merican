@@ -66,5 +66,108 @@
   "testimonials": {
   "sectionTitle": "Ushuhuda wa Wateja",
   "noData": "Hakuna ushuhuda wa wateja unaopatikana kwa sasa."
+},
+"ceo": {
+  "title": "Ujumbe wa Mkurugenzi Mkuu",
+  "role": "Mkurugenzi Mkuu",
+  "paragraph1": "Merican Ltd inapoendelea kukua, tumebaini uhitaji wa kubadilika kulingana na mahitaji ya sasa ya walaji sokoni. Mafanikio yetu yanachangiwa na akili za kipekee zinazoendesha biashara yetu, tukijitahidi kuendelea kuwa mwajiri wa haki ambaye hazingatii upendeleo katika mchakato wa kuajiri.",
+  "paragraph2": "Tunalenga kuendelea hivi hata katika siku zijazo tunapokua na kujiingiza zaidi katika kuwa kiongozi ndani ya tasnia ya Vifaa vya Jikoni vya Biashara.",
+  "paragraph3": "Moja ya maeneo yetu muhimu ya kipaumbele ni uwekezaji wetu katika shughuli za Uwajibikaji wa Kijamii (CSR), kwa msisitizo wa uhifadhi wa mazingira. Tunaamini katika ushiriki hai katika kutoa suluhisho kwa athari za mabadiliko ya tabianchi, ambazo zinaendelea kuathiri taifa letu na ulimwengu kwa ujumla."
+},
+"about": {
+  "title": "Kuhusu Merican Limited",
+  "subtitle": "Uundaji bora wa vifaa vya jikoni vya biashara tangu 2014",
+  "description": "Katika Merican Limited, tunajikita katika kutoa suluhisho kamili kwa jikoni za biashara. Kujitolea kwetu kwa ubora na uvumbuzi kumetufanya kuwa mshirika anayeaminika kwa biashara katika sekta nzima.",
+  "mission": "Dhamira Yetu",
+  "missionText": "Kutoa vifaa na huduma za kipekee za jikoni za biashara zinazowezesha biashara kufikia ubora wa kiutendaji na mafanikio ya upishi.",
+  "values": "Maadili Yetu",
+  "v1": "Ubora wa Hali ya Juu", "v2": "Kumlenga Mteja", "v3": "Uvumbuzi", "v4": "Uaminifu", "v5": "Huduma ya Kitaalamu",
+  "expertise": "Ujuzi Wetu",
+  "e1": "Vifaa vya Jikoni vya Biashara", "e2": "Usanifu na Upangaji wa Jikoni", "e3": "Ufungaji wa Vifaa", "e4": "Huduma za Matengenezo", "e5": "Suluhisho Maalum"
+},
+"services": {
+  "title": "Huduma Zetu",
+  "subtitle": "Suluhisho kamili za jikoni za biashara kuanzia usanifu hadi kukamilika",
+  "cad": { "title": "Mpangilio wa CAD", "desc": "Usanifu na upangaji wa kitaalamu wa jikoni kwa kutumia programu ya juu ya CAD kwa matumizi bora ya nafasi." },
+  "custom": { "title": "Uundaji Maalum", "desc": "Uundaji maalum wa chuma cha pua uliotengenezwa kulingana na mahitaji yako ya kipekee ya jikoni." },
+  "install": { "title": "Ufungaji", "desc": "Ufungaji wa kitaalamu wa vifaa vya jikoni vya biashara kwa usahihi na umakini." },
+  "test": { "title": "Upimaji", "desc": "Upimaji wa kina wa vifaa vyote vilivyowekwa ili kuhakikisha utendaji bora." },
+  "train": { "title": "Mafunzo", "desc": "Vikao vya mafunzo ya kina kwa wafanyakazi kuhusu uendeshaji na matengenezo ya vifaa." },
+  "handover": { "title": "Makabidhiano", "desc": "Makabidhiano kamili ya mradi pamoja na nyaraka na usaidizi." }
+},
+"projectsServices": {
+  "projectsTitle": "Miradi ya Jikoni za Biashara",
+  "servicesTitle": "Huduma na Matengenezo ya Jikoni za Biashara",
+  "viewBtn": "Angalia"
+},
+"contact": {
+  "banner": "Wasiliana Nasi",
+  "title": "Tufikie",
+  "subtitle": "Tungependa kusikia kutoka kwako! Wasiliana nasi kwa kutumia maelezo hapa chini au tutumie ujumbe.",
+  "locationTitle": "Mahali Petu",
+  "location": "Eneo la Viwanda, Barabara ya Nanyuki karibu na Bohari ya Mafuta ya Kitaifa, Nairobi, Kenya",
+  "callTitle": "Tupigie Simu",
+  "emailTitle": "Barua Pepe",
+  "hoursTitle": "Saa za Kazi",
+  "hoursWeek": "Jumatatu–Ijumaa: 2:00 asubuhi – 11:00 jioni",
+  "hoursSat": "Jumamosi: 2:00 asubuhi – 7:00 mchana",
+  "form": {
+    "name": "Jina",
+    "email": "Anwani ya Barua Pepe",
+    "phone": "Nambari ya Simu",
+    "subject": "Mada (Sio Lazima)",
+    "message": "Ujumbe Wako",
+    "send": "Tuma Ujumbe",
+    "success": "Asante! Ujumbe wako umetumwa."
+  }
+},
+"clients": {
+  "title": "Wateja Wetu",
+  "subtitle": "Tunajivunia kufanya kazi na wateja mbalimbali katika sekta tofauti, tukiwapa vifaa vya jikoni vya biashara vya hali ya juu.",
+  "noClients": "Hakuna wateja waliopatikana."
+},
+"partners": {
+  "title": "Washirika wa Kimkakati",
+  "subtitle": "Washirika wetu wanaoaminika hutusaidia kutoa ubora wa kipekee na uvumbuzi katika suluhisho za jikoni za biashara."
+},
+"footer": {
+  "newsletter": {
+    "title": "Jiandikishe kwa Jarida Letu",
+    "text": "Pata habari za hivi punde na ofa za kipekee moja kwa moja kwenye kisanduku chako cha barua.",
+    "placeholder": "Weka barua pepe yako"
+  },
+  "about": {
+    "title": "Kuhusu Merican Limited",
+    "text": "Ubunifu wa jikoni za biashara na vifaa vya hali ya juu, vinavyodumu na suluhisho kamili kuanzia usanifu hadi ufungaji."
+  },
+  "nav": {
+    "title": "Urambazaji",
+    "home": "Nyumbani",
+    "products": "Bidhaa",
+    "services": "Huduma na Miradi",
+    "partners": "Washirika na Wateja",
+    "blog": "Blogu",
+    "contact": "Wasiliana Nasi"
+  },
+  "contact": {
+    "title": "Wasiliana Nasi",
+    "hours": "Saa za Kazi",
+    "monFri": "Jumatatu - Ijumaa: 2:00 asubuhi hadi 11:00 jioni",
+    "sat": "Jumamosi: 2:00 asubuhi hadi 7:00 mchana"
+  },
+  "rights": "Haki zote zimehifadhiwa.",
+  "ai": {
+    "title": "Msaidizi wa AI wa Merican",
+    "welcome": "Habari! Mimi ni Msaidizi wa Merican, niko hapa kusaidia kwa mambo yote ya Merican Limited—mshirika wako katika ubora wa jikoni za biashara Nairobi.",
+    "preview": "Huu ni uhakiki wa Msaidizi wa AI wa Merican. Hivi karibuni nitaweza kujibu maswali yako yote mahususi!",
+    "placeholder": "Andika ujumbe wako...",
+    "send": "Tuma"
+  },
+  "cookies": {
+    "title": "🍪 Mapendeleo ya Vidakuzi",
+    "text": "Tunatumia vidakuzi kuboresha matumizi yako na kuchambua trafiki.",
+    "accept": "Kubali",
+    "reject": "Kataa"
+  }
 }
 }

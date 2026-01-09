@@ -1,8 +1,10 @@
 "use client";
 
 import React from 'react';
+import { useTranslation } from "../lib/useTranslation";
 
 const Partners = () => {
+  const { t } = useTranslation();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://lxvghczvmslyiiyrpzaw.supabase.co';
   const imageBasePath = `${supabaseUrl}/storage/v1/object/public/images/`;
 
@@ -19,9 +21,9 @@ const Partners = () => {
   return (
     <section className="merican-partners-section">
       <div className="merican-partners-container">
-        <h2 className="merican-partners-title">Strategic Partners</h2>
+        <h2 className="merican-partners-title">{t("partners.title")}</h2>
         <p className="merican-partners-subtitle">
-          Our trusted partners help us deliver exceptional quality and innovation in commercial kitchen solutions.
+          {t("partners.subtitle")}
         </p>
 
         <div className="merican-partners-grid">

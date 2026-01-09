@@ -50,7 +50,6 @@ const ProductCard = ({ title, images }: { title: string; images: string[] }) => 
 };
 
 const FeaturedProducts = () => {
-  // isLoading is removed as it's no longer part of the hook return
   const { t } = useTranslation();
 
   const FEATURED_DATA = [

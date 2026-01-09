@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
+import { useTranslation } from "../lib/useTranslation";
 
 interface Client {
   id: number;
@@ -13,16 +16,16 @@ interface ClientsProps {
 }
 
 const Clients = ({ initialClients }: ClientsProps) => {
+  const { t } = useTranslation();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const imageBasePath = `${supabaseUrl}/storage/v1/object/public/images/clients/`;
 
   return (
     <section className="merican-clients-section">
       <div className="merican-clients-container">
-        <h2 className="merican-clients-title">Our Clients</h2>
+        <h2 className="merican-clients-title">{t("clients.title")}</h2>
         <p className="merican-clients-subtitle">
-          We are proud to work with a diverse range of clients across various industries, 
-          providing them with high-quality commercial kitchen equipment.
+          {t("clients.subtitle")}
         </p>
 
         <div className="merican-clients-grid">
@@ -40,7 +43,7 @@ const Clients = ({ initialClients }: ClientsProps) => {
               </Link>
             ))
           ) : (
-            <p className="text-center w-full">No clients found.</p>
+            <p className="text-center w-full">{t("clients.noClients")}</p>
           )}
         </div>
       </div>

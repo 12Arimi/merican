@@ -1,20 +1,25 @@
-import React from 'react';
+"use client";
 
-const servicesData = [
-  { icon: "📐", title: "CAD Layout", desc: "Professional kitchen layout and design using advanced CAD software for optimal space utilization." },
-  { icon: "⚒️", title: "Custom Fabrication", desc: "Specialized stainless steel fabrication tailored to your unique kitchen requirements." },
-  { icon: "🔧", title: "Installation", desc: "Expert installation of commercial kitchen equipment with precision and care." },
-  { icon: "🔬", title: "Testing", desc: "Comprehensive testing of all installed equipment to ensure optimal performance." },
-  { icon: "👥", title: "Training", desc: "Detailed training sessions for staff on equipment operation and maintenance." },
-  { icon: "🤝", title: "Handover", desc: "Complete project handover with documentation and support." },
-];
+import React from 'react';
+import { useTranslation } from "../lib/useTranslation";
 
 const ServicesIcons = () => {
+  const { t } = useTranslation();
+
+  const servicesData = [
+    { icon: "📐", title: t("services.cad.title"), desc: t("services.cad.desc") },
+    { icon: "⚒️", title: t("services.custom.title"), desc: t("services.custom.desc") },
+    { icon: "🔧", title: t("services.install.title"), desc: t("services.install.desc") },
+    { icon: "🔬", title: t("services.test.title"), desc: t("services.test.desc") },
+    { icon: "👥", title: t("services.train.title"), desc: t("services.train.desc") },
+    { icon: "🤝", title: t("services.handover.title"), desc: t("services.handover.desc") },
+  ];
+
   return (
     <section className="merican-services-section">
       <div className="merican-services-container">
-        <h2 className="merican-services-title">Our Services</h2>
-        <p className="merican-services-subtitle">Comprehensive commercial kitchen solutions from design to completion</p>
+        <h2 className="merican-services-title">{t("services.title")}</h2>
+        <p className="merican-services-subtitle">{t("services.subtitle")}</p>
         <div className="merican-services-grid">
           {servicesData.map((item, index) => (
             <div key={index} className="merican-service-item">

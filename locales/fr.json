@@ -66,5 +66,108 @@
   "testimonials": {
   "sectionTitle": "Témoignages de Clients",
   "noData": "Aucun témoignage de client disponible pour le moment."
+},
+"ceo": {
+  "title": "Message du PDG",
+  "role": "Directeur Général",
+  "paragraph1": "Alors que Merican Ltd continue de croître, nous avons établi la nécessité de nous adapter aux besoins actuels des consommateurs sur le marché. Notre succès est éclairé par les esprits uniques qui dirigent notre entreprise, s'efforçant de continuer à être un employeur équitable qui n'adopte aucun parti pris dans le processus de recrutement.",
+  "paragraph2": "Nous visons à continuer dans cette voie même à l'avenir, à mesure que nous nous développons et nous aventurons davantage pour devenir le leader de l'industrie de l'équipement de cuisine commerciale.",
+  "paragraph3": "L'un de nos principaux domaines d'intervention est notre investissement dans les activités de responsabilité sociale des entreprises (RSE), en mettant l'accent sur la conservation de l'environnement. Nous croyons en une implication active dans la fourniture de solutions aux effets du changement climatique, qui continuent d'affecter notre nation et le monde en général."
+},
+"about": {
+  "title": "À Propos de Merican Limited",
+  "subtitle": "L'excellence dans l'équipement de cuisine commerciale depuis 2014",
+  "description": "Chez Merican Limited, nous nous spécialisons dans la fourniture de solutions complètes pour les cuisines commerciales. Notre engagement envers la qualité et l'innovation a fait de nous un partenaire de confiance pour les entreprises de l'industrie.",
+  "mission": "Notre Mission",
+  "missionText": "Fournir des équipements et des services de cuisine commerciale exceptionnels qui permettent aux entreprises d'atteindre l'excellence opérationnelle et le succès culinaire.",
+  "values": "Nos Valeurs",
+  "v1": "Excellence Qualité", "v2": "Orientation Client", "v3": "Innovation", "v4": "Fiabilité", "v5": "Service Professionnel",
+  "expertise": "Notre Expertise",
+  "e1": "Équipement de Cuisine Commerciale", "e2": "Conception et Planification de Cuisine", "e3": "Installation d'Équipement", "e4": "Services de Maintenance", "e5": "Solutions Sur Mesure"
+},
+"services": {
+  "title": "Nos Services",
+  "subtitle": "Solutions complètes de cuisine commerciale, de la conception à la réalisation",
+  "cad": { "title": "Planification CAD", "desc": "Conception professionnelle de la cuisine utilisant un logiciel CAD avancé pour une utilisation optimale de l'espace." },
+  "custom": { "title": "Fabrication sur Mesure", "desc": "Fabrication spécialisée en acier inoxydable adaptée à vos exigences de cuisine uniques." },
+  "install": { "title": "Installation", "desc": "Installation experte d'équipements de cuisine commerciale avec précision et soin." },
+  "test": { "title": "Tests", "desc": "Tests complets de tous les équipements installés pour garantir des performances optimales." },
+  "train": { "title": "Formation", "desc": "Sessions de formation détaillées pour le personnel sur l'utilisation et l'entretien des équipements." },
+  "handover": { "title": "Remise", "desc": "Remise complète du projet avec documentation et assistance." }
+},
+"projectsServices": {
+  "projectsTitle": "Projets de Cuisine Commerciale",
+  "servicesTitle": "Services et Entretien de Cuisine Commerciale",
+  "viewBtn": "Voir"
+},
+"contact": {
+  "banner": "Contactez-nous",
+  "title": "Contactez-nous",
+  "subtitle": "Nous aimerions avoir de vos nouvelles ! Contactez-nous en utilisant les coordonnées ci-dessous ou envoyez-nous un message.",
+  "locationTitle": "Notre Emplacement",
+  "location": "Zone Industrielle, Nanyuki Road à côté du Dépôt National de Pétrole, Nairobi, Kenya",
+  "callTitle": "Appelez-nous",
+  "emailTitle": "E-mail",
+  "hoursTitle": "Heures de Travail",
+  "hoursWeek": "Lun–Ven : 08h00 – 17h00",
+  "hoursSat": "Sam : 08h00 – 13h00",
+  "form": {
+    "name": "Nom",
+    "email": "Adresse E-mail",
+    "phone": "Numéro de Téléphone",
+    "subject": "Sujet (Facultatif)",
+    "message": "Votre Message",
+    "send": "Envoyer le Message",
+    "success": "Merci ! Votre message a été envoyé."
+  }
+},
+"clients": {
+  "title": "Nos Clients",
+  "subtitle": "Nous sommes fiers de travailler avec une gamme diversifiée de clients dans divers secteurs, en leur fournissant des équipements de cuisine commerciale de haute qualité.",
+  "noClients": "Aucun client trouvé."
+},
+"partners": {
+  "title": "Partenaires Stratégiques",
+  "subtitle": "Nos partenaires de confiance nous aident à offrir une qualité et une innovation exceptionnelles dans les solutions de cuisine commerciale."
+},
+"footer": {
+  "newsletter": {
+    "title": "Abonnez-vous à notre Newsletter",
+    "text": "Recevez les dernières nouvelles et des offres exclusives directement dans votre boîte de réception.",
+    "placeholder": "Entrez votre e-mail"
+  },
+  "about": {
+    "title": "À Propos de Merican Limited",
+    "text": "Innovation dans les cuisines commerciales avec des équipements durables de haute qualité et des solutions complètes de la conception à l'installation."
+  },
+  "nav": {
+    "title": "Navigation",
+    "home": "Accueil",
+    "products": "Produits",
+    "services": "Services et Projets",
+    "partners": "Partenaires et Clients",
+    "blog": "Blog",
+    "contact": "Contactez-nous"
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "hours": "Heures d'ouverture",
+    "monFri": "Lun - Ven : 08h00 à 17h00",
+    "sat": "Sam : 08h00 à 13h00"
+  },
+  "rights": "Tous droits réservés.",
+  "ai": {
+    "title": "Assistant IA Merican",
+    "welcome": "Bonjour ! Je suis l'assistant Merican, là pour vous aider avec tout ce qui concerne Merican Limited — votre partenaire d'excellence en cuisine commerciale à Nairobi.",
+    "preview": "Ceci est un aperçu de l'assistant IA Merican. Bientôt, je pourrai répondre à toutes vos questions spécifiques !",
+    "placeholder": "Tapez votre message...",
+    "send": "Envoyer"
+  },
+  "cookies": {
+    "title": "🍪 Préférences de Cookies",
+    "text": "Nous utilisons des cookies pour personnaliser votre expérience et analyser le trafic.",
+    "accept": "Accepter",
+    "reject": "Refuser"
+  }
 }
 }

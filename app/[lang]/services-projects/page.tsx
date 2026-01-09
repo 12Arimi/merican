@@ -7,8 +7,26 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export default async function ServicesProjectsPage() {
-  // Fetch both projects and services in parallel from the new Postgres table
+// Translation dictionary for the Server Component banner
+const translations: Record<string, string> = {
+  en: "Merican Services",
+  sw: "Huduma za Merican",
+  fr: "Services de Merican",
+  es: "Servicios de Merican",
+  de: "Merican Dienstleistungen",
+  it: "Servizi Merican"
+};
+
+interface PageProps {
+  params: Promise<{ lang?: string }>;
+}
+
+export default async function ServicesProjectsPage({ params }: PageProps) {
+  // Determine locale
+  const lang = (await params).lang || 'en';
+  const title = translations[lang] || translations.en;
+
+  // Fetch both projects and services in parallel
   const [projectsRes, servicesRes] = await Promise.all([
     supabase
       .from('projects_services')
@@ -29,14 +47,16 @@ export default async function ServicesProjectsPage() {
       {/* 🏙️ PAGE BANNER */}
       <section className="merican-page-banner">
         <div className="merican-banner-overlay">
-          <h1 className="merican-banner-title">Merican Services</h1>
+          <h1 className="merican-banner-title">{title}</h1>
         </div>
       </section>
-        <ServicesIcons />
-        <ProjectsAndServices
-          projects={projectsRes.data || []} 
-          services={servicesRes.data || []} 
-        />
+
+      {/* These components handle their own internal translations via JSON/useTranslation */}
+      <ServicesIcons />
+      <ProjectsAndServices
+        projects={projectsRes.data || []} 
+        services={servicesRes.data || []} 
+      />
     </div>
   );
 }

@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
+import { useTranslation } from "../lib/useTranslation";
 
 interface DBItem {
   slug: string;
@@ -13,6 +16,7 @@ interface ProjectsAndServicesProps {
 }
 
 const ProjectsAndServices = ({ projects, services }: ProjectsAndServicesProps) => {
+  const { t } = useTranslation();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const imagePath = `${supabaseUrl}/storage/v1/object/public/images/projects-services/`;
 
@@ -23,7 +27,6 @@ const ProjectsAndServices = ({ projects, services }: ProjectsAndServicesProps) =
         {items.map((item) => (
           <li key={item.slug} className="item-card">
             <Link href={`/services-projects/${item.slug}`} className="card-link">
-              {/* Removed onError because Server Components cannot handle events */}
               <img 
                 src={item.cover_image ? `${imagePath}${item.cover_image}` : '/images/placeholder.png'} 
                 alt={item.title} 
@@ -31,7 +34,7 @@ const ProjectsAndServices = ({ projects, services }: ProjectsAndServicesProps) =
               <span>{item.title}</span>
             </Link>
             <Link href={`/services-projects/${item.slug}`} className="view-btn">
-              View →
+              {t("projectsServices.viewBtn")} →
             </Link>
           </li>
         ))}
@@ -42,8 +45,8 @@ const ProjectsAndServices = ({ projects, services }: ProjectsAndServicesProps) =
   return (
     <section className="commercial-kitchen-section">
       <div className="commercial-kitchen-container">
-        {renderList("Commercial Kitchen Projects", projects)}
-        {renderList("Commercial Kitchen Services & Maintenance", services)}
+        {renderList(t("projectsServices.projectsTitle"), projects)}
+        {renderList(t("projectsServices.servicesTitle"), services)}
       </div>
     </section>
   );

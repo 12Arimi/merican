@@ -66,5 +66,108 @@
   "testimonials": {
   "sectionTitle": "Testimonios de Clientes",
   "noData": "No hay testimonios de clientes disponibles en este momento."
+},
+"ceo": {
+  "title": "Mensaje del CEO",
+  "role": "Director Ejecutivo",
+  "paragraph1": "A medida que Merican Ltd continúa creciendo, hemos establecido la necesidad de adaptarnos a las necesidades actuales de los consumidores dentro del mercado. Nuestro éxito se basa en las mentes únicas que dirigen nuestro negocio, esforzándonos por seguir siendo un empleador justo que no adopta sesgos en el proceso de contratación.",
+  "paragraph2": "Nuestro objetivo es continuar en esta línea incluso en el futuro, a medida que crecemos y nos aventuramos más allá para ser el líder dentro de la industria de Equipos de Cocina Comercial.",
+  "paragraph3": "Una de nuestras áreas de enfoque clave es nuestra inversión en actividades de Responsabilidad Social Corporativa (RSC), con énfasis en la conservación del medio ambiente. Creemos en la participación activa en la provisión de soluciones para los efectos del cambio climático, que continúan afectando a nuestra nación y al mundo en general."
+},
+"about": {
+  "title": "Sobre Merican Limited",
+  "subtitle": "Creando excelencia en equipos de cocina comercial desde 2014",
+  "description": "En Merican Limited, nos especializamos en brindar soluciones integrales para cocinas comerciales. Nuestro compromiso con la calidad y la innovación nos ha convertido en un socio de confianza para las empresas del sector.",
+  "mission": "Nuestra Misión",
+  "missionText": "Entregar equipos y servicios de cocina comercial excepcionales que permitan a las empresas alcanzar la excelencia operativa y el éxito culinario.",
+  "values": "Nuestros Valores",
+  "v1": "Excelencia en Calidad", "v2": "Enfoque al Cliente", "v3": "Innovación", "v4": "Confiabilidad", "v5": "Servicio Profesional",
+  "expertise": "Nuestra Experiencia",
+  "e1": "Equipos de Cocina Comercial", "e2": "Diseño y Planificación de Cocinas", "e3": "Instalación de Equipos", "e4": "Servicios de Mantenimiento", "e5": "Soluciones Personalizadas"
+},
+"services": {
+  "title": "Nuestros Servicios",
+  "subtitle": "Soluciones integrales de cocina comercial desde el diseño hasta la finalización",
+  "cad": { "title": "Diseño CAD", "desc": "Diseño profesional de cocinas utilizando software CAD avanzado para una utilización óptima del espacio." },
+  "custom": { "title": "Fabricación a Medida", "desc": "Fabricación especializada en acero inoxidable adaptada a sus requisitos únicos de cocina." },
+  "install": { "title": "Instalación", "desc": "Instalación experta de equipos de cocina comercial con precisión y cuidado." },
+  "test": { "title": "Pruebas", "desc": "Pruebas exhaustivas de todos los equipos instalados para garantizar un rendimiento óptimo." },
+  "train": { "title": "Capacitación", "desc": "Sesiones detalladas para el personal sobre el funcionamiento y mantenimiento de los equipos." },
+  "handover": { "title": "Entrega", "desc": "Entrega completa del proyecto con documentación y soporte." }
+},
+"projectsServices": {
+  "projectsTitle": "Proyectos de Cocina Comercial",
+  "servicesTitle": "Servicios y Mantenimiento de Cocina Comercial",
+  "viewBtn": "Ver"
+},
+"contact": {
+  "banner": "Contáctenos",
+  "title": "Póngase en Contacto",
+  "subtitle": "¡Nos encantaría saber de usted! Póngase en contacto con nosotros utilizando los detalles a continuación o envíenos un mensaje.",
+  "locationTitle": "Nuestra Ubicación",
+  "location": "Área Industrial, Nanyuki Road junto al Depósito Nacional de Petróleo, Nairobi, Kenia",
+  "callTitle": "Llámenos",
+  "emailTitle": "Correo Electrónico",
+  "hoursTitle": "Horas de Trabajo",
+  "hoursWeek": "Lun–Vie: 8:00am – 5:00pm",
+  "hoursSat": "Sáb: 8:00am – 1:00pm",
+  "form": {
+    "name": "Nombre",
+    "email": "Correo Electrónico",
+    "phone": "Número de Teléfono",
+    "subject": "Asunto (Opcional)",
+    "message": "Su Mensaje",
+    "send": "Enviar Mensaje",
+    "success": "¡Gracias! Tu mensaje ha sido enviado."
+  }
+},
+"clients": {
+  "title": "Nuestros Clientes",
+  "subtitle": "Estamos orgullosos de trabajar con una amplia gama de clientes en diversas industrias, brindándoles equipos de cocina comercial de alta calidad.",
+  "noClients": "No se encontraron clientes."
+},
+"partners": {
+  "title": "Socios Estratégicos",
+  "subtitle": "Nuestros socios de confianza nos ayudan a ofrecer una calidad e innovación excepcionales en soluciones de cocina comercial."
+},
+"footer": {
+  "newsletter": {
+    "title": "Suscríbete a nuestro Boletín",
+    "text": "Recibe las últimas noticias y ofertas exclusivas directamente en tu bandeja de entrada.",
+    "placeholder": "Introduce tu correo"
+  },
+  "about": {
+    "title": "Sobre Merican Limited",
+    "text": "Innovando en cocinas comerciales con equipos duraderos de alta calidad y soluciones integrales desde el diseño hasta la instalación."
+  },
+  "nav": {
+    "title": "Navegación",
+    "home": "Inicio",
+    "products": "Productos",
+    "services": "Servicios y Proyectos",
+    "partners": "Socios y Clientes",
+    "blog": "Blog",
+    "contact": "Contáctenos"
+  },
+  "contact": {
+    "title": "Contáctenos",
+    "hours": "Horario Comercial",
+    "monFri": "Lun - Vie: 8:00am a 5:00pm",
+    "sat": "Sáb: 8:00am a 1:00pm"
+  },
+  "rights": "Todos los derechos reservados.",
+  "ai": {
+    "title": "Asistente IA de Merican",
+    "welcome": "¡Hola! Soy el Asistente de Merican, aquí para ayudarte con todo lo relacionado con Merican Limited: tu socio en la excelencia de cocinas comerciales en Nairobi.",
+    "preview": "Esta es una vista previa del Asistente IA de Merican. ¡Pronto podré responder a todas tus consultas específicas!",
+    "placeholder": "Escribe tu mensaje...",
+    "send": "Enviar"
+  },
+  "cookies": {
+    "title": "🍪 Preferencias de Cookies",
+    "text": "Utilizamos cookies para personalizar su experiencia y analizar el tráfico.",
+    "accept": "Aceptar",
+    "reject": "Rechazar"
+  }
 }
 }

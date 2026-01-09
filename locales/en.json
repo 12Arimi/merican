@@ -65,5 +65,108 @@
   "testimonials": {
     "sectionTitle": "Client Testimonials",
     "noData": "No client testimonials available at the moment."
+  },
+  "ceo": {
+  "title": "CEO’s Message",
+  "role": "Chief Executive Officer",
+  "paragraph1": "As Merican Ltd continues to grow, we have established the need for adapting to the current consumer needs within the market. Our success is informed by the unique minds we have running our business, striving to continue as a fair employer that adopts no bias in the recruitment process.",
+  "paragraph2": "We aim to continue in this light even in the future as we grow and venture further into being the leader within the Commercial Kitchen Equipment industry.",
+  "paragraph3": "One of our key focus areas is our investment in Corporate Social Responsibility (CSR) activities, with emphasis on environmental conservation. We believe in active involvement in providing solutions for climate change effects, which continue to affect our nation and the world at large."
+},
+"about": {
+  "title": "About Merican Limited",
+  "subtitle": "Crafting excellence in commercial kitchen equipment since 2014",
+  "description": "At Merican Limited, we specialize in providing comprehensive solutions for commercial kitchens. Our commitment to quality and innovation has made us a trusted partner for businesses across the industry.",
+  "mission": "Our Mission",
+  "missionText": "To deliver exceptional commercial kitchen equipment and services that empower businesses to achieve operational excellence and culinary success.",
+  "values": "Our Values",
+  "v1": "Quality Excellence", "v2": "Customer Focus", "v3": "Innovation", "v4": "Reliability", "v5": "Professional Service",
+  "expertise": "Our Expertise",
+  "e1": "Commercial Kitchen Equipment", "e2": "Kitchen Design and Planning", "e3": "Equipment Installation", "e4": "Maintenance Services", "e5": "Custom Solutions"
+},
+"services": {
+  "title": "Our Services",
+  "subtitle": "Comprehensive commercial kitchen solutions from design to completion",
+  "cad": { "title": "CAD Layout", "desc": "Professional kitchen layout and design using advanced CAD software for optimal space utilization." },
+  "custom": { "title": "Custom Fabrication", "desc": "Specialized stainless steel fabrication tailored to your unique kitchen requirements." },
+  "install": { "title": "Installation", "desc": "Expert installation of commercial kitchen equipment with precision and care." },
+  "test": { "title": "Testing", "desc": "Comprehensive testing of all installed equipment to ensure optimal performance." },
+  "train": { "title": "Training", "desc": "Detailed training sessions for staff on equipment operation and maintenance." },
+  "handover": { "title": "Handover", "desc": "Complete project handover with documentation and support." }
+},
+"projectsServices": {
+  "projectsTitle": "Commercial Kitchen Projects",
+  "servicesTitle": "Commercial Kitchen Services & Maintenance",
+  "viewBtn": "View"
+},
+"contact": {
+  "banner": "Contact Us",
+  "title": "Get In Touch",
+  "subtitle": "We’d love to hear from you! Reach out using the details below or send us a message.",
+  "locationTitle": "Our Location",
+  "location": "Industrial Area, Nanyuki Road next to National Oil Depot, Nairobi, Kenya",
+  "callTitle": "Call Us",
+  "emailTitle": "Email",
+  "hoursTitle": "Working Hours",
+  "hoursWeek": "Mon–Fri: 8:00am – 5:00pm",
+  "hoursSat": "Sat: 8:00am – 1:00pm",
+  "form": {
+    "name": "Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "subject": "Subject (Optional)",
+    "message": "Your Message",
+    "send": "Send Message",
+    "success": "Thank you! Your message has been sent."
   }
+},
+"clients": {
+  "title": "Our Clients",
+  "subtitle": "We are proud to work with a diverse range of clients across various industries, providing them with high-quality commercial kitchen equipment.",
+  "noClients": "No clients found."
+},
+"partners": {
+  "title": "Strategic Partners",
+  "subtitle": "Our trusted partners help us deliver exceptional quality and innovation in commercial kitchen solutions."
+},
+"footer": {
+  "newsletter": {
+    "title": "Subscribe to our Newsletter",
+    "text": "Get the latest news and exclusive offers delivered straight to your inbox.",
+    "placeholder": "Enter your email"
+  },
+  "about": {
+    "title": "About Merican Limited",
+    "text": "Innovating commercial kitchens with high-quality, durable equipment and full-service solutions from design to installation."
+  },
+  "nav": {
+    "title": "Navigation",
+    "home": "Home",
+    "products": "Products",
+    "services": "Services & Projects",
+    "partners": "Partners & Clients",
+    "blog": "Blog",
+    "contact": "Contact Us"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "hours": "Business Hours",
+    "monFri": "Mon - Fri: 8:00am to 5:00pm",
+    "sat": "Sat: 8:00am to 1:00pm"
+  },
+  "rights": "All rights reserved.",
+  "ai": {
+    "title": "Merican AI Assistant",
+    "welcome": "Hello! I'm Merican Assistant, here to help with all things Merican Limited—your partner in commercial kitchen excellence in Nairobi.",
+    "preview": "This is a preview of the Merican AI Assistant. Soon I will be able to answer all your specific inquiries!",
+    "placeholder": "Type your message...",
+    "send": "Send"
+  },
+  "cookies": {
+    "title": "🍪 Cookie Preferences",
+    "text": "We use cookies to personalize your experience and analyze traffic.",
+    "accept": "Accept",
+    "reject": "Reject"
+  }
+}
 }

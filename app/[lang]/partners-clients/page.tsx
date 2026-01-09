@@ -8,8 +8,26 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export default async function PartnersPage() {
-  // 1. Fetch data on the server before anything is sent to the user
+// Translation dictionary for the Server Component
+const translations: Record<string, string> = {
+  en: "Partners and Clients",
+  sw: "Washirika na Wateja",
+  fr: "Partenaires et Clients",
+  es: "Socios y Clientes",
+  de: "Partner und Kunden",
+  it: "Partner e Clienti"
+};
+
+interface PageProps {
+  params: Promise<{ lang?: string }>; // If your folder structure uses [lang]
+}
+
+export default async function PartnersPage({ params }: PageProps) {
+  // Determine locale (default to 'en' if not found)
+  const lang = (await params).lang || 'en';
+  const title = translations[lang] || translations.en;
+
+  // Fetch data on the server
   const { data: clients } = await supabase
     .from('clients')
     .select('id, name, slug, logo')
@@ -17,14 +35,15 @@ export default async function PartnersPage() {
 
   return (
     <div>
-      
       <section className="merican-page-banner">
         <div className="merican-banner-overlay">
-          <h1 className="merican-banner-title">Partners and Clients</h1>
+          <h1 className="merican-banner-title">{title}</h1>
         </div>
       </section>
-        <Clients initialClients={clients || []} />        
-        <Partners />
+      
+      {/* These child components already use "use client" and useTranslation() internally */}
+      <Clients initialClients={clients || []} />        
+      <Partners />
     </div>
   );
 }

@@ -66,5 +66,108 @@
 "testimonials": {
   "sectionTitle": "Kundenstimmen",
   "noData": "Momentan sind keine Kundenbewertungen verfügbar."
+},
+"ceo": {
+  "title": "Botschaft des CEO",
+  "role": "Geschäftsführer",
+  "paragraph1": "Während Merican Ltd weiter wächst, haben wir die Notwendigkeit festgestellt, uns an die aktuellen Verbraucherbedürfnisse auf dem Markt anzupassen. Unser Erfolg wird von den einzigartigen Köpfen geprägt, die unser Unternehmen führen, und wir streben danach, weiterhin ein fairer Arbeitgeber zu sein, der im Einstellungsprozess keine Voreingenommenheit zulässt.",
+  "paragraph2": "Wir streben danach, diesen Weg auch in Zukunft fortzusetzen, während wir wachsen und uns weiter zum Marktführer in der Branche für gewerbliche Küchengeräte entwickeln.",
+  "paragraph3": "Einer unserer Schwerpunkte ist unser Investment in Aktivitäten der unternehmerischen Sozialverantwortung (CSR) mit Schwerpunkt auf dem Umweltschutz. Wir glauben an ein aktives Engagement bei der Bereitstellung von Lösungen für die Auswirkungen des Klimawandels, die unsere Nation und die Welt im Großen und Ganzen weiterhin betreffen."
+},
+"about": {
+  "title": "Über Merican Limited",
+  "subtitle": "Exzellenz bei gewerblichen Küchengeräten seit 2014",
+  "description": "Bei Merican Limited sind wir auf umfassende Lösungen für gewerbliche Küchen spezialisiert. Unser Engagement für Qualität und Innovation hat uns zu einem vertrauenswürdigen Partner für Unternehmen in der gesamten Branche gemacht.",
+  "mission": "Unsere Mission",
+  "missionText": "Außergewöhnliche gewerbliche Küchengeräte und Dienstleistungen zu liefern, die Unternehmen dabei unterstützen, operative Exzellenz und kulinarischen Erfolg zu erzielen.",
+  "values": "Unsere Werte",
+  "v1": "Qualitätsexzellenz", "v2": "Kundenorientierung", "v3": "Innovation", "v4": "Zuverlässigkeit", "v5": "Professioneller Service",
+  "expertise": "Unsere Expertise",
+  "e1": "Gewerbliche Küchenausstattung", "e2": "Küchendesign und -planung", "e3": "Geräteinstallation", "e4": "Wartungsdienste", "e5": "Maßgeschneiderte Lösungen"
+},
+"services": {
+  "title": "Unsere Dienstleistungen",
+  "subtitle": "Umfassende gewerbliche Küchenlösungen von der Planung bis zur Fertigstellung",
+  "cad": { "title": "CAD-Planung", "desc": "Professionelle Küchenplanung und -design mit modernster CAD-Software für optimale Raumnutzung." },
+  "custom": { "title": "Maßanfertigung", "desc": "Spezialisierte Edelstahlfertigung, zugeschnitten auf Ihre einzigartigen Küchenanforderungen." },
+  "install": { "title": "Installation", "desc": "Fachgerechte Installation gewerblicher Küchengeräte mit Präzision und Sorgfalt." },
+  "test": { "title": "Prüfung", "desc": "Umfassende Tests aller installierten Geräte, um eine optimale Leistung zu gewährleisten." },
+  "train": { "title": "Schulung", "desc": "Detaillierte Schulungen für das Personal zu Betrieb und Wartung der Geräte." },
+  "handover": { "title": "Übergabe", "desc": "Vollständige Projektübergabe mit Dokumentation und Support." }
+},
+"projectsServices": {
+  "projectsTitle": "Gewerbliche Küchenprojekte",
+  "servicesTitle": "Gewerbliche Küchendienstleistungen & Wartung",
+  "viewBtn": "Ansehen"
+},
+"contact": {
+  "banner": "Kontaktieren Sie uns",
+  "title": "Treten Sie mit uns in Kontakt",
+  "subtitle": "Wir würden uns freuen, von Ihnen zu hören! Kontaktieren Sie uns über die unten stehenden Angaben oder senden Sie uns eine Nachricht.",
+  "locationTitle": "Unser Standort",
+  "location": "Industriegebiet, Nanyuki Road neben dem Nationalen Öldepot, Nairobi, Kenia",
+  "callTitle": "Rufen Sie uns an",
+  "emailTitle": "E-Mail",
+  "hoursTitle": "Arbeitszeiten",
+  "hoursWeek": "Mo–Fr: 8:00 – 17:00 Uhr",
+  "hoursSat": "Sa: 8:00 – 13:00 Uhr",
+  "form": {
+    "name": "Name",
+    "email": "E-Mail-Adresse",
+    "phone": "Telefonnummer",
+    "subject": "Betreff (Optional)",
+    "message": "Ihre Nachricht",
+    "send": "Nachricht senden",
+    "success": "Vielen Dank! Ihre Nachricht wurde gesendet."
+  }
+},
+"clients": {
+  "title": "Unsere Kunden",
+  "subtitle": "Wir sind stolz darauf, mit einer Vielzahl von Kunden aus verschiedenen Branchen zusammenzuarbeiten und sie mit hochwertigen gewerblichen Küchengeräten zu beliefern.",
+  "no,Clients": "Keine Kunden gefunden."
+},
+"partners": {
+  "title": "Strategische Partner",
+  "subtitle": "Unsere vertrauenswürdigen Partner helfen uns, außergewöhnliche Qualität und Innovation bei gewerblichen Küchenlösungen zu liefern."
+},
+"footer": {
+  "newsletter": {
+    "title": "Abonnieren Sie unseren Newsletter",
+    "text": "Erhalten Sie die neuesten Nachrichten und exklusiven Angebote direkt in Ihren Posteingang.",
+    "placeholder": "E-Mail eingeben"
+  },
+  "about": {
+    "title": "Über Merican Limited",
+    "text": "Innovation in gewerblichen Küchen mit hochwertigen, langlebigen Geräten und Komplettlösungen von der Planung bis zur Installation."
+  },
+  "nav": {
+    "title": "Navigation",
+    "home": "Startseite",
+    "products": "Produkte",
+    "services": "Dienstleistungen & Projekte",
+    "partners": "Partner & Kunden",
+    "blog": "Blog",
+    "contact": "Kontaktieren Sie uns"
+  },
+  "contact": {
+    "title": "Kontaktieren Sie uns",
+    "hours": "Geschäftszeiten",
+    "monFri": "Mo - Fr: 8:00 bis 17:00 Uhr",
+    "sat": "Sa: 8:00 bis 13:00 Uhr"
+  },
+  "rights": "Alle Rechte vorbehalten.",
+  "ai": {
+    "title": "Merican KI-Assistent",
+    "welcome": "Hallo! Ich bin der Merican-Assistent und helfe Ihnen bei allen Fragen rund um Merican Limited – Ihrem Partner für exzellente gewerbliche Küchen in Nairobi.",
+    "preview": "Dies ist eine Vorschau des Merican KI-Assistenten. Bald werde ich in der Lage sein, alle Ihre spezifischen Anfragen zu beantworten!",
+    "placeholder": "Nachricht eingeben...",
+    "send": "Senden"
+  },
+  "cookies": {
+    "title": "🍪 Cookie-Einstellungen",
+    "text": "Wir verwenden Cookies, um Ihr Erlebnis zu personalisieren und den Datenverkehr zu analysieren.",
+    "accept": "Akzeptieren",
+    "reject": "Ablehnen"
+  }
 }
 }

@@ -66,5 +66,108 @@
   "testimonials": {
   "sectionTitle": "Testimonianze dei Clienti",
   "noData": "Al momento non sono disponibili testimonianze dei clienti."
+},
+"ceo": {
+  "title": "Messaggio del CEO",
+  "role": "Amministratore Delegato",
+  "paragraph1": "Mentre Merican Ltd continua a crescere, abbiamo stabilito la necessità di adattarci alle attuali esigenze dei consumatori all'interno del mercato. Il nostro successo è guidato dalle menti uniche che gestiscono la nostra attività, sforzandoci di continuare a essere un datore di lavoro equo che non adotta pregiudizi nel processo di reclutamento.",
+  "paragraph2": "Miriamo a continuare in questa luce anche in futuro, man mano che cresciamo e ci avventuriamo ulteriormente per essere leader nel settore delle attrezzature per cucine professionali.",
+  "paragraph3": "Una delle nostre aree di interesse chiave è il nostro investimento in attività di Responsabilità Sociale d'Impresa (CSR), con particolare enfasi sulla conservazione dell'ambiente. Crediamo nel coinvolgimento attivo nel fornire soluzioni per gli effetti del cambiamento climatico, che continuano a influenzare la nostra nazione e il mondo in generale."
+},
+"about": {
+  "title": "Informazioni su Merican Limited",
+  "subtitle": "Eccellenza nelle attrezzature per cucine professionali dal 2014",
+  "description": "In Merican Limited, siamo specializzati nella fornitura di soluzioni complete per cucine professionali. Il nostro impegno per la qualità e l'innovazione ci ha reso un partner di fiducia per le aziende del settore.",
+  "mission": "La Nostra Missione",
+  "missionText": "Fornire attrezzature e servizi per cucine professionali eccezionali che consentano alle aziende di raggiungere l'eccellenza operativa e il successo culinario.",
+  "values": "I Nostri Valori",
+  "v1": "Eccellenza Qualitativa", "v2": "Focus sul Cliente", "v3": "Innovazione", "v4": "Affidabilità", "v5": "Servizio Professionale",
+  "expertise": "La Nostra Esperienza",
+  "e1": "Attrezzature per Cucine Professionali", "e2": "Progettazione e Pianificazione Cucine", "e3": "Installazione Attrezzature", "e4": "Servizi di Manutenzione", "e5": "Soluzioni Personalizzate"
+},
+"services": {
+  "title": "I Nostri Servizi",
+  "subtitle": "Soluzioni complete per cucine professionali, dalla progettazione alla realizzazione",
+  "cad": { "title": "Layout CAD", "desc": "Progettazione professionale della cucina utilizzando software CAD avanzati per l'ottimizzazione degli spazi." },
+  "custom": { "title": "Lavorazioni su Misura", "desc": "Lavorazioni specializzate in acciaio inossidabile adattate alle vostre esigenze specifiche." },
+  "install": { "title": "Installazione", "desc": "Installazione esperta di attrezzature per cucine professionali con precisione e cura." },
+  "test": { "title": "Collaudo", "desc": "Test completi su tutte le attrezzature installate per garantire prestazioni ottimali." },
+  "train": { "title": "Formazione", "desc": "Sessioni di formazione dettagliate per il personale sul funzionamento e la manutenzione." },
+  "handover": { "title": "Consegna", "desc": "Consegna completa del progetto con documentazione e supporto." }
+},
+"projectsServices": {
+  "projectsTitle": "Progetti di Cucine Professionali",
+  "servicesTitle": "Servizi e Manutenzione Cucine Professionali",
+  "viewBtn": "Visualizza"
+},
+"contact": {
+  "banner": "Contattaci",
+  "title": "Mettiti in Contatto",
+  "subtitle": "Ci piacerebbe avere tue notizie! Contattaci utilizzando i dettagli qui sotto o inviaci un messaggio.",
+  "locationTitle": "La Nostra Posizione",
+  "location": "Area Industriale, Nanyuki Road accanto al Deposito Nazionale del Petrolio, Nairobi, Kenya",
+  "callTitle": "Chiamaci",
+  "emailTitle": "E-mail",
+  "hoursTitle": "Orari di Lavoro",
+  "hoursWeek": "Lun–Ven: 08:00 – 17:00",
+  "hoursSat": "Sab: 08:00 – 13:00",
+  "form": {
+    "name": "Nome",
+    "email": "Indirizzo E-mail",
+    "phone": "Numero di Telefono",
+    "subject": "Oggetto (Opzionale)",
+    "message": "Il tuo Messaggio",
+    "send": "Invia Messaggio",
+    "success": "Grazie! Il tuo messaggio è stato inviato."
+  }
+},
+"clients": {
+  "title": "I Nostri Clienti",
+  "subtitle": "Siamo orgogliosi di collaborare con una vasta gamma di clienti in vari settori, fornendo loro attrezzature per cucine professionali di alta qualità.",
+  "noClients": "Nessun cliente trovato."
+},
+"partners": {
+  "title": "Partner Strategici",
+  "subtitle": "I nostri partner di fiducia ci aiutano a fornire qualità e innovazione eccezionali nelle soluzioni per cucine professionali."
+},
+"footer": {
+  "newsletter": {
+    "title": "Iscriviti alla nostra Newsletter",
+    "text": "Ricevi le ultime notizie e offerte esclusive direttamente nella tua casella di posta.",
+    "placeholder": "Inserisci la tua email"
+  },
+  "about": {
+    "title": "Informazioni su Merican Limited",
+    "text": "Innovazione nelle cucine professionali con attrezzature durevoli di alta qualità e soluzioni complete dalla progettazione all'installazione."
+  },
+  "nav": {
+    "title": "Navigazione",
+    "home": "Home",
+    "products": "Prodotti",
+    "services": "Servizi e Progetti",
+    "partners": "Partner e Clienti",
+    "blog": "Blog",
+    "contact": "Contattaci"
+  },
+  "contact": {
+    "title": "Contattaci",
+    "hours": "Orari di Apertura",
+    "monFri": "Lun - Ven: dalle 08:00 alle 17:00",
+    "sat": "Sab: dalle 08:00 alle 13:00"
+  },
+  "rights": "Tutti i diritti riservati.",
+  "ai": {
+    "title": "Assistente IA Merican",
+    "welcome": "Ciao! Sono l'Assistente Merican, qui per aiutarti con tutto ciò che riguarda Merican Limited: il tuo partner d'eccellenza per le cucine professionali a Nairobi.",
+    "preview": "Questa è un'anteprima dell'Assistente IA Merican. Presto sarò in grado di rispondere a tutte le tue richieste specifiche!",
+    "placeholder": "Scrivi un messaggio...",
+    "send": "Invia"
+  },
+  "cookies": {
+    "title": "🍪 Preferenze sui Cookie",
+    "text": "Utilizziamo i cookie per personalizzare la tua esperienza e analizzare il traffico.",
+    "accept": "Accetta",
+    "reject": "Rifiuta"
+  }
 }
 }

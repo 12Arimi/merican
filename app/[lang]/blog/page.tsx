@@ -19,10 +19,7 @@ export default async function BlogPage() {
 
   return (
     <div>
-        <Suspense fallback={<div className="p-10 text-center">Loading Blog Posts...</div>}>
-          {/* Pass the data directly to the client component */}
-          <Blogs initialData={initialBlogs || []} />
-        </Suspense>
+      <Blogs initialData={initialBlogs || []} />
     </div>
   );
 }

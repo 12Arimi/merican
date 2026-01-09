@@ -1,50 +1,49 @@
 "use client";
 
 import React from 'react';
+import { useTranslation } from "../lib/useTranslation";
 
 const About = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="merican-about-section">
       <div className="merican-about-container">
-        <h2 className="merican-about-title">About Merican Limited</h2>
-        <p className="merican-about-subtitle">Crafting excellence in commercial kitchen equipment since 2014</p>
+        <h2 className="merican-about-title">{t("about.title")}</h2>
+        <p className="merican-about-subtitle">{t("about.subtitle")}</p>
 
         <p className="merican-about-description">
-          At Merican Limited, we specialize in providing comprehensive solutions for commercial kitchens. 
-          Our commitment to quality and innovation has made us a trusted partner for businesses across the industry.
+          {t("about.description")}
         </p>
 
         <div className="merican-about-grid">
           {/* Mission Card */}
           <div className="merican-about-card">
-            <h3 className="merican-about-card-title">Our Mission</h3>
-            <p>
-              To deliver exceptional commercial kitchen equipment and services that empower businesses 
-              to achieve operational excellence and culinary success.
-            </p>
+            <h3 className="merican-about-card-title">{t("about.mission")}</h3>
+            <p>{t("about.missionText")}</p>
           </div>
 
           {/* Values Card */}
           <div className="merican-about-card">
-            <h3 className="merican-about-card-title">Our Values</h3>
+            <h3 className="merican-about-card-title">{t("about.values")}</h3>
             <ul className="merican-about-list">
-              <li>Quality Excellence</li>
-              <li>Customer Focus</li>
-              <li>Innovation</li>
-              <li>Reliability</li>
-              <li>Professional Service</li>
+              <li>{t("about.v1")}</li>
+              <li>{t("about.v2")}</li>
+              <li>{t("about.v3")}</li>
+              <li>{t("about.v4")}</li>
+              <li>{t("about.v5")}</li>
             </ul>
           </div>
 
           {/* Expertise Card */}
           <div className="merican-about-card">
-            <h3 className="merican-about-card-title">Our Expertise</h3>
+            <h3 className="merican-about-card-title">{t("about.expertise")}</h3>
             <ul className="merican-about-list">
-              <li>Commercial Kitchen Equipment</li>
-              <li>Kitchen Design and Planning</li>
-              <li>Equipment Installation</li>
-              <li>Maintenance Services</li>
-              <li>Custom Solutions</li>
+              <li>{t("about.e1")}</li>
+              <li>{t("about.e2")}</li>
+              <li>{t("about.e3")}</li>
+              <li>{t("about.e4")}</li>
+              <li>{t("about.e5")}</li>
             </ul>
           </div>
         </div>
