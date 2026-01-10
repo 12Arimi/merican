@@ -94,21 +94,25 @@ body {
 }
 /* NEW: Search Icon visibility */
 .merican-search-icon-mobile {
-  display: none; /* Hidden by default (desktop) */
+  display: none!important; /* Hidden by default (desktop) */
+}
+.lang-icon {
+  display: none!important;
 }
 .language-selector {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
+
 .language-selector select {
-    border: 1px solid #dadbdb;
-    padding: 0.3rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    outline: none;
+  border: 1px solid #dadbdb;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
 }
 /* SEARCH MODAL STYLES */
 .merican-search-modal {
@@ -267,7 +271,7 @@ body {
   }
   /* SHOW THE SEARCH ICON */
   .merican-search-icon-mobile {
-    display: block;
+    display: block!important;
   }
   /* Adjust mobile icon gap */
   .merican-nav-icons {
@@ -294,20 +298,13 @@ body {
   .language-selector {
     position: relative;
   }
-  
+
   .language-selector select {
-    position: absolute;
-    top: 100%;
-    right: 0; /* Align to right for better mobile fit */
-    display: none; /* Hidden by default on small screens */
-    background: #ffffff;
-    border: 1px solid #dadbdb;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 101;
-    min-width: 120px; /* Ensure it doesn't collapse */
-    font-size: 0.85rem;
-    padding: 0.2rem 0.4rem;
+    position: static;      /* same flow as desktop */
+    display: block;        /* always visible */
+    min-width: auto;
+    box-shadow: none;
+    font-size: 0.9rem;
   }
   
   .language-selector.active select {
@@ -1211,6 +1208,7 @@ body {
   background-color: #ffffff;
   padding: 80px 20px;
   text-align: center;
+  overflow: hidden; /* Prevents horizontal scrollbar during transitions */
 }
 
 .merican-testimonials-title {
@@ -1223,26 +1221,43 @@ body {
 .merican-testimonials-container {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
 }
 
-.merican-testimonials-grid {
+/* 🧱 Swiper Wrapper Adjustments */
+.merican-testimonials-swiper {
+  padding: 20px 10px 60px 10px !important; /* Extra bottom padding for pagination */
+}
+
+/* Force all slides to have equal height */
+.merican-testimonials-swiper .swiper-wrapper {
   display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  align-items: stretch;
 }
 
-/* 🧱 Testimonial Card */
+.merican-testimonials-swiper .swiper-slide {
+  height: auto; /* Allows flex stretch to work */
+  display: flex;
+}
+
+/* 🧱 Redone Testimonial Card */
 .merican-testimonial-card {
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   overflow: hidden;
-  width: 360px;
+  
+  /* REMOVED FIXED WIDTH: Swiper handles this now */
+  width: 100%; 
+  
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: left;
+  
+  /* ENSURE EQUAL HEIGHT */
+  flex: 1; 
+  height: 100%;
 }
 
 .merican-testimonial-card:hover {
@@ -1250,10 +1265,11 @@ body {
   box-shadow: 0 10px 20px rgba(0,0,0,0.12);
 }
 
-/* 🖼 Image (No Fade) */
+/* 🖼 Image Section */
 .merican-testimonial-image {
   width: 100%;
   height: 240px;
+  min-height: 240px; /* Keep image area consistent */
   overflow: hidden;
 }
 
@@ -1263,13 +1279,12 @@ body {
   object-fit: cover;
 }
 
-/* ✍️ Content */
+/* ✍️ Content Area */
 .merican-testimonial-content {
-  padding: 20px 25px 25px 25px;
-  flex: 1;
+  padding: 25px;
+  flex: 1; /* Pushes client info to the bottom */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .merican-testimonial-message {
@@ -1277,6 +1292,7 @@ body {
   color: #555;
   margin-bottom: 25px;
   line-height: 1.6;
+  flex-grow: 1; /* Ensures text area takes up available space */
 }
 
 /* 👤 Client Info */
@@ -1285,11 +1301,14 @@ body {
   align-items: center;
   justify-content: flex-start;
   gap: 12px;
+  margin-top: auto; /* Sticks to the bottom of the card */
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
 }
 
 .merican-testimonial-client img {
-  width: 55px;
-  height: 55px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: 2px solid #2a6eb0;
   object-fit: cover;
@@ -1303,19 +1322,35 @@ body {
 }
 
 .merican-testimonial-company {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #777;
+  display: block;
 }
 
-/* 📱 Responsive */
-@media (max-width: 768px) {
-  .merican-testimonials-grid {
-    flex-direction: column;
-    align-items: center;
-  }
+/* 🔘 Styled Progress Bullets */
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #cbd5e0;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
 
-  .merican-testimonial-card {
-    width: 90%;
+.swiper-pagination-bullet-active {
+  background: #2a6eb0 !important;
+  width: 30px; /* Long "pill" shape for active status */
+  border-radius: 5px;
+}
+
+/* 📱 Mobile Adjustments */
+@media (max-width: 768px) {
+  .merican-testimonials {
+    padding: 60px 15px;
+  }
+  
+  .merican-testimonial-image {
+    height: 200px;
+    min-height: 200px;
   }
 }
 
@@ -1721,38 +1756,37 @@ body {
   border: 1px solid #ccc;
   padding: 10px;
 }
-/* IMAGE GALLERY FOR CONSECUTIVE IMAGES (2+) */
+
+/* IMAGE GALLERY - UPDATED FOR 2 COLUMNS & 16:9 */
 .image-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
+  display: grid; /* Changed from flex to grid */
+  grid-template-columns: repeat(2, 1fr); /* 2 columns on big screens */
   gap: 15px;
   margin: 20px 0;
-  padding: 15px;
+  padding: 0;
 }
+
 .image-gallery img {
-  flex: 0 0 auto;
-  height: 350px;
-  width: auto;
-  margin: 0; /* Override general img margin */
+  width: 100%; /* Fill the grid column */
+  aspect-ratio: 16 / 9; /* Crop to 16:9 ratio */
+  object-fit: cover; /* Ensures image fills box without stretching */
+  margin: 0; 
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  object-fit: contain;
   transition: transform 0.3s ease;
 }
+
 .image-gallery img:hover {
   transform: scale(1.02);
 }
+
 /* For smaller screens, adjust gallery */
 @media (max-width: 768px) {
   .image-gallery {
-    justify-content: center;
+    grid-template-columns: 1fr; /* Stack in 1 column on mobile */
   }
   .image-gallery img {
-    flex: 0 0 100%;
-    width: 100%;
-    height: auto;
+    height: auto; /* Allow natural height if preferred on mobile, or keep aspect-ratio */
   }
 }
 /* SIDEBAR */

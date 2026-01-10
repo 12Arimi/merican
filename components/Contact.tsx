@@ -5,6 +5,7 @@ import { useTranslation } from "../lib/useTranslation";
 
 const Contact = () => {
   const { t } = useTranslation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,32 +18,44 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    alert(t("contact.form.success"));
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert(t("contact.form.success"));
+        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      } else {
+        throw new Error("Failed to send");
+      }
+    } catch (err) {
+      alert("Error sending message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <>
-      {/* 🏙️ PAGE BANNER */}
       <section className="merican-page-banner">
         <div className="merican-banner-overlay">
           <h1 className="merican-banner-title">{t("contact.banner")}</h1>
         </div>
       </section>
 
-      {/* 📞 CONTACT SECTION */}
       <section className="merican-contact-section">
         <div className="merican-contact-container">
           <h2 className="merican-contact-title">{t("contact.title")}</h2>
-          <p className="merican-contact-subtitle">
-            {t("contact.subtitle")}
-          </p>
+          <p className="merican-contact-subtitle">{t("contact.subtitle")}</p>
 
           <div className="merican-contact-grid">
-            {/* Left: Contact Info */}
             <div className="merican-contact-info">
               <div className="contact-card">
                 <i className="fa-solid fa-location-dot"></i>
@@ -77,73 +90,38 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Right: Contact Form */}
             <div className="merican-contact-form">
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <input 
-                    type="text" 
-                    name="name" 
-                    placeholder={t("contact.form.name")} 
-                    required 
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
+                  <input type="text" name="name" placeholder={t("contact.form.name")} required value={formData.name} onChange={handleChange} disabled={isSubmitting} />
                 </div>
                 <div className="form-group">
-                  <input 
-                    type="email" 
-                    name="email" 
-                    placeholder={t("contact.form.email")} 
-                    required 
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
+                  <input type="email" name="email" placeholder={t("contact.form.email")} required value={formData.email} onChange={handleChange} disabled={isSubmitting} />
                 </div>
                 <div className="form-group">
-                  <input 
-                    type="tel" 
-                    name="phone" 
-                    placeholder={t("contact.form.phone")} 
-                    required 
-                    value={formData.phone}
-                    onChange={handleChange}
-                  />
+                  <input type="tel" name="phone" placeholder={t("contact.form.phone")} required value={formData.phone} onChange={handleChange} disabled={isSubmitting} />
                 </div>
                 <div className="form-group">
-                  <input 
-                    type="text" 
-                    name="subject" 
-                    placeholder={t("contact.form.subject")}
-                    value={formData.subject}
-                    onChange={handleChange}
-                  />
+                  <input type="text" name="subject" placeholder={t("contact.form.subject")} value={formData.subject} onChange={handleChange} disabled={isSubmitting} />
                 </div>
                 <div className="form-group">
-                  <textarea 
-                    name="message" 
-                    rows={5} 
-                    placeholder={t("contact.form.message")} 
-                    required
-                    value={formData.message}
-                    onChange={handleChange}
-                  ></textarea>
+                  <textarea name="message" rows={5} placeholder={t("contact.form.message")} required value={formData.message} onChange={handleChange} disabled={isSubmitting}></textarea>
                 </div>
-                <button type="submit" className="contact-btn">{t("contact.form.send")}</button>
+                <button type="submit" className="contact-btn" disabled={isSubmitting}>
+                  {isSubmitting ? "..." : t("contact.form.send")}
+                </button>
               </form>
             </div>
           </div>
 
-          {/* 📍 Google Map Embed */}
           <div className="map-container" style={{ marginTop: '3rem' }}>
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15955.163353597816!2d36.877013!3d-1.300305!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1141708892d7%3A0xc3f3453b341f2f81!2sMerican%20Limited!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7828326082004!2d36.877425699999996!3d-1.3053979999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f13d184849d01%3A0xa36a9a1bff8fb62e!2sMerican%20Limited!5e0!3m2!1sen!2ske!4v1768066378540!5m2!1sen!2ske" 
               width="100%" 
               height="450" 
               style={{ border: 0, borderRadius: '8px' }} 
               allowFullScreen={true} 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade">
+              loading="lazy">
             </iframe>
           </div>
         </div>

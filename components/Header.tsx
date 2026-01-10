@@ -138,17 +138,17 @@ const handleSearchSubmit = (e?: React.FormEvent) => {
       <div className={`merican-search-modal ${isSearchModalOpen ? 'active' : ''}`}>
         <div className="merican-search-modal-content">
           <i className="fa-solid fa-xmark merican-modal-close" onClick={() => setIsSearchModalOpen(false)} />
-<form className="search-form" onSubmit={handleSearchSubmit}>
-  <input 
-    type="text" 
-    placeholder={t("header.searchModalPlaceholder")} 
-    value={searchValue}
-    onChange={(e) => setSearchValue(e.target.value)}
-    autoFocus={isSearchModalOpen}
-  />
-  {/* If you have a search icon button, make sure it is type="submit" */}
-  <button type="submit" style={{ display: 'none' }}>Search</button>
-</form>
+          <form className="search-form" onSubmit={handleSearchSubmit}>
+            <input 
+              type="text" 
+              placeholder={t("header.searchModalPlaceholder")} 
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              autoFocus={isSearchModalOpen}
+            />
+            {/* If you have a search icon button, make sure it is type="submit" */}
+            <button type="submit" style={{ display: 'none' }}>Search</button>
+          </form>
         </div>
       </div>
 

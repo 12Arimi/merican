@@ -20,6 +20,10 @@ const Footer = () => {
   const [chatId, setChatId] = useState<string | null>(null);
   const chatBodyRef = useRef<HTMLDivElement>(null);
 
+  // Newsletter States
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [isSubmittingNewsletter, setIsSubmittingNewsletter] = useState(false);
+
   const [chatMessages, setChatMessages] = useState([
     { role: 'ai', text: t("footer.ai.welcome") }
   ]);
@@ -65,7 +69,6 @@ const Footer = () => {
   }, [lang, t]);
 
   // FIX: Smarter Scroll Logic
-  // Only auto-scroll when the number of messages increases or typing starts
   useEffect(() => {
     if (chatBodyRef.current) {
       const { scrollHeight, clientHeight } = chatBodyRef.current;
@@ -75,6 +78,38 @@ const Footer = () => {
       });
     }
   }, [chatMessages.length, isTyping]); 
+
+  // Newsletter Subscription Logic
+  const handleNewsletterSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail.trim()) return;
+
+    setIsSubmittingNewsletter(true);
+    try {
+      const { error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{ 
+          email: newsletterEmail.trim(), 
+          lang: lang 
+        }]);
+
+      if (error) {
+        if (error.code === '23505') {
+          alert(lang === 'sw' ? "Tayari umejisajili!" : "You are already subscribed!");
+        } else {
+          throw error;
+        }
+      } else {
+        alert(lang === 'sw' ? "Asante! Umejisajili kikamilifu." : "Thank you! You have successfully subscribed.");
+        setNewsletterEmail("");
+      }
+    } catch (err) {
+      console.error("Newsletter Error:", err);
+      alert(lang === 'sw' ? "Hitilafu imetokea. Jaribu tena." : "An error occurred. Please try again.");
+    } finally {
+      setIsSubmittingNewsletter(false);
+    }
+  };
 
   const handleSendMessage = async () => {
     if (!userInput.trim() || isTyping || !chatId) return;
@@ -131,10 +166,17 @@ const Footer = () => {
           <div className="merican-footer-newsletter">
             <h3>{t("footer.newsletter.title")}</h3>
             <p>{t("footer.newsletter.text")}</p>
-            <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
-              <input type="email" placeholder={t("footer.newsletter.placeholder")} required />
-              <button type="submit" aria-label="Subscribe">
-                <i className="fa-solid fa-arrow-right"></i>
+            <form className="newsletter-form" onSubmit={handleNewsletterSubscribe}>
+              <input 
+                type="email" 
+                placeholder={t("footer.newsletter.placeholder")} 
+                required 
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                disabled={isSubmittingNewsletter}
+              />
+              <button type="submit" aria-label="Subscribe" disabled={isSubmittingNewsletter}>
+                <i className={isSubmittingNewsletter ? "fa-solid fa-spinner fa-spin" : "fa-solid fa-arrow-right"}></i>
               </button>
             </form>
           </div>
@@ -144,11 +186,11 @@ const Footer = () => {
               <h3>{t("footer.about.title")}</h3>
               <p>{t("footer.about.text")}</p>
               <div className="merican-social-links">
-                <a href="https://facebook.com/mericanlimited" target="_blank"><i className="fab fa-facebook-f"></i></a>
-                <a href="https://instagram.com/merican.limited/" target="_blank"><i className="fab fa-instagram"></i></a>
-                <a href="https://twitter.com/mericanlimited" target="_blank"><i className="fab fa-twitter"></i></a>
-                <a href="https://linkedin.com/company/merican-limited/" target="_blank"><i className="fab fa-linkedin-in"></i></a>
-                <a href="https://youtube.com/@mericanlimited" target="_blank"><i className="fab fa-youtube"></i></a>
+                <a href="https://facebook.com/mericanlimited" target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/merican.limited/" target="_blank" rel="noopener noreferrer"><i className="fab fa-instagram"></i></a>
+                <a href="https://twitter.com/mericanlimited" target="_blank" rel="noopener noreferrer"><i className="fab fa-twitter"></i></a>
+                <a href="https://linkedin.com/company/merican-limited/" target="_blank" rel="noopener noreferrer"><i className="fab fa-linkedin-in"></i></a>
+                <a href="https://youtube.com/@mericanlimited" target="_blank" rel="noopener noreferrer"><i className="fab fa-youtube"></i></a>
               </div>
             </div>
 
@@ -187,7 +229,7 @@ const Footer = () => {
 
       <div className="merican-floating-buttons">
         <button className="merican-floating-btn merican-ai-chat-btn" onClick={toggleAIChat}>AI</button>
-        <a href="https://wa.me/254740174448" className="merican-floating-btn merican-whatsapp-btn" target="_blank">
+        <a href="https://wa.me/254740174448" className="merican-floating-btn merican-whatsapp-btn" target="_blank" rel="noopener noreferrer">
           <i className="fab fa-whatsapp"></i>
         </a>
       </div>
@@ -201,14 +243,26 @@ const Footer = () => {
             </div>
             
             <div className="merican-ai-chat-body" ref={chatBodyRef}>
-              <div className="merican-chat-inner"> {/* Wrapper for Flexbox control */}
+              <div className="merican-chat-inner">
                 {chatMessages.map((msg, idx) => (
                   <div key={idx} className={`merican-ai-message ${msg.role}`}>
                     <div className="markdown-content">
                       <ReactMarkdown
                         components={{
-                          a: ({ node, ...props }) => (
-                            <a {...props} target="_blank" rel="noopener noreferrer" />
+                          a: ({ node, href, children, ...props }) => (
+                            <a 
+                              {...props} 
+                              href={href}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (href?.startsWith('/')) {
+                                  window.location.href = href;
+                                }
+                              }}
+                              className="chat-link"
+                            >
+                              {children}
+                            </a>
                           ),
                         }}
                       >
