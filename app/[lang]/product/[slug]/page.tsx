@@ -2,6 +2,48 @@ import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ProductActions from "@/components/ProductActions";
+import { Metadata } from 'next';
+
+// 🔍 DYNAMIC SEO METADATA - Now with Product Names
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: Promise<{ lang: string; slug: string }> 
+}): Promise<Metadata> {
+  const { lang, slug } = await params;
+
+  // Fetch the specific product name for the tab title
+  const { data: product } = await supabase
+    .from("products")
+    .select("name, name_sw, name_fr, name_es, name_de, name_it, short_description, short_description_sw, short_description_fr, short_description_es, short_description_de, short_description_it")
+    .eq("slug", slug)
+    .single();
+
+  if (!product) {
+    return { title: "Product | Merican Limited" };
+  }
+
+  // Determine localized name and description for SEO
+  const langSuffix = lang === "en" ? "" : `_${lang}`;
+  const productName = product[`name${langSuffix}` as keyof typeof product] || product.name;
+  const productDesc = product[`short_description${langSuffix}` as keyof typeof product] || product.short_description;
+
+  // Clean description for meta tags (strip HTML and shorten)
+  const cleanDesc = productDesc 
+    ? productDesc.replace(/<[^>]*>?/gm, '').substring(0, 155) + "..."
+    : "High-quality commercial kitchen equipment by Merican Limited.";
+
+  return {
+    title: `${productName} | Merican Limited`,
+    description: cleanDesc,
+    openGraph: {
+      title: `${productName} | Merican Limited`,
+      description: cleanDesc,
+      url: `https://mericanltd.com/${lang}/products/${slug}`,
+      type: 'website',
+    }
+  };
+}
 
 export default async function ProductDetails({
   params,

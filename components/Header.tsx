@@ -159,6 +159,7 @@ const handleSearchSubmit = (e?: React.FormEvent) => {
         </div>
         <ul>
           <li><Link href={langLink("/")} className={isActive('/') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.home")}</Link></li>
+          <li><Link href={langLink("/about")} className={isActive('/about') ? 'active' : ''} onClick={() => setIsMenuOpen(false)}>{t("header.nav.about")}</Link></li>
           <li className={`merican-dropdown ${isProductDropdownOpen || isActive('/products') || isActive('/category') ? 'open active' : ''}`}>
             <a href="#" className="merican-dropdown-toggle" onClick={(e) => { e.preventDefault(); setIsProductDropdownOpen(!isProductDropdownOpen); }}>
               {t("header.nav.products")} <i className="fa-solid fa-chevron-right merican-dropdown-arrow"></i>

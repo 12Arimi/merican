@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /_next/
-Sitemap: https://mericanltd.vercel.app/sitemap.xml

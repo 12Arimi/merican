@@ -12,15 +12,12 @@ export default async function SearchResultsPage({
   const { lang, term } = await params;
   const { page } = await searchParams;
 
-  // 1. Pagination Config (Identical to Products page)
   const productsPerPage = 15;
   const currentPage = Math.max(1, parseInt(page || "1"));
   const offset = (currentPage - 1) * productsPerPage;
 
-  // 2. Decode and Format Search Term
   const decodedTerm = decodeURIComponent(term).replace(/-/g, ' ');
 
-  // 3. Build Multi-Language Search Query
   const searchFields = [
     'name', 'name_sw', 'name_fr', 'name_es', 'name_de', 'name_it',
     'short_description', 'short_description_sw', 'short_description_fr', 
@@ -31,7 +28,6 @@ export default async function SearchResultsPage({
     .map(field => `${field}.ilike.%${decodedTerm}%`)
     .join(',');
 
-  // Fetch with Pagination and Count
   const { data: products, count } = await supabase
     .from("products")
     .select("*", { count: "exact" })
@@ -41,7 +37,7 @@ export default async function SearchResultsPage({
 
   const totalPages = count ? Math.ceil(count / productsPerPage) : 0;
 
-  // 4. Translation Helper
+  // 🌍 COMPLETED DICTIONARY FOR ALL LANGUAGES
   const t = {
     title: { 
       en: 'Results for', 
@@ -54,15 +50,29 @@ export default async function SearchResultsPage({
     noResults: { 
       en: "No products found.", 
       sw: "Hakuna bidhaa zilizopatikana.",
-      fr: "Aucun produit trouvé." 
+      fr: "Aucun produit trouvé.",
+      es: "No se encontraron productos.",
+      de: "Keine Produkte gefunden.",
+      it: "Nessun prodotto trovato."
     }[lang] || "No products found.",
-    prev: { en: 'Prev', sw: 'Iliyopita', fr: 'Précédent' }[lang] || 'Prev',
-    next: { en: 'Next', sw: 'Inayofuata', fr: 'Suivant' }[lang] || 'Next',
+    prev: { 
+      en: 'Prev', sw: 'Iliyopita', fr: 'Précédent', es: 'Anterior', de: 'Zurück', it: 'Prec' 
+    }[lang] || 'Prev',
+    next: { 
+      en: 'Next', sw: 'Inayofuata', fr: 'Suivant', es: 'Siguiente', de: 'Weiter', it: 'Succ' 
+    }[lang] || 'Next',
+    backBtn: {
+      en: 'Back to Products',
+      sw: 'Rudi Kwenye Bidhaa',
+      fr: 'Retour aux produits',
+      es: 'Volver a productos',
+      de: 'Zurück zu Produkten',
+      it: 'Torna ai prodotti'
+    }[lang] || 'Back to Products'
   };
 
   return (
     <div>
-      {/* IDENTICAL BANNER STRUCTURE */}
       <section className="merican-page-banner">
         <div className="merican-banner-overlay">
           <h1 className="merican-banner-title">
@@ -81,14 +91,21 @@ export default async function SearchResultsPage({
             ) : (
               <div className="no-results">
                 <p>{t.noResults}</p>
-                <Link href={`/${lang}/products`} className="rfq-shop-btn" style={{ marginTop: '20px', display: 'inline-block' }}>
-                   {lang === 'sw' ? 'Rudi Kwenye Bidhaa' : 'Back to Products'}
+                <Link 
+                  href={`/${lang}/products`} 
+                  className="rfq-shop-btn" 
+                  style={{ 
+                    marginTop: '20px', 
+                    display: 'inline-block', 
+                    color: '#ffffff' // This ensures the text is visible on the button color
+                  }}
+                >
+                  {t.backBtn}
                 </Link>
               </div>
             )}
           </div>
 
-          {/* IDENTICAL PAGINATION LOGIC */}
           {totalPages > 1 && (
             <div className="pagination">
               {currentPage > 1 ? (

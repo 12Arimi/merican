@@ -1,7 +1,70 @@
 import { supabase } from "@/lib/supabase";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
+import { Metadata } from 'next';
 
+// 🔍 1. DYNAMIC SEO METADATA
+export async function generateMetadata({ 
+  params, 
+  searchParams 
+}: { 
+  params: Promise<{ lang: string }>; 
+  searchParams: Promise<{ q?: string; cat?: string }> 
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const { q, cat } = await searchParams;
+
+  // Base Titles & Descriptions for the main page
+  const seo: Record<string, { title: string; desc: string }> = {
+    en: { 
+      title: "Commercial Kitchen Equipment & Stainless Steel Supplies", 
+      desc: "Browse our extensive catalog of high-quality commercial kitchen equipment and custom stainless steel solutions for the hospitality industry." 
+    },
+    sw: { 
+      title: "Vifaa vya Jikoni vya Kibiashara na Bidhaa za Chuma", 
+      desc: "Vinjari orodha yetu pana ya vifaa vya jikoni vya kibiashara na bidhaa za chuma za hali ya juu kwa ajili ya mahoteli na migahawa." 
+    },
+    fr: { 
+      title: "Équipement de Cuisine Commerciale et Fournitures en Inox", 
+      desc: "Parcourez notre catalogue complet d'équipements de cuisine professionnelle et de solutions en acier inoxydable pour l'hôtellerie." 
+    },
+    es: { 
+      title: "Equipos de Cocina Comercial y Suministros de Acero Inoxidable", 
+      desc: "Explore nuestro catálogo de equipos de cocina industrial y soluciones personalizadas de acero inoxidable para hostelería." 
+    },
+    de: { 
+      title: "Gewerbeküchengeräte & Edelstahl-Zubehör", 
+      desc: "Durchsuchen Sie unseren Katalog für hochwertige Großküchengeräte und individuelle Edelstahllösungen für das Gastgewerbe." 
+    },
+    it: { 
+      title: "Attrezzature per Cucine Professionali e Prodotti in Acciaio Inox", 
+      desc: "Sfoglia il nostro catalogo di attrezzature professionali per cucine e soluzioni personalizzate in acciaio inossidabile." 
+    }
+  };
+
+  const currentSeo = seo[lang] || seo.en;
+  let finalTitle = currentSeo.title;
+
+  // If searching, show the search term in the title
+  if (q) {
+    finalTitle = `${q} | ${currentSeo.title}`;
+  } 
+  // If viewing a category, we could fetch the category name here, 
+  // but for the main products landing, the base "Rich" title is often strongest for SEO.
+
+  return {
+    title: finalTitle,
+    description: currentSeo.desc,
+    openGraph: {
+      title: finalTitle,
+      description: currentSeo.desc,
+      url: `https://mericanltd.com/${lang}/products`,
+      type: 'website',
+    }
+  };
+}
+
+// 📦 2. PRODUCTS PAGE COMPONENT
 export default async function ProductsPage({
   params,
   searchParams,
@@ -17,9 +80,9 @@ export default async function ProductsPage({
   const offset = (currentPage - 1) * productsPerPage;
 
   let categoryData = null;
-  let title = lang === 'sw' ? 'Bidhaa' : 'Products'; // Default base title
+  let title = lang === 'sw' ? 'Bidhaa' : 'Products'; 
 
-  // 1. Handle Category Filter Logic with Fallback
+  // 1. Handle Category Filter Logic
   if (categorySlug) {
     const { data: cat } = await supabase
       .from("categories")
@@ -30,8 +93,6 @@ export default async function ProductsPage({
     if (cat) {
       categoryData = cat;
       const langKey = lang === 'en' ? 'name' : `name_${lang}`;
-      
-      // Use "keyof typeof cat" to tell TypeScript the string is a valid key
       title = cat[langKey as keyof typeof cat] || cat.name;
     }
   }
@@ -46,7 +107,6 @@ export default async function ProductsPage({
   }
 
   if (searchTerm) {
-    // Search against English name as base
     query = query.ilike("name", `%${searchTerm}%`);
     title = `"${searchTerm}"`;
   }

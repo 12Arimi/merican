@@ -3484,3 +3484,95 @@ body {
     background: #e74c3c;
     color: white;
   }
+
+
+
+.smart-404 {
+  margin-top: -70px;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #ffffff, #f6f9fc);
+  padding: 40px 20px;
+}
+
+.smart-404-wrapper {
+  max-width: 720px;
+  text-align: center;
+}
+
+.smart-404-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.smart-404-sub {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.smart-404-ai {
+  margin-top: 40px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 40px 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+}
+
+.smart-404-loading {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.smart-404-label {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+.smart-404-message {
+  margin-top: 15px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.smart-404-cta {
+  display: inline-block;
+  margin-top: 25px;
+  background: #0f172a;
+  color: white;
+  padding: 14px 36px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.smart-404-cta:hover {
+  transform: translateY(-2px);
+}
+
+.smart-404-nav {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.smart-404-nav a {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.smart-404-nav a:hover {
+  text-decoration: underline;
+}

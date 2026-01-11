@@ -1,8 +1,55 @@
-// app/category/[slug]/page.tsx
 import { supabase } from "@/lib/supabase";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
+import { Metadata } from "next";
 
+// 🔍 1. DYNAMIC SEO METADATA
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: Promise<{ lang: string; slug: string }> 
+}): Promise<Metadata> {
+  const { lang, slug } = await params;
+
+  // Fetch category name for the title
+  const { data: cat } = await supabase
+    .from("categories")
+    .select("name, name_sw, name_fr, name_es, name_de, name_it")
+    .eq("slug", slug)
+    .single();
+
+  if (!cat) {
+    return { title: "Products | Merican Limited" };
+  }
+
+  // Determine localized title
+  const langKey = lang === 'en' ? 'name' : `name_${lang}`;
+  const categoryName = cat[langKey as keyof typeof cat] || cat.name;
+
+  const descriptions: Record<string, string> = {
+    en: `Explore high-quality ${categoryName} for commercial kitchens. Expertly crafted stainless steel solutions by Merican Limited.`,
+    sw: `Gundua ${categoryName} za hali ya juu kwa ajili ya majiko ya kibiashara. Masuluhisho ya chuma yaliyotengenezwa na Merican Limited.`,
+    fr: `Découvrez des ${categoryName} de haute qualité pour les cuisines commerciales. Solutions en acier inoxydable par Merican Limited.`,
+    es: `Explore ${categoryName} de alta calidad para cocinas comerciales. Soluciones de acero inoxidable de Merican Limited.`,
+    de: `Entdecken Sie hochwertige ${categoryName} für Großküchen. Edelstahl-Lösungen von Merican Limited.`,
+    it: `Scopri ${categoryName} di alta qualità per cucine professionali. Soluzioni in acciaio inossidabile di Merican Limited.`,
+  };
+
+  const description = descriptions[lang] || descriptions.en;
+
+  return {
+    title: `${categoryName} | Commercial Kitchen Equipment`,
+    description: description,
+    openGraph: {
+      title: `${categoryName} | Merican Limited`,
+      description: description,
+      url: `https://mericanltd.com/${lang}/category/${slug}`,
+      type: 'website',
+    }
+  };
+}
+
+// 📦 2. CATEGORY PAGE COMPONENT
 export default async function CategoryPage({
   params,
   searchParams,
@@ -19,7 +66,7 @@ export default async function CategoryPage({
 
   // 1. Fetch Category
   let categoryData = null;
-  let title = lang === 'sw' ? 'Bidhaa' : 'Products'; // fallback title
+  let title = lang === 'sw' ? 'Bidhaa' : 'Products'; 
 
   const { data: cat } = await supabase
     .from("categories")

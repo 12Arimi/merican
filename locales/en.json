@@ -5,6 +5,7 @@
     "menuTitle": "Menu",
     "nav": {
       "home": "Home",
+      "about": "About",
       "products": "Products",
       "allProducts": "All Products",
       "receiving": "Receiving",

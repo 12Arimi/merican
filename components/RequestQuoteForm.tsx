@@ -46,17 +46,87 @@ export default function RequestQuoteForm({ lang, t }: { lang: string; t: any }) 
     window.dispatchEvent(new Event('cartUpdated'));
   };
 
-  const formLabels: any = {
-    name: { en: "Name", sw: "Jina" },
-    email: { en: "Email Address", sw: "Anwani ya Barua Pepe" },
-    phone: { en: "Phone Number", sw: "Nambari ya Simu" },
-    message: { en: "Project Details / Message", sw: "Maelezo ya Mradi / Ujumbe" },
-    submit: { en: "Submit Quote Request", sw: "Tuma Ombi la Nukuu" },
-    sending: { en: "Sending...", sw: "Inatuma..." },
-    empty: { en: "Your cart is empty!", sw: "Kikapu chako ni tupu!" },
-    goShop: { en: "Go to Products", sw: "Nenda kwenye Bidhaa" },
-    thanks: { en: "Request Received!", sw: "Ombi Limepokelewa!" },
-    thanksSub: { en: "Your quote request has been saved. We will contact you shortly.", sw: "Ombi lako limehifadhiwa. Tutawasiliana nawe hivi karibuni." }
+const formLabels: any = {
+    name: { 
+      en: "Name", 
+      sw: "Jina", 
+      fr: "Nom", 
+      es: "Nombre", 
+      de: "Name", 
+      it: "Nome" 
+    },
+    email: { 
+      en: "Email Address", 
+      sw: "Anwani ya Barua Pepe", 
+      fr: "Adresse e-mail", 
+      es: "Correo electrónico", 
+      de: "E-Mail-Adresse", 
+      it: "Indirizzo e-mail" 
+    },
+    phone: { 
+      en: "Phone Number", 
+      sw: "Nambari ya Simu", 
+      fr: "Numéro de téléphone", 
+      es: "Número de teléfono", 
+      de: "Telefonnummer", 
+      it: "Numero di telefono" 
+    },
+    message: { 
+      en: "Project Details / Message", 
+      sw: "Maelezo ya Mradi / Ujumbe", 
+      fr: "Détails du projet / Message", 
+      es: "Detalles del proyecto / Mensaje", 
+      de: "Projektdetails / Nachricht", 
+      it: "Dettagli del progetto / Messaggio" 
+    },
+    submit: { 
+      en: "Submit Quote Request", 
+      sw: "Tuma Ombi la Nukuu", 
+      fr: "Envoyer la demande de devis", 
+      es: "Enviar solicitud de presupuesto", 
+      de: "Angebotsanfrage senden", 
+      it: "Invia richiesta di preventivo" 
+    },
+    sending: { 
+      en: "Sending...", 
+      sw: "Inatuma...", 
+      fr: "Envoi en cours...", 
+      es: "Enviando...", 
+      de: "Wird gesendet...", 
+      it: "Invio in corso..." 
+    },
+    empty: { 
+      en: "Your cart is empty!", 
+      sw: "Kikapu chako ni tupu!", 
+      fr: "Votre panier est vide !", 
+      es: "¡Tu carrito está vacío!", 
+      de: "Ihr Warenkorb ist leer!", 
+      it: "Il tuo carrello è vuoto!" 
+    },
+    goShop: { 
+      en: "Go to Products", 
+      sw: "Nenda kwenye Bidhaa", 
+      fr: "Aller aux produits", 
+      es: "Ir a productos", 
+      de: "Zu den Produkten", 
+      it: "Vai ai prodotti" 
+    },
+    thanks: { 
+      en: "Request Received!", 
+      sw: "Ombi Limepokelewa!", 
+      fr: "Demande reçue !", 
+      es: "¡Solicitud recibida!", 
+      de: "Anfrage erhalten!", 
+      it: "Richiesta ricevuta!" 
+    },
+    thanksSub: { 
+      en: "Your quote request has been saved. We will contact you shortly.", 
+      sw: "Ombi lako limehifadhiwa. Tutawasiliana nawe hivi karibuni.", 
+      fr: "Votre demande de devis a été enregistrée. Nous vous contacterons sous peu.", 
+      es: "Su solicitud de presupuesto ha sido guardada. Nos pondremos en contacto con usted en breve.", 
+      de: "Ihre Angebotsanfrage wurde gespeichert. Wir werden uns in Kürze bei Ihnen melden.", 
+      it: "La tua richiesta di preventivo è stata salvata. Ti contatteremo a breve." 
+    }
   };
 
   if (isSubmitted) {
