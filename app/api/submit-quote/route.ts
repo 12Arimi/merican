@@ -47,8 +47,8 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           sender: { name: "Merican Quote System", email: "gitimuarimi@gmail.com" }, // Ensure this email is a verified sender in Brevo
-          to: [{ email: "ceo@arimi.co.ke" }],
-          cc: [{ email: "aaarghremy1@gmail.com" }],
+          to: [{ email: "sales@mericanltd.com" }],
+          cc: [{ email: "edwin@mericanltd.com" }],
           subject: `New Quote: ${name}`,
           htmlContent: `
             <h3>New Request from ${name}</h3>

@@ -30,8 +30,8 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         sender: { name: "Merican Contact Form", email: "gitimuarimi@gmail.com" },
         to: [
-          { email: "ceo@arimi.co.ke" },
-          { email: "aaargremy1@gmail.com" }
+          { email: "sales@mericanltd.com" },
+          { email: "edwin@mericanltd.com" }
         ],
         subject: `Contact Form: ${subject || 'New Inquiry'}`,
         htmlContent: `
