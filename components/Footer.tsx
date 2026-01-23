@@ -228,7 +228,7 @@ const Footer = () => {
       </footer>
 
       <div className="merican-floating-buttons">
-        <button className="merican-floating-btn merican-ai-chat-btn" onClick={toggleAIChat}>AI</button>
+        <button className="merican-floating-btn merican-ai-chat-btn" onClick={toggleAIChat}>AI.</button>
         <a href="https://wa.me/254740174448" className="merican-floating-btn merican-whatsapp-btn" target="_blank" rel="noopener noreferrer">
           <i className="fab fa-whatsapp"></i>
         </a>
