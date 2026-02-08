@@ -6,32 +6,29 @@ import Testimonials from "@/components/Testimonials";
 import CeoMessage from "@/components/CeoMessage";
 import About from "@/components/About";
 import { supabase } from "@/lib/supabase";
+import { db } from "@/lib/db";
 
 type PageProps = {
   params: Promise<{ lang: string }>;
 };
 
 export default async function Home({ params }: PageProps) {
-  // 1. Await params first
   const { lang } = await params;
 
-  // 2. Fetch testimonials (The page will wait here until this is done)
-  const { data: initialTestimonials } = await supabase
-    .from('testimonials')
-    .select(`
-      id, 
-      client_name, 
-      client_company, 
-      client_avatar, 
-      testimonial_message, 
-      testimonial_image, 
-      testimonial_message_sw, 
-      testimonial_message_fr, 
-      testimonial_message_de, 
-      testimonial_message_it, 
+  // Fetch from MySQL
+  const pool = db();
+  const [rows] = await pool.query(`
+    SELECT 
+      id, client_name, client_company, client_avatar, 
+      testimonial_message, testimonial_image, 
+      testimonial_message_sw, testimonial_message_fr, 
+      testimonial_message_de, testimonial_message_it, 
       testimonial_message_es
-    `)
-    .order('created_at', { ascending: false });
+    FROM testimonials 
+    ORDER BY id DESC
+  `);
+
+  const initialTestimonials = rows as any[];
 
   // 3. Render everything together
   return (

@@ -1,10 +1,6 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { db } from "@/lib/db"; // Your MySQL connection helper
+import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   try {
@@ -16,53 +12,60 @@ export async function POST(request: Request) {
     const cartDataRaw = formData.get('cart_data') as string;
     const cartItems = JSON.parse(cartDataRaw || '[]');
 
-    // 1. SAVE TO DATABASE FIRST
-    const { error: dbError } = await supabase
-      .from('quote_requests')
-      .insert([{
-        name,
-        email,
-        phone,
-        message,
-        items: cartItems
-      }]);
+    const pool = db();
 
-    if (dbError) {
-      console.error("Database Save Error:", dbError);
+    // 1. SAVE TO MYSQL DATABASE
+    try {
+      await pool.query(
+        `INSERT INTO quote_requests (name, email, phone, message, items) 
+         VALUES (?, ?, ?, ?, ?)`,
+        [name, email, phone, message, JSON.stringify(cartItems)]
+      );
+    } catch (dbError) {
+      console.error("MySQL Save Error:", dbError);
       return NextResponse.json({ error: 'Database save failed' }, { status: 500 });
     }
 
-    // 2. ATTEMPT TO SEND EMAIL VIA BREVO
+    // 2. SEND EMAIL VIA NODEMAILER (SMTP)
     const itemsHtml = cartItems.map((item: any) => 
       `<li><strong>${item.name}</strong> (Qty: ${item.quantity})</li>`
     ).join('');
 
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: Number(process.env.EMAIL_PORT),
+      secure: false, // 587 uses STARTTLS
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false 
+      }
+    });
+
     try {
-      await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: {
-          'accept': 'application/json',
-          'api-key': process.env.BREVO_API_KEY as string,
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          sender: { name: "Merican Quote System", email: "gitimuarimi@gmail.com" }, // Ensure this email is a verified sender in Brevo
-          to: [{ email: "sales@mericanltd.com" }],
-          cc: [{ email: "edwin@mericanltd.com" }],
-          subject: `New Quote: ${name}`,
-          htmlContent: `
-            <h3>New Request from ${name}</h3>
+      await transporter.sendMail({
+        from: `"Merican Quote System" <info@arimi.co.ke>`,
+        to: "sales@mericanltd.com",
+        cc: "edwin@mericanltd.com",
+        subject: `New Quote Request: ${name}`,
+        html: `
+          <div style="font-family: sans-serif; line-height: 1.6;">
+            <h2>New Quote Request Received</h2>
+            <p><strong>Customer Name:</strong> ${name}</p>
             <p><strong>Phone:</strong> ${phone}</p>
             <p><strong>Email:</strong> ${email}</p>
             <p><strong>Message:</strong> ${message}</p>
-            <h4>Items:</h4>
+            <hr />
+            <h3>Requested Items:</h3>
             <ul>${itemsHtml}</ul>
-          `
-        })
+          </div>
+        `
       });
     } catch (emailErr) {
-      // We don't stop the process if email fails, because the data is saved in DB!
-      console.error("Brevo Email Sending Failed, but DB record created:", emailErr);
+      // Don't crash the UI if only the email fails; the data is safe in MySQL
+      console.error("SMTP Email Failed:", emailErr);
     }
 
     // 3. REDIRECT TO SUCCESS

@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { db } from "@/lib/db";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 
@@ -17,57 +17,64 @@ export default async function SearchResultsPage({
   const offset = (currentPage - 1) * productsPerPage;
 
   const decodedTerm = decodeURIComponent(term).replace(/-/g, ' ');
+  const pool = db();
 
+  // 1. Define fields to search in
   const searchFields = [
     'name', 'name_sw', 'name_fr', 'name_es', 'name_de', 'name_it',
     'short_description', 'short_description_sw', 'short_description_fr', 
     'short_description_es', 'short_description_de', 'short_description_it'
   ];
-  
-  const orQuery = searchFields
-    .map(field => `${field}.ilike.%${decodedTerm}%`)
-    .join(',');
 
-  const { data: products, count } = await supabase
-    .from("products")
-    .select("*", { count: "exact" })
-    .or(orQuery)
-    .order("id", { ascending: true })
-    .range(offset, offset + productsPerPage - 1);
+  // 2. Build the WHERE clause for MySQL
+  // We use `LIKE` with `%` for partial matching
+  const whereClause = searchFields.map(field => `${field} LIKE ?`).join(' OR ');
+  const queryParams = searchFields.map(() => `%${decodedTerm}%`);
 
-  const totalPages = count ? Math.ceil(count / productsPerPage) : 0;
+  let products: any[] = [];
+  let totalPages = 0;
 
-  // 🌍 COMPLETED DICTIONARY FOR ALL LANGUAGES
+  try {
+    // 3. Fetch Products
+    const [rows]: any = await pool.query(
+      `SELECT * FROM products 
+       WHERE ${whereClause} 
+       ORDER BY id ASC 
+       LIMIT ? OFFSET ?`,
+      [...queryParams, productsPerPage, offset]
+    );
+    products = rows;
+
+    // 4. Fetch Total Count for Pagination
+    const [countRows]: any = await pool.query(
+      `SELECT COUNT(*) as total FROM products WHERE ${whereClause}`,
+      queryParams
+    );
+    const count = countRows[0].total;
+    totalPages = Math.ceil(count / productsPerPage);
+
+  } catch (error) {
+    console.error("Search database error:", error);
+    // Silent fail or throw to an error boundary
+    throw new Error("Search service temporarily unavailable.");
+  }
+
+  // 🌍 DICTIONARY
   const t = {
     title: { 
-      en: 'Results for', 
-      sw: 'Matokeo ya',
-      fr: 'Résultats pour',
-      es: 'Resultados para',
-      de: 'Ergebnisse für',
-      it: 'Risultati per'
+      en: 'Results for', sw: 'Matokeo ya', fr: 'Résultats pour',
+      es: 'Resultados para', de: 'Ergebnisse für', it: 'Risultati per'
     }[lang] || 'Results for',
     noResults: { 
-      en: "No products found.", 
-      sw: "Hakuna bidhaa zilizopatikana.",
-      fr: "Aucun produit trouvé.",
-      es: "No se encontraron productos.",
-      de: "Keine Produkte gefunden.",
-      it: "Nessun prodotto trovato."
+      en: "No products found.", sw: "Hakuna bidhaa zilizopatikana.",
+      fr: "Aucun produit trouvé.", es: "No se encontraron productos.",
+      de: "Keine Produkte gefunden.", it: "Nessun prodotto trovato."
     }[lang] || "No products found.",
-    prev: { 
-      en: 'Prev', sw: 'Iliyopita', fr: 'Précédent', es: 'Anterior', de: 'Zurück', it: 'Prec' 
-    }[lang] || 'Prev',
-    next: { 
-      en: 'Next', sw: 'Inayofuata', fr: 'Suivant', es: 'Siguiente', de: 'Weiter', it: 'Succ' 
-    }[lang] || 'Next',
+    prev: { en: 'Prev', sw: 'Iliyopita', fr: 'Précédent', es: 'Anterior', de: 'Zurück', it: 'Prec' }[lang] || 'Prev',
+    next: { en: 'Next', sw: 'Inayofuata', fr: 'Suivant', es: 'Siguiente', de: 'Weiter', it: 'Succ' }[lang] || 'Next',
     backBtn: {
-      en: 'Back to Products',
-      sw: 'Rudi Kwenye Bidhaa',
-      fr: 'Retour aux produits',
-      es: 'Volver a productos',
-      de: 'Zurück zu Produkten',
-      it: 'Torna ai prodotti'
+      en: 'Back to Products', sw: 'Rudi Kwenye Bidhaa', fr: 'Retour aux produits',
+      es: 'Volver a productos', de: 'Zurück zu Produkten', it: 'Torna ai prodotti'
     }[lang] || 'Back to Products'
   };
 
@@ -84,7 +91,7 @@ export default async function SearchResultsPage({
       <section className="merican-page-section">
         <div className="container">
           <div className="product-grid">
-            {products && products.length > 0 ? (
+            {products.length > 0 ? (
               products.map((product) => (
                 <ProductCard key={product.id} product={product} lang={lang} />
               ))
@@ -94,11 +101,7 @@ export default async function SearchResultsPage({
                 <Link 
                   href={`/${lang}/products`} 
                   className="rfq-shop-btn" 
-                  style={{ 
-                    marginTop: '20px', 
-                    display: 'inline-block', 
-                    color: '#ffffff' // This ensures the text is visible on the button color
-                  }}
+                  style={{ marginTop: '20px', display: 'inline-block', color: '#ffffff' }}
                 >
                   {t.backBtn}
                 </Link>

@@ -1,7 +1,9 @@
-import { supabase } from "@/lib/supabase";
+// app/[lang]/products/page.tsx
+import { db } from "@/lib/db";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import { Metadata } from 'next';
+export const revalidate = 86400; // Cache for 24 hours (in seconds)
 
 // 🔍 1. DYNAMIC SEO METADATA
 export async function generateMetadata({ 
@@ -12,45 +14,41 @@ export async function generateMetadata({
   searchParams: Promise<{ q?: string; cat?: string }> 
 }): Promise<Metadata> {
   const { lang } = await params;
-  const { q, cat } = await searchParams;
+  const { q } = await searchParams;
 
-  // Base Titles & Descriptions for the main page
   const seo: Record<string, { title: string; desc: string }> = {
     en: { 
       title: "Commercial Kitchen Equipment & Stainless Steel Supplies", 
-      desc: "Browse our extensive catalog of high-quality commercial kitchen equipment and custom stainless steel solutions for the hospitality industry." 
+      desc: "Browse our extensive catalog of high-quality commercial kitchen equipment." 
     },
     sw: { 
       title: "Vifaa vya Jikoni vya Kibiashara na Bidhaa za Chuma", 
-      desc: "Vinjari orodha yetu pana ya vifaa vya jikoni vya kibiashara na bidhaa za chuma za hali ya juu kwa ajili ya mahoteli na migahawa." 
+      desc: "Vinjari orodha yetu pana ya vifaa vya jikoni vya kibiashara." 
     },
     fr: { 
       title: "Équipement de Cuisine Commerciale et Fournitures en Inox", 
-      desc: "Parcourez notre catalogue complet d'équipements de cuisine professionnelle et de solutions en acier inoxydable pour l'hôtellerie." 
+      desc: "Parcourez notre catalogue complet d'équipements de cuisine professionnelle." 
     },
     es: { 
       title: "Equipos de Cocina Comercial y Suministros de Acero Inoxidable", 
-      desc: "Explore nuestro catálogo de equipos de cocina industrial y soluciones personalizadas de acero inoxidable para hostelería." 
+      desc: "Explore nuestro catálogo de equipos de cocina industrial." 
     },
     de: { 
       title: "Gewerbeküchengeräte & Edelstahl-Zubehör", 
-      desc: "Durchsuchen Sie unseren Katalog für hochwertige Großküchengeräte und individuelle Edelstahllösungen für das Gastgewerbe." 
+      desc: "Durchsuchen Sie unseren Katalog für hochwertige Großküchengeräte." 
     },
     it: { 
       title: "Attrezzature per Cucine Professionali e Prodotti in Acciaio Inox", 
-      desc: "Sfoglia il nostro catalogo di attrezzature professionali per cucine e soluzioni personalizzate in acciaio inossidabile." 
+      desc: "Sfoglia il nostro catalogo di attrezzature professionali per cucine." 
     }
   };
 
   const currentSeo = seo[lang] || seo.en;
   let finalTitle = currentSeo.title;
 
-  // If searching, show the search term in the title
   if (q) {
     finalTitle = `${q} | ${currentSeo.title}`;
   } 
-  // If viewing a category, we could fetch the category name here, 
-  // but for the main products landing, the base "Rich" title is often strongest for SEO.
 
   return {
     title: finalTitle,
@@ -79,45 +77,51 @@ export default async function ProductsPage({
   const currentPage = Math.max(1, parseInt(page || "1"));
   const offset = (currentPage - 1) * productsPerPage;
 
-  let categoryData = null;
+  const pool = db();
+  let categoryData: any = null;
   let title = lang === 'sw' ? 'Bidhaa' : 'Products'; 
 
   // 1. Handle Category Filter Logic
   if (categorySlug) {
-    const { data: cat } = await supabase
-      .from("categories")
-      .select("id, name, name_sw, name_fr, name_es, name_de, name_it")
-      .eq("slug", categorySlug)
-      .single();
+    const [cats]: any = await pool.query(
+      "SELECT id, name, name_sw, name_fr, name_es, name_de, name_it FROM categories WHERE slug = ? LIMIT 1",
+      [categorySlug]
+    );
     
-    if (cat) {
-      categoryData = cat;
+    if (cats && cats.length > 0) {
+      categoryData = cats[0];
       const langKey = lang === 'en' ? 'name' : `name_${lang}`;
-      title = cat[langKey as keyof typeof cat] || cat.name;
+      title = categoryData[langKey] || categoryData.name;
     }
   }
 
-  // 2. Build Product Query
-  let query = supabase
-    .from("products")
-    .select("*", { count: "exact" });
+  // 2. Build Product Query & Count Query
+  let productQuery = "SELECT * FROM products WHERE 1=1";
+  let countQuery = "SELECT COUNT(*) as total FROM products WHERE 1=1";
+  let queryParams: any[] = [];
 
   if (categoryData) {
-    query = query.eq("category_id", categoryData.id);
+    productQuery += " AND category_id = ?";
+    countQuery += " AND category_id = ?";
+    queryParams.push(categoryData.id);
   }
 
   if (searchTerm) {
-    query = query.ilike("name", `%${searchTerm}%`);
+    productQuery += " AND name LIKE ?";
+    countQuery += " AND name LIKE ?";
+    queryParams.push(`%${searchTerm}%`);
     title = `"${searchTerm}"`;
   }
 
-  const { data: products, count } = await query
-    .order("id", { ascending: true })
-    .range(offset, offset + productsPerPage - 1);
+  productQuery += " ORDER BY id ASC LIMIT ? OFFSET ?";
+  
+  // 3. Execute Queries
+  const [products]: any = await pool.query(productQuery, [...queryParams, productsPerPage, offset]);
+  const [countResult]: any = await pool.query(countQuery, queryParams.slice(0, queryParams.length)); // use only filter params for count
+  
+  const count = countResult[0].total;
+  const totalPages = Math.ceil(count / productsPerPage);
 
-  const totalPages = count ? Math.ceil(count / productsPerPage) : 0;
-
-  // Translation Helper for Static UI Elements
   const t = {
     noResults: {
       en: "No products found.",
@@ -143,7 +147,7 @@ export default async function ProductsPage({
         <div className="container">
           <div className="product-grid">
             {products && products.length > 0 ? (
-              products.map((product) => (
+              products.map((product: any) => (
                 <ProductCard key={product.id} product={product} lang={lang} />
               ))
             ) : (
@@ -153,7 +157,6 @@ export default async function ProductsPage({
             )}
           </div>
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination">
               {currentPage > 1 ? (
