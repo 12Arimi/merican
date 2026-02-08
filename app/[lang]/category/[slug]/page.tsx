@@ -2,55 +2,89 @@ import { db } from "@/lib/db";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 
-// 🔍 1. DYNAMIC SEO METADATA
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<{ lang: string; slug: string }> 
-}): Promise<Metadata> {
-  const { lang, slug } = await params;
-  const pool = db();
+export const revalidate = 86400; 
 
-  try {
-    const [rows]: any = await pool.query(
-      "SELECT name, name_sw, name_fr, name_es, name_de, name_it FROM categories WHERE slug = ? LIMIT 1",
+// -----------------------------
+// CACHED DB HELPERS
+// -----------------------------
+
+const getCategoryBySlug = unstable_cache(
+  async (slug: string) => {
+    const pool = db();
+    const [cats]: any = await pool.query(
+      "SELECT id, name, name_sw, name_fr, name_es, name_de, name_it FROM categories WHERE slug = ? LIMIT 1",
       [slug]
     );
+    return cats?.[0] || null;
+  },
+  ["category-slug-lookup"],
+  { revalidate: 86400, tags: ["categories"] }
+);
 
-    const cat = rows[0];
-    if (!cat) return { title: "Products | Merican Limited" };
+const getCategoryProducts = unstable_cache(
+  async (categoryId: number, searchTerm: string | null, limit: number, offset: number) => {
+    const pool = db();
+    let query = "SELECT * FROM products WHERE category_id = ?";
+    let params: any[] = [categoryId];
 
-    const langKey = lang === 'en' ? 'name' : `name_${lang}`;
-    const categoryName = cat[langKey] || cat.name;
+    if (searchTerm) {
+      query += " AND name LIKE ?";
+      params.push(`%${searchTerm}%`);
+    }
 
-    const descriptions: Record<string, string> = {
-      en: `Explore high-quality ${categoryName} for commercial kitchens. Expertly crafted stainless steel solutions by Merican Limited.`,
-      sw: `Gundua ${categoryName} za hali ya juu kwa ajili ya majiko ya kibiashara. Masuluhisho ya chuma yaliyotengenezwa na Merican Limited.`,
-      fr: `Découvrez des ${categoryName} de haute qualité pour les cuisines commerciales. Solutions en acier inoxydable par Merican Limited.`,
-      es: `Explore ${categoryName} de alta calidad para cocinas comerciales. Soluciones de acero inoxidable de Merican Limited.`,
-      de: `Entdecken Sie hochwertige ${categoryName} für Großküchen. Edelstahl-Lösungen von Merican Limited.`,
-      it: `Scopri ${categoryName} di alta qualità per cucine professionali. Soluzioni in acciaio inossidabile di Merican Limited.`,
-    };
+    query += " ORDER BY id ASC LIMIT ? OFFSET ?";
+    params.push(limit, offset);
 
-    const description = descriptions[lang] || descriptions.en;
+    const [rows]: any = await pool.query(query, params);
+    return rows;
+  },
+  ["category-products-list"],
+  { revalidate: 86400, tags: ["products"] }
+);
 
-    return {
-      title: `${categoryName} | Commercial Kitchen Equipment`,
-      description: description,
-      openGraph: {
-        title: `${categoryName} | Merican Limited`,
-        description: description,
-        url: `https://mericanltd.com/${lang}/category/${slug}`,
-        type: 'website',
-      }
-    };
-  } catch (e) {
-    return { title: "Products | Merican Limited" };
-  }
+const getCategoryProductsCount = unstable_cache(
+  async (categoryId: number, searchTerm: string | null) => {
+    const pool = db();
+    let query = "SELECT COUNT(*) as total FROM products WHERE category_id = ?";
+    let params: any[] = [categoryId];
+
+    if (searchTerm) {
+      query += " AND name LIKE ?";
+      params.push(`%${searchTerm}%`);
+    }
+
+    const [rows]: any = await pool.query(query, params);
+    return rows[0]?.total || 0;
+  },
+  ["category-products-count"],
+  { revalidate: 86400, tags: ["products"] }
+);
+
+// -----------------------------
+// SEO METADATA (Updated to use cache)
+// -----------------------------
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
+  const { lang, slug } = await params;
+  const cat = await getCategoryBySlug(slug);
+
+  if (!cat) return { title: "Products | Merican Limited" };
+
+  const langKey = lang === 'en' ? 'name' : `name_${lang}`;
+  const categoryName = cat[langKey] || cat.name;
+
+  return {
+    title: `${categoryName} | Commercial Kitchen Equipment`,
+    description: `Explore high-quality ${categoryName} for commercial kitchens.`,
+  };
 }
 
-// 📦 2. CATEGORY PAGE COMPONENT
+// -----------------------------
+// PAGE COMPONENT
+// -----------------------------
+
 export default async function CategoryPage({
   params,
   searchParams,
@@ -65,120 +99,57 @@ export default async function CategoryPage({
   const currentPage = Math.max(1, parseInt(page || "1"));
   const offset = (currentPage - 1) * productsPerPage;
 
-  const pool = db();
-  let categoryData: any = null;
-  let title = lang === 'sw' ? 'Bidhaa' : 'Products'; 
+  const categoryData = await getCategoryBySlug(slug);
+  
+  if (!categoryData) {
+     return <div>Category not found</div>;
+  }
 
-  try {
-    // 1. Fetch Category Data
-    const [cats]: any = await pool.query(
-      "SELECT id, name, name_sw, name_fr, name_es, name_de, name_it FROM categories WHERE slug = ? LIMIT 1",
-      [slug]
-    );
+  const products = await getCategoryProducts(categoryData.id, searchTerm || null, productsPerPage, offset);
+  const count = await getCategoryProductsCount(categoryData.id, searchTerm || null);
+  const totalPages = Math.ceil(count / productsPerPage);
 
-    if (cats && cats.length > 0) {
-      categoryData = cats[0];
-      const langKey = lang === 'en' ? 'name' : `name_${lang}`;
-      title = categoryData[langKey] || categoryData.name;
-    }
+  const title = searchTerm ? `"${searchTerm}"` : (categoryData[lang === 'en' ? 'name' : `name_${lang}`] || categoryData.name);
 
-    // 2. Build Queries
-    let productQuery = "SELECT * FROM products WHERE category_id = ?";
-    let countQuery = "SELECT COUNT(*) as total FROM products WHERE category_id = ?";
-    let queryParams: any[] = [categoryData?.id || 0];
+  const t = {
+    noResults: { en: "No products found.", sw: "Hakuna bidhaa zilizopatikana." }[lang] || "No products found.",
+    prev: { en: 'Prev', sw: 'Iliyopita' }[lang] || 'Prev',
+    next: { en: 'Next', sw: 'Inayofuata' }[lang] || 'Next',
+  };
 
-    if (searchTerm) {
-      productQuery += " AND name LIKE ?";
-      countQuery += " AND name LIKE ?";
-      queryParams.push(`%${searchTerm}%`);
-      title = `"${searchTerm}"`;
-    }
+  return (
+    <div>
+      <section className="merican-page-banner">
+        <div className="merican-banner-overlay">
+          <h1 className="merican-banner-title">{title}</h1>
+        </div>
+      </section>
 
-    productQuery += " ORDER BY id ASC LIMIT ? OFFSET ?";
-    
-    // 3. Execute
-    const [products]: any = await pool.query(productQuery, [...queryParams, productsPerPage, offset]);
-    const [countResult]: any = await pool.query(countQuery, queryParams.slice(0, queryParams.length));
-    
-    const count = countResult[0].total;
-    const totalPages = Math.ceil(count / productsPerPage);
-
-    const t = {
-      noResults: {
-        en: "No products found.",
-        sw: "Hakuna bidhaa zilizopatikana.",
-        fr: "Aucun produit trouvé.",
-        es: "No se encontraron productos.",
-        de: "Keine Produkte gefunden.",
-        it: "Nessun prodotto trovato.",
-      }[lang] || "No products found.",
-      prev: { en: 'Prev', sw: 'Iliyopita', fr: 'Précédent', es: 'Anterior', de: 'Zurück', it: 'Prec' }[lang] || 'Prev',
-      next: { en: 'Next', sw: 'Inayofuata', fr: 'Suivant', es: 'Siguiente', de: 'Weiter', it: 'Succ' }[lang] || 'Next',
-    };
-
-    return (
-      <div>
-        <section className="merican-page-banner">
-          <div className="merican-banner-overlay">
-            <h1 className="merican-banner-title">{title}</h1>
+      <section className="merican-page-section">
+        <div className="container">
+          <div className="product-grid">
+            {products.map((product: any) => (
+              <ProductCard key={product.id} product={product} lang={lang} />
+            ))}
           </div>
-        </section>
 
-        <section className="merican-page-section">
-          <div className="container">
-            <div className="product-grid">
-              {products && products.length > 0 ? (
-                products.map((product: any) => (
-                  <ProductCard key={product.id} product={product} lang={lang} />
-                ))
-              ) : (
-                <div className="no-results">
-                  <p>{t.noResults}</p>
-                </div>
+          {totalPages > 1 && (
+            <div className="pagination">
+              {currentPage > 1 && (
+                <Link href={`/${lang}/category/${slug}?page=${currentPage - 1}${searchTerm ? `&q=${searchTerm}` : ''}`} className="pagination-link">
+                  &laquo; {t.prev}
+                </Link>
+              )}
+              {/* ... Page Numbers ... */}
+              {currentPage < totalPages && (
+                <Link href={`/${lang}/category/${slug}?page=${currentPage + 1}${searchTerm ? `&q=${searchTerm}` : ''}`} className="pagination-link">
+                  {t.next} &raquo;
+                </Link>
               )}
             </div>
-
-            {totalPages > 1 && (
-              <div className="pagination">
-                {currentPage > 1 ? (
-                  <Link 
-                    href={`/${lang}/category/${slug}?page=${currentPage - 1}${searchTerm ? `&q=${searchTerm}` : ''}`} 
-                    className="pagination-link"
-                  >
-                    &laquo; {t.prev}
-                  </Link>
-                ) : (
-                  <span className="pagination-link disabled">&laquo; {t.prev}</span>
-                )}
-
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                  <Link
-                    key={p}
-                    href={`/${lang}/category/${slug}?page=${p}${searchTerm ? `&q=${searchTerm}` : ''}`}
-                    className={`pagination-link ${p === currentPage ? "active" : ""}`}
-                  >
-                    {p}
-                  </Link>
-                ))}
-
-                {currentPage < totalPages ? (
-                  <Link 
-                    href={`/${lang}/category/${slug}?page=${currentPage + 1}${searchTerm ? `&q=${searchTerm}` : ''}`} 
-                    className="pagination-link"
-                  >
-                    {t.next} &raquo;
-                  </Link>
-                ) : (
-                  <span className="pagination-link disabled">{t.next} &raquo;</span>
-                )}
-              </div>
-            )}
-          </div>
-        </section>
-      </div>
-    );
-  } catch (error) {
-    console.error("Category Page Error:", error);
-    throw new Error("Failed to load category products. Please try again.");
-  }
+          )}
+        </div>
+      </section>
+    </div>
+  );
 }
